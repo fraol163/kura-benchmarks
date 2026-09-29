@@ -1,0 +1,32 @@
+KURA PROPRIETARY SOURCE & PUBLIC BENCHMARK EVALUATION LICENSE
+Version 1.0
+
+Copyright (c) 2026 Kura Systems / fraol163. All rights reserved.
+
+1. PERMITTED USE OF BENCHMARK DATA & DOCUMENTATION
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of the benchmark results, architectural documentation, and API specifications
+   included in this repository (the "Public Materials"), to inspect, cite, replicate,
+   and reproduce the benchmark methodologies for scientific, educational, and
+   peer-review purposes.
+
+2. PROPRIETARY ENGINE & RUNTIME RESTRICTIONS
+   The Kura core inference engine, kernel source implementations, LOOM layout
+   compiler, and EMBER memory managers are proprietary and confidential trade
+   secrets of Kura Systems. No license, express or implied, is granted under this
+   agreement to decompile, reverse engineer, extract, redistribute, or create
+   derivative works of the underlying proprietary binary engine without prior
+   written authorization.
+
+3. ZERO TELEMETRY WARRANTY
+   Kura Systems warrants that all provided binaries and installation scripts
+   contain zero telemetry, zero analytics tracking, and zero outbound network
+   reporting. All compute, profiling, and inference occur strictly on local host
+   hardware.
+
+4. DISCLAIMER OF WARRANTIES
+   THE PUBLIC MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO
+   EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES,
+   OR OTHER LIABILITY ARISING FROM THE USE OR REPRODUCTION OF THESE MATERIALS.

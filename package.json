@@ -1,0 +1,23 @@
+{
+  "name": "kura-engine",
+  "version": "1.0.0",
+  "description": "Storage-Native Decoupled LLM Inference Engine & Benchmark Reproduction Suite",
+  "main": "bin/install.js",
+  "bin": {
+    "kura": "bin/install.js"
+  },
+  "keywords": [
+    "llm",
+    "inference",
+    "nvme",
+    "storage-native",
+    "moe",
+    "benchmarks",
+    "zero-telemetry"
+  ],
+  "author": "Kura Systems",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

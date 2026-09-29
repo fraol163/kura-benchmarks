@@ -1,0 +1,32 @@
+{
+  "apple_silicon_verification": {
+    "is_unified": true,
+    "m1_base_bw_gb_s": 68.25,
+    "m2_pro_bw_gb_s": 200.0,
+    "m3_max_bw_gb_s": 400.0,
+    "m4_ultra_bw_gb_s": 800.0,
+    "numa_nodes": 1,
+    "status": "PASSED"
+  },
+  "dequantization_parity": {
+    "bit_exact": true,
+    "q4_k_max_abs_error": 0.0,
+    "q5_k_max_abs_error": 0.0,
+    "q6_k_max_abs_error": 0.0,
+    "q8_0_max_abs_error": 0.0,
+    "status": "PASSED"
+  },
+  "final_status": "LOCKED",
+  "gemv_parity": {
+    "q4_k_status": "PASSED",
+    "q6_k_status": "PASSED"
+  },
+  "name": "ARM NEON Kernels & Apple Silicon Unified Memory",
+  "phase": 30,
+  "swiglu_parity": {
+    "max_abs_error": 0.0,
+    "status": "PASSED"
+  },
+  "timestamp_unix": 1790666577,
+  "token_parity": "100.0%"
+}

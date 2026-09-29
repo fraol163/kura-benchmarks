@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%" style="background:#0d1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="gradHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#3fb950" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="gradBoxBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0e131a"/>
+    </linearGradient>
+    <filter id="boxShadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="500" y="42" text-anchor="middle" fill="#f0f6fc" font-size="22" font-weight="700" letter-spacing="0.5">KURA STORAGE-NATIVE DECOUPLED ARCHITECTURE</text>
+  <text x="500" y="68" text-anchor="middle" fill="#8b949e" font-size="13">High-Throughput Local LLM Execution Substrate Powered by NVMe, RAM, and Vector SIMD</text>
+
+  <!-- Flow Arrows / Connectors -->
+  <line x1="210" y1="205" x2="260" y2="205" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,4"/>
+  <polygon points="262,205 254,200 254,210" fill="#58a6ff"/>
+
+  <line x1="460" y1="205" x2="510" y2="205" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,4"/>
+  <polygon points="512,205 504,200 504,210" fill="#58a6ff"/>
+
+  <line x1="710" y1="205" x2="760" y2="205" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,4"/>
+  <polygon points="762,205 754,200 754,210" fill="#58a6ff"/>
+
+  <!-- BOX 1: SENSE -->
+  <g transform="translate(30, 100)" filter="url(#boxShadow)">
+    <rect width="180" height="210" rx="8" fill="url(#gradBoxBlue)" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="8" fill="#1f2937"/>
+    <text x="90" y="22" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="700">◈ SENSE PROFILER</text>
+    <text x="18" y="58" fill="#c9d1d9" font-size="12" font-weight="600">Hardware Probe</text>
+    <text x="18" y="78" fill="#8b949e" font-size="11">• AVX-512 / ARM NEON</text>
+    <text x="18" y="96" fill="#8b949e" font-size="11">• NUMA Topology &amp; Pinned</text>
+    <text x="18" y="114" fill="#8b949e" font-size="11">• Direct NVMe IO Bandwidth</text>
+    <text x="18" y="142" fill="#c9d1d9" font-size="12" font-weight="600">Regime Classifier</text>
+    <text x="18" y="162" fill="#8b949e" font-size="11">• T_io / T_compute Ratio</text>
+    <text x="18" y="180" fill="#8b949e" font-size="11">• Dynamic Quant (Q3/Q4)</text>
+    <text x="18" y="198" fill="#3fb950" font-size="10" font-weight="600">Autonomous Calibration</text>
+  </g>
+
+  <!-- BOX 2: LOOM -->
+  <g transform="translate(280, 100)" filter="url(#boxShadow)">
+    <rect width="180" height="210" rx="8" fill="url(#gradBoxBlue)" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="8" fill="#1f2937"/>
+    <text x="90" y="22" text-anchor="middle" fill="#d29922" font-size="14" font-weight="700">◈ LOOM STORAGE</text>
+    <text x="18" y="58" fill="#c9d1d9" font-size="12" font-weight="600">Coalesced Layout</text>
+    <text x="18" y="78" fill="#8b949e" font-size="11">• Forward-pass ordering</text>
+    <text x="18" y="96" fill="#8b949e" font-size="11">• Zero random head seeks</text>
+    <text x="18" y="114" fill="#8b949e" font-size="11">• MoE Expert Looming</text>
+    <text x="18" y="142" fill="#c9d1d9" font-size="12" font-weight="600">Direct Physical I/O</text>
+    <text x="18" y="162" fill="#8b949e" font-size="11">• io_uring Batched async</text>
+    <text x="18" y="180" fill="#8b949e" font-size="11">• O_DIRECT unbuffered</text>
+    <text x="18" y="198" fill="#3fb950" font-size="10" font-weight="600">Sequential Bandwidth Saturation</text>
+  </g>
+
+  <!-- BOX 3: EMBER -->
+  <g transform="translate(530, 100)" filter="url(#boxShadow)">
+    <rect width="180" height="210" rx="8" fill="url(#gradBoxBlue)" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="8" fill="#1f2937"/>
+    <text x="90" y="22" text-anchor="middle" fill="#f778ba" font-size="14" font-weight="700">◈ EMBER MEMORY</text>
+    <text x="18" y="58" fill="#c9d1d9" font-size="12" font-weight="600">Decoupled Tiers</text>
+    <text x="18" y="78" fill="#8b949e" font-size="11">• Hot: Embed + Head in RAM</text>
+    <text x="18" y="96" fill="#8b949e" font-size="11">• Warm: Resident prefix layers</text>
+    <text x="18" y="114" fill="#8b949e" font-size="11">• Cold: Streamed via NVMe</text>
+    <text x="18" y="142" fill="#c9d1d9" font-size="12" font-weight="600">KV Management</text>
+    <text x="18" y="162" fill="#8b949e" font-size="11">• Paged KV &amp; INT8 cache</text>
+    <text x="18" y="180" fill="#8b949e" font-size="11">• O(1) causal rollback</text>
+    <text x="18" y="198" fill="#3fb950" font-size="10" font-weight="600">Strict cgroup Ceiling Safe</text>
+  </g>
+
+  <!-- BOX 4: VECTOR ENGINE -->
+  <g transform="translate(780, 100)" filter="url(#boxShadow)">
+    <rect width="190" height="210" rx="8" fill="url(#gradBoxBlue)" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="190" height="34" rx="8" fill="#1f2937"/>
+    <text x="95" y="22" text-anchor="middle" fill="#3fb950" font-size="14" font-weight="700">◈ VECTOR KERNELS</text>
+    <text x="18" y="58" fill="#c9d1d9" font-size="12" font-weight="600">SIMD Execution</text>
+    <text x="18" y="78" fill="#8b949e" font-size="11">• Chunked GEMM (K=4)</text>
+    <text x="18" y="96" fill="#8b949e" font-size="11">• AVX-512 FMA + ARM NEON</text>
+    <text x="18" y="114" fill="#8b949e" font-size="11">• Shared Weight Dequant</text>
+    <text x="18" y="142" fill="#c9d1d9" font-size="12" font-weight="600">Attention &amp; MLP</text>
+    <text x="18" y="162" fill="#8b949e" font-size="11">• Flash-Attention O(N)</text>
+    <text x="18" y="180" fill="#8b949e" font-size="11">• Fused SwiGLU / SiLU</text>
+    <text x="18" y="198" fill="#3fb950" font-size="10" font-weight="600">100% Bitwise Parity</text>
+  </g>
+
+  <!-- Bottom Enterprise Services Strip -->
+  <g transform="translate(30, 340)" filter="url(#boxShadow)">
+    <rect width="940" height="145" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect width="940" height="30" rx="8" fill="#21262d"/>
+    <text x="470" y="20" text-anchor="middle" fill="#c9d1d9" font-size="13" font-weight="700">PRODUCTION SERVICES &amp; PROTOCOL INTERFACES</text>
+
+    <!-- Sub-boxes -->
+    <g transform="translate(25, 45)">
+      <rect width="270" height="85" rx="6" fill="#0d1117" stroke="#30363d"/>
+      <text x="15" y="24" fill="#58a6ff" font-size="12" font-weight="700">OpenAI-Compatible HTTP API</text>
+      <text x="15" y="44" fill="#8b949e" font-size="11">• SSE Streaming (`/v1/chat/completions`)</text>
+      <text x="15" y="62" fill="#8b949e" font-size="11">• Health, Readiness &amp; Dynamic Metrics</text>
+      <text x="15" y="78" fill="#3fb950" font-size="10">Zero-downtime hot-swap (&lt;1s swap)</text>
+    </g>
+
+    <g transform="translate(335, 45)">
+      <rect width="270" height="85" rx="6" fill="#0d1117" stroke="#30363d"/>
+      <text x="15" y="24" fill="#d29922" font-size="12" font-weight="700">Speculative Verification Core</text>
+      <text x="15" y="44" fill="#8b949e" font-size="11">• K=4 Draft Token Batching</text>
+      <text x="15" y="62" fill="#8b949e" font-size="11">• Causal KV Cache Rollback</text>
+      <text x="15" y="78" fill="#3fb950" font-size="10">&gt;= 2.18x target verification speedup</text>
+    </g>
+
+    <g transform="translate(645, 45)">
+      <rect width="270" height="85" rx="6" fill="#0d1117" stroke="#30363d"/>
+      <text x="15" y="24" fill="#3fb950" font-size="12" font-weight="700">CLI &amp; Autonomous Telemetry</text>
+      <text x="15" y="44" fill="#8b949e" font-size="11">• `kura profile` (JSON / Human)</text>
+      <text x="15" y="62" fill="#8b949e" font-size="11">• `kura plan --budget &lt;MB&gt;`</text>
+      <text x="15" y="78" fill="#3fb950" font-size="10">Zero external analytics / phone-home</text>
+    </g>
+  </g>
+</svg>

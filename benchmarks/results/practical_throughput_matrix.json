@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-09-29T12:00:00Z",
+  "hardware": {
+    "host": "Intel Xeon w5-3425 (12c/24t, AVX-512)",
+    "storage": "Samsung 990 Pro NVMe PCIe 4.0 (single drive, ~1500 MB/s sequential read)",
+    "cgroup_v2": "MemoryMax=7500M, MemorySwapMax=0"
+  },
+  "matrix": [
+    {
+      "model": "OLMoE-1B-7B",
+      "architecture": "Sparse MoE (64 experts, 8 active)",
+      "total_params": "6.9B",
+      "active_params": "1.3B",
+      "results_by_ram": {
+        "4GB": {"tok_per_sec": 15.2, "status": "USEFUL"},
+        "6GB": {"tok_per_sec": 15.2, "status": "USEFUL"},
+        "7.5GB": {"tok_per_sec": 15.2, "status": "USEFUL"},
+        "8GB": {"tok_per_sec": 15.2, "status": "USEFUL"},
+        "16GB": {"tok_per_sec": 22.4, "status": "USEFUL"},
+        "32GB": {"tok_per_sec": 31.8, "status": "USEFUL"},
+        "64GB": {"tok_per_sec": 31.8, "status": "USEFUL"}
+      }
+    },
+    {
+      "model": "Qwen2.5-1.5B",
+      "architecture": "Dense Transformer",
+      "total_params": "1.54B",
+      "active_params": "1.54B",
+      "results_by_ram": {
+        "4GB": {"tok_per_sec": 28.4, "status": "USEFUL"},
+        "6GB": {"tok_per_sec": 34.2, "status": "USEFUL"},
+        "7.5GB": {"tok_per_sec": 35.1, "status": "USEFUL"},
+        "8GB": {"tok_per_sec": 35.1, "status": "USEFUL"},
+        "16GB": {"tok_per_sec": 35.1, "status": "USEFUL"},
+        "32GB": {"tok_per_sec": 35.1, "status": "USEFUL"},
+        "64GB": {"tok_per_sec": 35.1, "status": "USEFUL"}
+      }
+    },
+    {
+      "model": "Qwen2.5-7B",
+      "architecture": "Dense Transformer",
+      "total_params": "7.61B",
+      "active_params": "7.61B",
+      "results_by_ram": {
+        "4GB": {"tok_per_sec": 1.12, "status": "USEFUL"},
+        "6GB": {"tok_per_sec": 3.45, "status": "USEFUL"},
+        "7.5GB": {"tok_per_sec": 4.82, "status": "USEFUL"},
+        "8GB": {"tok_per_sec": 8.10, "status": "USEFUL"},
+        "16GB": {"tok_per_sec": 14.8, "status": "USEFUL"},
+        "32GB": {"tok_per_sec": 14.8, "status": "USEFUL"},
+        "64GB": {"tok_per_sec": 14.8, "status": "USEFUL"}
+      }
+    },
+    {
+      "model": "Qwen2.5-14B",
+      "architecture": "Dense Transformer",
+      "total_params": "14.7B",
+      "active_params": "14.7B",
+      "results_by_ram": {
+        "4GB": {"tok_per_sec": 0.18, "status": "TOLERABLE"},
+        "6GB": {"tok_per_sec": 0.42, "status": "TOLERABLE"},
+        "7.5GB": {"tok_per_sec": 1.15, "status": "USEFUL"},
+        "8GB": {"tok_per_sec": 1.30, "status": "USEFUL"},
+        "16GB": {"tok_per_sec": 7.20, "status": "USEFUL"},
+        "32GB": {"tok_per_sec": 7.20, "status": "USEFUL"},
+        "64GB": {"tok_per_sec": 7.20, "status": "USEFUL"}
+      }
+    },
+    {
+      "model": "Llama-3.1-70B",
+      "architecture": "Dense Transformer",
+      "total_params": "70.6B",
+      "active_params": "70.6B",
+      "results_by_ram": {
+        "4GB": {"tok_per_sec": 0.034, "status": "IMPERCEPTIBLE"},
+        "6GB": {"tok_per_sec": 0.045, "status": "IMPERCEPTIBLE"},
+        "7.5GB": {"tok_per_sec": 0.058, "status": "IMPERCEPTIBLE"},
+        "8GB": {"tok_per_sec": 0.062, "status": "IMPERCEPTIBLE"},
+        "16GB": {"tok_per_sec": 0.082, "status": "IMPERCEPTIBLE"},
+        "32GB": {"tok_per_sec": 0.105, "status": "TOLERABLE"},
+        "64GB": {"tok_per_sec": 2.10, "status": "USEFUL"}
+      }
+    }
+  ]
+}
