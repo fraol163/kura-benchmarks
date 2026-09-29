@@ -45,32 +45,41 @@ Kura solves this by treating your fast NVMe solid-state drive (SSD), your system
 
 ### ◈ Quick Installation
 
-Install Kura globally using npm:
+#### Method 1: Automated Shell Bootstrap (Recommended)
+
+Install Kura and configure your environment in seconds with zero build dependencies:
 
 ```bash
-# Global installation directly from GitHub
-npm install -g fraol163/kura-benchmarks
+curl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash
+```
 
-# Run the interactive hardware probe and calibration
+The bootstrap installer validates system prerequisites, probes CPU vector SIMD (AVX-512, AVX2, ARM NEON) and NVMe storage bandwidth, acquires the precompiled native binary, configures your shell PATH, and presents the interactive terminal user interface.
+
+#### Method 2: Global Node / npm Package
+
+```bash
+# Global installation via npm
+npm install -g kura-benchmarks
+
+# Run the hardware probe and interactive interface
 kura
 ```
 
-Or run instantly without installation using npx:
+Or run instantly with zero installation using npx:
 
 ```bash
-# Instant run with zero installation
-npx github:fraol163/kura-benchmarks
+npx kura-benchmarks
 ```
 
-You can also clone this repository directly:
+#### Method 3: Direct Git Checkout
 
 ```bash
 git clone https://github.com/fraol163/kura-benchmarks.git
 cd kura-benchmarks
-node bin/install.js
+./install.sh
 ```
 
-The installer detects your CPU features (AVX-512, AVX2, or Apple Silicon NEON), tests your drive read speed, and prepares your system. **Kura includes zero telemetry**: it never sends any analytics or data over the network.
+The installer detects your CPU features (AVX-512, AVX2, or Apple Silicon NEON), tests your drive read speed, and prepares your system. **Kura includes zero telemetry**: it never sends any analytics or phone-home data over the network.
 
 ---
 
