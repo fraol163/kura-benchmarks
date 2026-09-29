@@ -271,7 +271,7 @@ Launch the full terminal interface to chat, monitor hardware, and manage models 
 kura tui
 ```
 
-- **Welcome & Activation**: Start a 7-day free trial instantly or choose a flexible access package.
+- **Welcome & Activation**: Start a 15-day free trial instantly or choose a flexible access package.
 - **Payment Integration**: Supports dual currency billing (USD and ETB) with instant mobile verification (Telebirr, Commercial Bank of Ethiopia, Dashen Bank).
 - **Navigation Shortcuts**:
   - `m` : Open Model Browser to view and load local models.
