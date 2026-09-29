@@ -1,5 +1,5 @@
 {
-  "name": "kura-engine",
+  "name": "kura",
   "version": "1.0.0",
   "description": "Storage-Native Decoupled LLM Inference Engine & Benchmark Reproduction Suite",
   "main": "bin/install.js",

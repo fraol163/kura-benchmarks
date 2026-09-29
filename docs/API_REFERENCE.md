@@ -193,7 +193,7 @@ Content-Type: application/json
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "Single-drive sequential NVMe bandwidth (~1,500–5,000 MB/s) streaming 38.6 GB of weights per token."
+        "content": "Single-drive sequential NVMe bandwidth (~1,500-5,000 MB/s) streaming 38.6 GB of weights per token."
       },
       "finish_reason": "stop"
     }
