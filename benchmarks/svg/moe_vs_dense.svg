@@ -39,8 +39,8 @@
     <text x="30" y="190" fill="#c9d1d9" font-size="12">Total Parameters: <tspan fill="#f0f6fc" font-weight="700">6.9 Billion</tspan></text>
     <text x="30" y="212" fill="#c9d1d9" font-size="12">Active Parameters / Token: <tspan fill="#3fb950" font-weight="700">1.3 Billion (18.8%)</tspan></text>
     <text x="30" y="234" fill="#c9d1d9" font-size="12">NVMe I/O per Token: <tspan fill="#3fb950" font-weight="700">68 MB (4.1% weights loaded)</tspan></text>
-    <text x="30" y="256" fill="#c9d1d9" font-size="12">Hardware Storage Requirement: <tspan fill="#f0f6fc" font-weight="700">Standard $80 SSD</tspan></text>
-    <text x="30" y="285" fill="#3fb950" font-size="12" font-weight="700">VERDICT: PRODUCTION READY &amp; HIGHLY RESPONSIVE</text>
+    <text x="30" y="256" fill="#c9d1d9" font-size="12">Hardware: <tspan fill="#f0f6fc" font-weight="700">Standard $80 NVMe SSD</tspan></text>
+    <text x="30" y="285" fill="#3fb950" font-size="12" font-weight="700">VERDICT: PRODUCTION READY &amp; FAST</text>
   </g>
 
   <!-- Card 2: Dense 70B -->
@@ -50,7 +50,7 @@
     <text x="205" y="24" text-anchor="middle" fill="#f85149" font-size="15" font-weight="700">DENSE 70B: LLAMA-3.1 70B</text>
 
     <!-- Big Number -->
-    <text x="205" y="95" text-anchor="middle" fill="#f85149" font-size="44" font-weight="800">0.038 tok/s</text>
+    <text x="205" y="95" text-anchor="middle" fill="#f85149" font-size="44" font-weight="800">0.058 tok/s</text>
     <text x="205" y="118" text-anchor="middle" fill="#8b949e" font-size="12">Single Budget NVMe SSD (1,500 MB/s)</text>
 
     <!-- Progress Bar (tiny bar ~0.25%) -->
@@ -62,7 +62,7 @@
     <text x="30" y="190" fill="#c9d1d9" font-size="12">Total Parameters: <tspan fill="#f0f6fc" font-weight="700">70.6 Billion</tspan></text>
     <text x="30" y="212" fill="#c9d1d9" font-size="12">Active Parameters / Token: <tspan fill="#f85149" font-weight="700">70.6 Billion (100.0%)</tspan></text>
     <text x="30" y="234" fill="#c9d1d9" font-size="12">NVMe I/O per Token: <tspan fill="#f85149" font-weight="700">35,000 MB (100% weights loaded)</tspan></text>
-    <text x="30" y="256" fill="#c9d1d9" font-size="12">Hardware Storage Requirement: <tspan fill="#f85149" font-weight="700">15× Gen4 NVMe Striping Array</tspan></text>
-    <text x="30" y="285" fill="#f85149" font-size="12" font-weight="700">VERDICT: IMPERCEPTIBLE WITHOUT ENTERPRISE STRIPING</text>
+    <text x="30" y="256" fill="#c9d1d9" font-size="12">Hardware: <tspan fill="#f85149" font-weight="700">Needs 15x Gen4 NVMe RAID-0 Array</tspan></text>
+    <text x="30" y="285" fill="#f85149" font-size="12" font-weight="700">VERDICT: STORAGE BOUND (&lt; 0.1 TOK/S)</text>
   </g>
 </svg>
