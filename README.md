@@ -386,7 +386,7 @@ Generate synthetic model files to benchmark storage hardware without downloading
 
 ```bash
 # Create a synthetic MoE model file for testing disk read speed
-kura synth --layers 4 --experts 8 --top-k 2 --hidden 256 --out ./synth-moe.gguf
+kura synth ./synth-moe.gguf --layers 4 --experts 8 --top-k 2 --hidden 256
 ```
 
 Allows developers and researchers to verify that their NVMe drive and Linux kernel io_uring setup are working properly.
@@ -395,14 +395,8 @@ Allows developers and researchers to verify that their NVMe drive and Linux kern
 Bundle and manage task-specific prompts, adapters, and memory settings together:
 
 ```bash
-# Create a new capsule for code generation
-kura capsule create coding-assistant --workload code --budget 8G
-
 # List all saved task capsules
 kura capsule list
-
-# Launch Kura using a pre-configured task capsule
-kura capsule serve ./models/qwen2.5-7b-q4_k_m.gguf --capsule coding-assistant
 ```
 
 #### 17. LoRA Adapter Fabric (`kura adapters`)
@@ -457,32 +451,43 @@ Analyzes your physical CPU cores, vector instructions, RAM channels, and NVMe ba
 Diagnose why a particular word generation step was slower than expected:
 
 ```bash
-# Diagnose a specific benchmark run or generation incident
-kura why-slow --run-id latest
+# Diagnose the latest generation run or incident
+kura why-slow latest
 ```
 
-Pinpoints the exact reason for any latency spikes (e.g. disk bus contention, operating system memory pressure, or unexpected thermal throttling).
+Pinpoints the exact reason for any latency spikes (such as disk bus contention, operating system memory pressure, or cold expert paging).
 
 #### 22. Expert Usage Heatmaps (`kura heatmap`)
-Visualize expert usage patterns across Mixture-of-Experts layers:
+Visualize and export expert usage patterns across Mixture-of-Experts layers:
 
 ```bash
-# Generate visual expert activity heatmap
-kura heatmap generate ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 500
+# Export anonymized expert activation counts
+kura heatmap export ./models/olmoe-1b-7b-q4_k_m.gguf --task code
 
-# View summary of expert popularity
-kura heatmap show
+# Inspect an exported community heatmap file
+kura heatmap inspect ./models/olmoe-1b-7b-q4_k_m.heatmap.json
 ```
 
 #### 23. Placement & Tuning Planner (`kura tune`)
 Plan automated layer placement for fine-tuning workloads:
 
 ```bash
-# Validate dataset format and tokens
+# Validate dataset format and schema
 kura tune validate ./data/train.jsonl
 
-# Plan optimal layer placement across RAM and storage for training
-kura tune placement --model ./models/qwen2.5-7b-q4_k_m.gguf --ram-budget 8G
+# Plan storage-aware layer placement across RAM and NVMe for training
+kura tune placement --layers 16 --ram-budget 8G
+```
+
+#### 24. Scientific Experiment Suite (`kura esuite` & `kura bench`)
+Execute automated verification suites and hardware preflight checks:
+
+```bash
+# Check hardware configuration and kernel prerequisites
+kura bench doctor
+
+# Run the 7-stage experiment suite with gate-level verification
+kura esuite ./models/synth-small.gguf --ram-budget 2M --tokens 48
 ```
 
 ---
