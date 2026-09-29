@@ -212,9 +212,47 @@ function printProfile(jsonOutput) {
   console.log(`============================================================\n`);
 }
 
+const { startTui } = require('./tui');
+
+function findNativeBinary() {
+  const candidates = [
+    'kura',
+    path.join(os.homedir(), '.kura', 'bin', 'kura'),
+    path.join(os.homedir(), '.cargo', 'bin', 'kura'),
+    '/home/Renan/Desktop/Kura/target/release/kura',
+  ];
+  for (const c of candidates) {
+    try {
+      const res = execSync(`${c} --version 2>/dev/null`, { encoding: 'utf8' });
+      if (res && res.includes('kura')) return c;
+    } catch (_) {}
+  }
+  return null;
+}
+
+function launchTui() {
+  const native = findNativeBinary();
+  if (native) {
+    try {
+      const { spawnSync } = require('child_process');
+      const res = spawnSync(native, ['tui'], { stdio: 'inherit' });
+      process.exit(res.status || 0);
+    } catch (_) {
+      startTui();
+    }
+  } else {
+    startTui();
+  }
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0] ? args[0].toLowerCase() : null;
+
+  if (command === 'tui') {
+    launchTui();
+    return;
+  }
 
   if (command === '--help' || command === '-h' || command === 'help') {
     printHelp();
@@ -260,13 +298,22 @@ async function main() {
   console.log(`  ${c.green}■${c.reset} Parity Assurance:  ${c.green}100.0% Bitwise Verified${c.reset}`);
 
   console.log(`\n${c.gray}${"=".repeat(82)}${c.reset}`);
-  console.log(`${c.bold}${c.green}◈ KURA ENGINE SUCCESSFULLY CALIBRATED AND READY FOR INFERENCE.${c.reset}`);
-  console.log(`\n${c.white}Quick Commands:${c.reset}`);
-  console.log(`  ${c.blue}kura tui${c.reset}                        Launch interactive terminal UI`);
-  console.log(`  ${c.blue}kura profile${c.reset}                    Print SENSE hardware execution profile`);
-  console.log(`  ${c.blue}kura plan --model <path>${c.reset}        Show LOOM memory execution plan`);
-  console.log(`  ${c.blue}kura serve --port 8080${c.reset}          Launch OpenAI-compatible HTTP streaming server`);
-  console.log(`\n${c.gray}Refer to docs/DEPLOYMENT_GUIDE.md and docs/API_REFERENCE.md for enterprise integration.${c.reset}\n`);
+  console.log(`${c.bold}${c.green}◈ KURA ENGINE SUCCESSFULLY CALIBRATED AND READY FOR INFERENCE.${c.reset}\n`);
+
+  if (process.stdin.isTTY) {
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    rl.question(`  ${c.amber}${c.bold}▸ Press [Enter] to launch the interactive TUI now (or Ctrl+C to exit): ${c.reset}`, () => {
+      rl.close();
+      launchTui();
+    });
+  } else {
+    console.log(`\n${c.white}Quick Commands:${c.reset}`);
+    console.log(`  ${c.blue}kura tui${c.reset}                        Launch interactive terminal UI`);
+    console.log(`  ${c.blue}kura profile${c.reset}                    Print SENSE hardware execution profile`);
+    console.log(`  ${c.blue}kura plan --model <path>${c.reset}        Show LOOM memory execution plan`);
+    console.log(`  ${c.blue}kura serve --port 8080${c.reset}          Launch OpenAI-compatible HTTP streaming server`);
+    console.log(`\n${c.gray}Refer to docs/DEPLOYMENT_GUIDE.md and docs/API_REFERENCE.md for enterprise integration.${c.reset}\n`);
+  }
 }
 
 if (require.main === module) {
