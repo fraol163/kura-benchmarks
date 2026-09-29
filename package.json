@@ -1,10 +1,18 @@
 {
-  "name": "kura",
+  "name": "kura-benchmarks",
   "version": "1.0.0",
   "description": "Storage-Native Decoupled LLM Inference Engine & Benchmark Reproduction Suite",
   "main": "bin/install.js",
   "bin": {
-    "kura": "bin/install.js"
+    "kura": "bin/install.js",
+    "kura-benchmarks": "bin/install.js"
+  },
+  "scripts": {
+    "postinstall": "node bin/install.js --postinstall"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fraol163/kura-benchmarks.git"
   },
   "keywords": [
     "llm",
@@ -13,7 +21,8 @@
     "storage-native",
     "moe",
     "benchmarks",
-    "zero-telemetry"
+    "zero-telemetry",
+    "prebuilt-binary"
   ],
   "author": "Kura Systems",
   "license": "SEE LICENSE IN LICENSE",

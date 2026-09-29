@@ -214,29 +214,95 @@ function printProfile(jsonOutput) {
 
 const { startTui } = require('./tui');
 
+function getBinaryTarget() {
+  const platform = os.platform();
+  const arch = os.arch();
+  if (platform === 'linux' && arch === 'x64') return 'kura-linux-x86_64';
+  if (platform === 'linux' && arch === 'arm64') return 'kura-linux-aarch64';
+  if (platform === 'darwin' && arch === 'x64') return 'kura-darwin-x86_64';
+  if (platform === 'darwin' && arch === 'arm64') return 'kura-darwin-arm64';
+  if (platform === 'win32' && arch === 'x64') return 'kura-windows-x86_64.exe';
+  return null;
+}
+
+function isNativeBinary(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) return false;
+    const realPath = fs.realpathSync(filePath);
+    const stat = fs.statSync(realPath);
+    if (!stat.isFile()) return false;
+    // Disallow self-invocation
+    if (path.resolve(realPath) === path.resolve(__filename)) return false;
+
+    // Check first 4 magic bytes
+    const fd = fs.openSync(realPath, 'r');
+    const buf = Buffer.alloc(4);
+    fs.readSync(fd, buf, 0, 4, 0);
+    fs.closeSync(fd);
+    // ELF: 0x7f, 'E', 'L', 'F'
+    if (buf[0] === 0x7f && buf[1] === 0x45 && buf[2] === 0x4c && buf[3] === 0x46) return true;
+    // Mach-O: 0xcf, 0xfa, 0xed, 0xfe or 0xfe, 0xed, 0xfa, 0xcf
+    if (buf[0] === 0xcf && buf[1] === 0xfa && buf[2] === 0xed && buf[3] === 0xfe) return true;
+    if (buf[0] === 0xfe && buf[1] === 0xed && buf[2] === 0xfa && buf[3] === 0xcf) return true;
+    // Windows PE: 'M', 'Z'
+    if (buf[0] === 0x4d && buf[1] === 0x5a) return true;
+  } catch (_) {}
+  return false;
+}
+
 function findNativeBinary() {
   const candidates = [
-    'kura',
-    path.join(os.homedir(), '.kura', 'bin', 'kura'),
+    path.join(os.homedir(), '.kura', 'bin', process.platform === 'win32' ? 'kura.exe' : 'kura'),
     path.join(os.homedir(), '.cargo', 'bin', 'kura'),
     '/home/Renan/Desktop/Kura/target/release/kura',
   ];
   for (const c of candidates) {
-    try {
-      const res = execSync(`${c} --version 2>/dev/null`, { encoding: 'utf8' });
-      if (res && res.includes('kura')) return c;
-    } catch (_) {}
+    if (isNativeBinary(c)) {
+      try {
+        const res = execSync(`"${c}" --version 2>/dev/null`, { encoding: 'utf8' });
+        if (res && res.includes('kura')) return c;
+      } catch (_) {}
+    }
   }
   return null;
 }
 
+function ensureNativeBinary() {
+  let native = findNativeBinary();
+  if (native) return native;
+
+  const targetDir = path.join(os.homedir(), '.kura', 'bin');
+  const binName = process.platform === 'win32' ? 'kura.exe' : 'kura';
+  const destPath = path.join(targetDir, binName);
+
+  if (isNativeBinary(destPath)) {
+    try {
+      fs.chmodSync(destPath, 0o755);
+      return destPath;
+    } catch (_) {}
+  }
+
+  // Check if a workspace release artifact exists to bootstrap immediately
+  const localRelease = '/home/Renan/Desktop/Kura/target/release/kura';
+  if (isNativeBinary(localRelease)) {
+    try {
+      fs.mkdirSync(targetDir, { recursive: true });
+      fs.copyFileSync(localRelease, destPath);
+      fs.chmodSync(destPath, 0o755);
+      return destPath;
+    } catch (_) {}
+  }
+
+  return null;
+}
+
 function launchTui() {
-  const native = findNativeBinary();
+  const native = ensureNativeBinary();
   if (native) {
     try {
       const { spawnSync } = require('child_process');
       const res = spawnSync(native, ['tui'], { stdio: 'inherit' });
-      process.exit(res.status || 0);
+      process.exit(res.status ?? 0);
     } catch (_) {
       startTui();
     }
@@ -248,6 +314,18 @@ function launchTui() {
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0] ? args[0].toLowerCase() : null;
+
+  if (command === '--postinstall') {
+    const native = ensureNativeBinary();
+    const target = getBinaryTarget();
+    console.log(`\n${c.green}◈ Kura Package Initialized:${c.reset} Target [${target || 'generic'}]`);
+    if (native) {
+      console.log(`  ${c.green}✔ Native Engine ready at:${c.reset} ${native}`);
+    } else {
+      console.log(`  ${c.cyan}ℹ Interactive TUI and diagnostic runtime ready.${c.reset}`);
+    }
+    return;
+  }
 
   if (command === 'tui') {
     launchTui();
@@ -268,6 +346,21 @@ async function main() {
     const jsonOutput = args.includes('--json');
     printProfile(jsonOutput);
     return;
+  }
+
+  // Commands requiring execution via the native binary
+  const nativeCommands = ['run', 'serve', 'benchmark', 'plan', 'doctor', 'models', 'ember', 'optimize', 'trace', 'ablate', 'synth'];
+  if (command && nativeCommands.includes(command)) {
+    const native = ensureNativeBinary();
+    if (native) {
+      const { spawnSync } = require('child_process');
+      const res = spawnSync(native, args, { stdio: 'inherit' });
+      process.exit(res.status ?? 0);
+    } else {
+      console.error(`\n${c.yellow}Native engine binary not found for command '${command}'.${c.reset}`);
+      console.error(`Please install the prebuilt binary or compile via: ${c.cyan}cargo build --release${c.reset}\n`);
+      process.exit(1);
+    }
   }
 
   clear();
