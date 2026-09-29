@@ -355,6 +355,136 @@ kura ablate ./models/olmoe-1b-7b-q4_k_m.gguf --ram-budget 8G --remove ces,mec
 kura ablate ./models/olmoe-1b-7b-q4_k_m.gguf --ram-budget 8G --remove all
 ```
 
+#### 13. MoE Expert Locality Analysis (`kura locality`)
+Analyze how often different experts are activated in Mixture-of-Experts models:
+
+```bash
+# Run 400 tokens and analyze expert routing patterns
+kura locality ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 400
+
+# Output machine-readable JSON for research analysis
+kura locality ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 400 --json
+```
+
+Measures:
+- Expert activation frequency: Identifies which experts are used most frequently.
+- Coverage curves: Shows how many total experts are touched across different prompts.
+- Working set stability: Predicts how many experts need to be cached in RAM for smooth execution.
+
+#### 14. RAM Budget Sweep & Graphing (`kura graph`)
+Simulate and plot model performance across a spectrum of different RAM budgets:
+
+```bash
+# Test memory budgets from 512 KB up to 4 MB
+kura graph ./models/olmoe-1b-7b-q4_k_m.gguf --budgets 512K,1M,2M,4M --out sweep.svg
+```
+
+Generates an ASCII summary table and an optional SVG chart showing how cache hit rate scales with available memory.
+
+#### 15. Synthetic Workload Generator (`kura synth`)
+Generate synthetic model files to benchmark storage hardware without downloading large models:
+
+```bash
+# Create a synthetic MoE model file for testing disk read speed
+kura synth --layers 4 --experts 8 --top-k 2 --hidden 256 --out ./synth-moe.gguf
+```
+
+Allows developers and researchers to verify that their NVMe drive and Linux kernel io_uring setup are working properly.
+
+#### 16. Task Capsules (`kura capsule`)
+Bundle and manage task-specific prompts, adapters, and memory settings together:
+
+```bash
+# Create a new capsule for code generation
+kura capsule create coding-assistant --workload code --budget 8G
+
+# List all saved task capsules
+kura capsule list
+
+# Launch Kura using a pre-configured task capsule
+kura capsule serve ./models/qwen2.5-7b-q4_k_m.gguf --capsule coding-assistant
+```
+
+#### 17. LoRA Adapter Fabric (`kura adapters`)
+Attach fine-tuned LoRA adapters to base models on the fly:
+
+```bash
+# List loaded LoRA adapters
+kura adapters list
+
+# Attach a LoRA adapter file to your local runtime
+kura adapters add ./adapters/medical-specialist.bin
+
+# Detach an adapter when done
+kura adapters remove medical-specialist
+```
+
+#### 18. Session Hibernation (`kura session`)
+Save and resume active chat sessions without losing context or KV cache history:
+
+```bash
+# Save current active conversation state to disk
+kura session save my-research-session
+
+# List all saved hibernation sessions
+kura session list
+
+# Resume an earlier session instantly with KV cache preserved
+kura session resume my-research-session
+```
+
+#### 19. Vocabulary Intelligence (`kura vocab`)
+Inspect and optimize tokenizer vocabulary coverage:
+
+```bash
+# Check how efficiently the tokenizer covers a target dataset
+kura vocab coverage --model ./models/qwen2.5-7b-q4_k_m.gguf --dataset ./data/input.txt
+
+# Get recommendations for vocabulary pruning to save memory
+kura vocab recommend --model ./models/qwen2.5-7b-q4_k_m.gguf
+```
+
+#### 20. Hardware Environment Advisor (`kura advisor`)
+Receive tailored recommendations on the best model size and settings for your computer:
+
+```bash
+kura advisor
+```
+
+Analyzes your physical CPU cores, vector instructions, RAM channels, and NVMe bandwidth to suggest the highest-quality model that will run smoothly.
+
+#### 21. Bottleneck Root-Cause Explainer (`kura why-slow`)
+Diagnose why a particular word generation step was slower than expected:
+
+```bash
+# Diagnose a specific benchmark run or generation incident
+kura why-slow --run-id latest
+```
+
+Pinpoints the exact reason for any latency spikes (e.g. disk bus contention, operating system memory pressure, or unexpected thermal throttling).
+
+#### 22. Expert Usage Heatmaps (`kura heatmap`)
+Visualize expert usage patterns across Mixture-of-Experts layers:
+
+```bash
+# Generate visual expert activity heatmap
+kura heatmap generate ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 500
+
+# View summary of expert popularity
+kura heatmap show
+```
+
+#### 23. Placement & Tuning Planner (`kura tune`)
+Plan automated layer placement for fine-tuning workloads:
+
+```bash
+# Validate dataset format and tokens
+kura tune validate ./data/train.jsonl
+
+# Plan optimal layer placement across RAM and storage for training
+kura tune placement --model ./models/qwen2.5-7b-q4_k_m.gguf --ram-budget 8G
+```
+
 ---
 
 ### ◈ Repository Overview
