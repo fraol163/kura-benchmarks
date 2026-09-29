@@ -98,7 +98,11 @@ We tested Kura across multiple real-world models under strict memory limits enfo
 
 ### ◈ The MoE Architectural Superiority Law
 
-Why does OLMoE 1B-7B run at **15.2 tokens per second** on an entry-level $80 SSD while Dense 70B runs at 0.034 to 0.062 tokens per second?
+Why does OLMoE 1B-7B run at **15.2 tokens per second** on an entry-level \$80 SSD while Dense 70B runs at 0.034 to 0.062 tokens per second?
+
+```math
+\text{Throughput}_{\text{MoE}} \approx \frac{\text{NVMe Bandwidth}}{\text{Active Weights per Token}}
+```
 
 Sparse Mixture-of-Experts (MoE) models are made of many smaller specialized "experts". For every word generated:
 - Dense models must read **100% of their weights** from the disk.

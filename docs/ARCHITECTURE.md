@@ -83,13 +83,13 @@ Kura utilizes Linux `io_uring` and multi-threaded asynchronous `pread` pipelines
 
 Under memory-constrained environments where models must stream from NVMe storage, **Sparse Mixture-of-Experts architectures demonstrate an insurmountable physical advantage over Dense architectures**:
 
-```text
-Throughput(MoE) = NVMe Bandwidth / Active Weights per Token
+```math
+\text{Throughput}_{\text{MoE}} \approx \frac{\text{NVMe Bandwidth}}{\text{Active Weights per Token}}
 ```
 
 | Architecture | Total Parameters | Active Parameters / Token | NVMe I/O per Token | Single SSD Throughput | Cost to Reach 1.0 tok/s |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Sparse MoE (OLMoE 1B-7B)** | 6.9 Billion | 1.3 Billion (18.8%) | **68 MB** | **15.2 tok/s** (USEFUL) | **$80** (Standard SSD) |
-| **Dense 70B (Llama-3.1 70B)** | 70.6 Billion | 70.6 Billion (100%) | **35,000 MB** | **0.034 - 0.062 tok/s** (STORAGE BOUND) | **$1,500+** (15x Gen4 Array) |
+| **Sparse MoE (OLMoE 1B-7B)** | 6.9 Billion | 1.3 Billion (18.8%) | **68 MB** | **15.2 tok/s** (USEFUL) | **\$80** (Standard SSD) |
+| **Dense 70B (Llama-3.1 70B)** | 70.6 Billion | 70.6 Billion (100%) | **35,000 MB** | **0.034 - 0.062 tok/s** (STORAGE BOUND) | **\$1,500+** (15x Gen4 Array) |
 
 **Conclusion:** Sparse MoE architectures achieve a **400x throughput efficiency advantage** over Dense 70B models on commodity workstation hardware.

@@ -37,10 +37,12 @@ Sparse MoE (OLMoE)      1.3 Billion        487 MB           4 GB - 8 GB   1x Gen
 1. **The Law of MoE Architectural Superiority:** On memory-constrained commodity hardware, dynamic parameter routing (Sparse MoE) combined with physical tensor coalescing beats brute-force sequential streaming by more than two orders of magnitude (400x).
 2. **The Law of KV Cache Compression:** Autoregressive KV cache growth creates an artificial memory wall at long contexts. Quantizing KV pages into 8-bit block structures (`Q8_0`) reduces memory by **3.765x** with **0.999993 cosine fidelity**, allowing 32,768-token contexts to execute within 5.59 GB RAM without OOM.
 3. **The Law of Physical Boundaries:** In storage-native inference, decode throughput is strictly bounded by sequential storage bandwidth:
-   ```text
-   tok/s <= B_storage / W_streamed
-   ```
-   No software optimization can overcome the physical bandwidth of the underlying storage bus.
+
+```math
+\text{Throughput} \le \frac{B_{\text{storage}}}{W_{\text{streamed}}}
+```
+
+No software optimization can overcome the physical bandwidth of the underlying storage bus.
 
 ---
 
