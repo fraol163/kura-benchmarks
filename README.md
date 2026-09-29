@@ -1,17 +1,16 @@
 <div align="center">
 <pre>
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣇⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⡇⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠷⢶⣤⣄⣀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣤⡤⠀⠀⠀⠀⠀⢠⣤⣤⣦⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠃⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢭⣿⣿⣿⡗⠀⠀⠀⣠⣾⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⢀⣾⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡲⣿⣿⣿⡗⠀⣠⣾⣿⣿⡿⠋⠁⢸⣿⣿⠀⠀⠀⢘⣿⣿⠽⣿⣿⣰⣿⣿⣯⠀⠀⠀⣼⣿⣿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣭⣿⣿⣿⣿⣾⣿⣿⣿⠋⠀⠀⠀⢸⣿⣿⠀⠀⠀⢘⡾⣕⢹⣪⢯⠋⠁⠀⠀⠀⠀⣼⣿⡿⠙⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣿⣿⣿⣏⠙⢿⣿⣿⣷⣆⡀⠀⢸⣿⣿⣦⣄⣤⡾⣯⢗⢱⢽⣽⠀⠀⠀⠀⠀⣰⣿⣿⠁⠀⠸⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣝⣿⣿⣿⣇⠀⠀⠙⢿⣿⣿⣷⣤⠀⠙⠻⠟⠟⠋⠘⠚⠛⠙⠛⠛⠀⠀⠀⠀⣰⣿⣿⣿⣾⣷⣷⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠶⣿⣿⣿⣇⠀⠀⠀⠀⠙⢿⣿⣿⣷⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⠏⠉⠁⠉⠉⠉⢻⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠉⠉⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠷⢶⣤⣄⣀
+⣀⣤⣴⣤⡤⠀⠀⠀⠀⠀⢠⣤⣤⣦⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠃
+⢭⣿⣿⣿⡗⠀⠀⠀⣠⣾⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⢀⣾⣿⠇
+⡲⣿⣿⣿⡗⠀⣠⣾⣿⣿⡿⠋⠁⢸⣿⣿⠀⠀⠀⢘⣿⣿⠽⣿⣿⣰⣿⣿⣯⠀⠀⠀⣼⣿⣿⣶⣄
+⣭⣿⣿⣿⣿⣾⣿⣿⣿⠋⠀⠀⠀⢸⣿⣿⠀⠀⠀⢘⡾⣕⢹⣪⢯⠋⠁⠀⠀⠀⠀⣼⣿⡿⠙⣿⣿⡆
+⠲⣿⣿⣿⣏⠙⢿⣿⣿⣷⣆⡀⠀⢸⣿⣿⣦⣄⣤⡾⣯⢗⢱⢽⣽⠀⠀⠀⠀⠀⣰⣿⣿⠁⠀⠸⣿⣿⡄
+⣝⣿⣿⣿⣇⠀⠀⠙⢿⣿⣿⣷⣤⠀⠙⠻⠟⠟⠋⠘⠚⠛⠙⠛⠛⠀⠀⠀⠀⣰⣿⣿⣿⣾⣷⣷⣿⣿⣿⡀
+⠶⣿⣿⣿⣇⠀⠀⠀⠀⠙⢿⣿⣿⣷⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⠏⠉⠁⠉⠉⠉⢻⣿⣿⡀
+⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠉⠉⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁
 </pre>
 
 ### STORAGE-NATIVE DECOUPLED INFERENCE ENGINE
@@ -85,13 +84,13 @@ We tested Kura across multiple real-world models under strict memory limits enfo
 
 #### Throughput Classification Table
 
-| Model Architecture | Total Model Size | 4 GB RAM | 6 GB RAM | 7.5 GB RAM | 8 GB RAM | 16 GB RAM | Usability Verdict |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **OLMoE 1B-7B (MoE)** | 6.9 Billion | **15.2 tok/s** | **15.2 tok/s** | **15.2 tok/s** | **15.2 tok/s** | **22.4 tok/s** | ◈ **USEFUL**: Fast, interactive chat on an ordinary SSD |
-| **Qwen2.5 1.5B (Dense)** | 1.54 Billion | **28.4 tok/s** | **34.2 tok/s** | **35.1 tok/s** | **35.1 tok/s** | **35.1 tok/s** | ◈ **USEFUL**: Instant response |
-| **Qwen2.5 7B (Dense)** | 7.61 Billion | **1.12 tok/s** | **3.45 tok/s** | **4.82 tok/s** | **8.10 tok/s** | **14.8 tok/s** | ◈ **USEFUL**: Smooth reading speed on 6-8 GB RAM |
-| **Qwen2.5 14B (Dense)** | 14.7 Billion | 0.18 tok/s | 0.42 tok/s | **1.15 tok/s** | **1.30 tok/s** | **7.20 tok/s** | ◈ **USEFUL**: Fully usable at 7.5 GB RAM and above |
-| **Llama-3.1 70B (Dense)** | 70.6 Billion | 0.034 tok/s | 0.045 tok/s | 0.058 tok/s | 0.062 tok/s | 0.082 tok/s | ▫ **STORAGE BOUND**: Requires multi-drive NVMe array |
+| Model Architecture | Total Model Size | 4 GB RAM | 6 GB RAM | 7.5 GB RAM | 8 GB RAM | 16 GB RAM | 32 GB RAM | 64 GB RAM | Usability Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **OLMoE 1B-7B (MoE)** | 6.9 Billion | **15.2 tok/s** | **15.2 tok/s** | **15.2 tok/s** | **15.2 tok/s** | **22.4 tok/s** | **31.8 tok/s** | **31.8 tok/s** | ◈ **USEFUL**: Fast, interactive chat on an ordinary SSD |
+| **Qwen2.5 1.5B (Dense)** | 1.54 Billion | **28.4 tok/s** | **34.2 tok/s** | **35.1 tok/s** | **35.1 tok/s** | **35.1 tok/s** | **35.1 tok/s** | **35.1 tok/s** | ◈ **USEFUL**: Instant response |
+| **Qwen2.5 7B (Dense)** | 7.61 Billion | **1.12 tok/s** | **3.45 tok/s** | **4.82 tok/s** | **8.10 tok/s** | **14.8 tok/s** | **14.8 tok/s** | **14.8 tok/s** | ◈ **USEFUL**: Smooth reading speed on 6-8 GB RAM |
+| **Qwen2.5 14B (Dense)** | 14.7 Billion | 0.18 tok/s | 0.42 tok/s | **1.15 tok/s** | **1.30 tok/s** | **7.20 tok/s** | **7.20 tok/s** | **7.20 tok/s** | ◈ **USEFUL**: Fully usable at 7.5 GB RAM and above |
+| **Llama-3.1 70B (Dense)** | 70.6 Billion | 0.034 tok/s | 0.045 tok/s | 0.058 tok/s | 0.062 tok/s | 0.082 tok/s | 0.105 tok/s | **2.10 tok/s** | ▫ **STORAGE BOUND**: Single SSD; requires multi-drive array for 1.0+ tok/s under 8 GB RAM |
 
 *Usability categories: USEFUL (1.0 or more tokens/sec: readable speech/text speed), TOLERABLE (0.1 to 1.0 tokens/sec), STORAGE BOUND (under 0.1 tokens/sec).*
 
@@ -99,7 +98,7 @@ We tested Kura across multiple real-world models under strict memory limits enfo
 
 ### ◈ The MoE Architectural Superiority Law
 
-Why does OLMoE 1B-7B run at **15.2 tokens per second** on an entry-level $80 SSD while Dense 70B runs at 0.04 tokens per second?
+Why does OLMoE 1B-7B run at **15.2 tokens per second** on an entry-level $80 SSD while Dense 70B runs at 0.034 to 0.062 tokens per second?
 
 Sparse Mixture-of-Experts (MoE) models are made of many smaller specialized "experts". For every word generated:
 - Dense models must read **100% of their weights** from the disk.
@@ -487,7 +486,7 @@ Execute automated verification suites and hardware preflight checks:
 kura bench doctor
 
 # Run the 7-stage experiment suite with gate-level verification
-kura esuite ./models/synth-small.gguf --ram-budget 2M --tokens 48
+kura esuite ./models/qwen2.5-7b-q4_k_m.gguf --ram-budget 8G --tokens 48
 ```
 
 ---

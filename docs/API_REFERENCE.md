@@ -15,7 +15,7 @@ Kura exposes a production-ready HTTP server engineered for low-latency, memory-c
 - **Zero-Allocation SSE Streaming**: Token-by-token streaming with Server-Sent Events (`stream: true`), unblocking frontend token display.
 - **Enterprise Telemetry**: Production `/health` endpoint for Kubernetes/systemd liveness probes and Prometheus `/metrics` exposition for Grafana dashboards.
 - **Transient Error Resilience**: Automated 3-retry exponential backoff on storage reads (`pread64`), eliminating transient kernel I/O drops.
-- **Memory Pressure Protection**: Autonomous force-eviction of Cold/Warm weight tiers when RSS $\ge 95\%$ of cgroup limit, preventing OOM kills.
+- **Memory Pressure Protection**: Autonomous force-eviction of Cold/Warm weight tiers when RSS >= 95% of cgroup limit, preventing OOM kills.
 - **Graceful Draining & Shutdown**: Signal listeners (`SIGTERM`, `SIGINT`) that stop accepting traffic, drain in-flight requests within a 10s deadline, flush metrics, and unmap staging buffers cleanly.
 
 ---
@@ -274,13 +274,13 @@ Content-Type: application/json
 
 | Field | Type | Description |
 |---|---|---|
-| `status` | string | `"healthy"` when memory pressure ratio $< 0.95$, or `"degraded_memory_pressure"` when $\ge 0.95$. |
+| `status` | string | `"healthy"` when memory pressure ratio < 0.95, or `"degraded_memory_pressure"` when >= 0.95. |
 | `uptime_seconds` | integer | Server process uptime in seconds. |
 | `rss_bytes` | integer | Current resident set size (RSS) in bytes. |
 | `rss_human` | string | Formatted human-readable RSS (e.g. `"516.7 MB"`). |
 | `cgroup_memory_limit_bytes`| integer | Active cgroup v2 memory limit (`memory.max`) or configured budget. |
 | `cgroup_memory_current_bytes`| integer | Active cgroup v2 memory consumption (`memory.current`). |
-| `memory_pressure_ratio` | float | Ratio of current memory to limit ($0.0 \dots 1.0$). At $\ge 0.95$, MPE triggers. |
+| `memory_pressure_ratio` | float | Ratio of current memory to limit (0.0 to 1.0). At >= 0.95, MPE triggers. |
 | `active_requests` | integer | Number of requests currently executing in the engine. |
 | `total_requests_served` | integer | Cumulative total of successfully served requests since boot. |
 
@@ -424,7 +424,7 @@ Probe Time:  312ms (Detection Level: FULL)
 
 ### 4.2. `kura plan`
 
-Compiles and outputs the LOOM physical execution plan for a target model under a given memory budget. Shows resident/hot/warm/cold layer distributions, prefetch window ($W$), KV cache budget, and deterministic plan hash.
+Compiles and outputs the LOOM physical execution plan for a target model under a given memory budget. Shows resident/hot/warm/cold layer distributions, prefetch window (W), KV cache budget, and deterministic plan hash.
 
 #### Usage
 ```bash
@@ -469,13 +469,13 @@ Kura implements fault tolerance at the storage and memory boundaries:
 
 ### 5.1. Storage Read Retry with Exponential Backoff
 All weight reads (`pread64`) are protected against transient kernel I/O pressure:
-- If a read returns `EAGAIN`, `EINTR`, `EIO`, `WouldBlock`, or `TimedOut`, Kura automatically retries up to **3 times** with exponential backoff ($1\text{ ms} \to 2\text{ ms} \to 4\text{ ms}$).
+- If a read returns `EAGAIN`, `EINTR`, `EIO`, `WouldBlock`, or `TimedOut`, Kura automatically retries up to **3 times** with exponential backoff (1 ms -> 2 ms -> 4 ms).
 - Persistent failures after 3 attempts return a clear `500 Internal Server Error` without terminating the process or corrupting the global state.
 
 ### 5.2. Memory Pressure Eviction (MPE)
 To guarantee zero Out-Of-Memory (OOM) kills under strict cgroup limits:
 - Prior to and during layer execution, the engine inspects current RSS against the cgroup memory limit (`/sys/fs/cgroup/memory.current` vs `memory.max`).
-- When $\frac{\text{Usage}}{\text{Limit}} \ge 0.95$ ($95\%$), the engine automatically force-evicts all Cold and Warm cached weight tensors.
+- When Usage / Limit >= 0.95 (95%), the engine automatically force-evicts all Cold and Warm cached weight tensors.
 - The Hot tier (critical transformer backbone and vocabulary embeddings) is preserved, avoiding swap thrashing and keeping inference operational.
 
 ### 5.3. Graceful Draining & Shutdown
