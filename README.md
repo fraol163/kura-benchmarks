@@ -22,6 +22,54 @@
 
 ---
 
+### ◈ Table of Contents
+
+- [What is Kura?](#-what-is-kura)
+  - [The Problem: The Memory Wall](#the-problem-the-memory-wall)
+  - [The Kura Solution: Storage-Native Streaming](#the-kura-solution-storage-native-streaming)
+- [Quick Installation](#-quick-installation)
+  - [Linux & macOS (Terminal)](#linux--macos-terminal)
+  - [Windows (PowerShell)](#windows-powershell)
+  - [Global npm Package (Cross-Platform)](#global-npm-package-all-operating-systems)
+  - [Prebuilt Binary Releases](#prebuilt-binary-releases)
+- [Practical Usability: How Fast Does It Run?](#-practical-usability-how-fast-does-it-run)
+  - [Throughput Classification Table](#throughput-classification-table)
+- [The MoE Architectural Superiority Law](#-the-moe-architectural-superiority-law)
+- [Why Kura Works: The Ablation Ladder](#-why-kura-works-the-ablation-ladder)
+- [Long Context Scaling up to 32,768 Tokens](#-long-context-scaling-up-to-32768-tokens)
+- [LOOM Physical Coalescing: Random Seeks vs Sequential DMA](#-loom-physical-coalescing-random-seeks-vs-sequential-dma)
+- [Speculative Verification: Chunked GEMM Acceleration](#-speculative-verification-chunked-gemm-acceleration)
+- [Empirical Benchmark Verification](#-empirical-benchmark-verification-zero-hallucination-guarantee)
+- [Complete Command Guide: How to Use Kura](#-complete-command-guide-how-to-use-kura)
+  - [1. Interactive Terminal User Interface (`kura tui`)](#1-interactive-terminal-user-interface-kura-tui)
+  - [2. Direct Model Execution (`kura run`)](#2-direct-model-execution-kura-run)
+  - [3. OpenAI-Compatible API Server (`kura serve`)](#3-openai-compatible-api-server-kura-serve)
+  - [4. Hardware Inspection (`kura profile`)](#4-hardware-inspection-kura-profile)
+  - [5. Memory Execution Plan (`kura plan`)](#5-memory-execution-plan-kura-plan)
+  - [6. Performance Benchmarking (`kura benchmark`)](#6-performance-benchmarking-kura-benchmark)
+  - [7. System Diagnostics (`kura doctor`)](#7-system-diagnostics-kura-doctor)
+  - [8. Model Management (`kura models`)](#8-model-management-kura-models)
+  - [9. Progressive Fidelity Engine (`kura ember`)](#9-progressive-fidelity-engine-kura-ember)
+  - [10. File Layout Optimization (`kura optimize`)](#10-file-layout-optimization-kura-optimize)
+  - [11. Decision Trace (`kura trace`)](#11-decision-trace-kura-trace)
+  - [12. Subsystem Ablation Matrix (`kura ablate`)](#12-subsystem-ablation-matrix-kura-ablate)
+  - [13. MoE Expert Locality Analysis (`kura locality`)](#13-moe-expert-locality-analysis-kura-locality)
+  - [14. RAM Budget Sweep & Graphing (`kura graph`)](#14-ram-budget-sweep--graphing-kura-graph)
+  - [15. Synthetic Workload Generator (`kura synth`)](#15-synthetic-workload-generator-kura-synth)
+  - [16. Task Capsules (`kura capsule`)](#16-task-capsules-kura-capsule)
+  - [17. LoRA Adapter Fabric (`kura adapters`)](#17-lora-adapter-fabric-kura-adapters)
+  - [18. Session Hibernation (`kura session`)](#18-session-hibernation-kura-session)
+  - [19. Vocabulary Intelligence (`kura vocab`)](#19-vocabulary-intelligence-kura-vocab)
+  - [20. Hardware Environment Advisor (`kura advisor`)](#20-hardware-environment-advisor-kura-advisor)
+  - [21. Bottleneck Root-Cause Explainer (`kura why-slow`)](#21-bottleneck-root-cause-explainer-kura-why-slow)
+  - [22. Expert Usage Heatmaps (`kura heatmap`)](#22-expert-usage-heatmaps-kura-heatmap)
+  - [23. Placement & Tuning Planner (`kura tune`)](#23-placement--tuning-planner-kura-tune)
+  - [24. Scientific Experiment Suite (`kura esuite` & `kura bench`)](#24-scientific-experiment-suite-kura-esuite--kura-bench)
+- [Repository Overview](#-repository-overview)
+- [Peer Review & Citation](#-peer-review--citation)
+
+---
+
 ### ◈ What is Kura?
 
 **Kura** is an open benchmark and storage-native inference engine that allows you to run large AI models (such as 7B, 14B, and Sparse MoE models) on everyday computers with limited RAM (even 4 GB to 8 GB).
