@@ -1,8 +1,8 @@
 # KURA: STORAGE-NATIVE DECOUPLED INFERENCE ON COMMODITY HARDWARE
 ## Final Scientific Report & Comprehensive Project Synthesis
-**Governing Directive:** The Grand Scalability Directive (§ Phase 26 Revised — Final Scientific Report)  
+**Governing Directive:** The Grand Scalability Directive (§ Phase 26 Revised - Final Scientific Report)  
 **Authors:** Kura Systems Architecture Team  
-**Evaluation Dates:** August – September 2026  
+**Evaluation Dates:** August - September 2026  
 **System Architecture:** Linux x86_64, 8 Physical Cores (AVX-512, F16C, VNNI), Single/Multi-Drive PCIe 4.0 NVMe SSD  
 **Operating System:** Ubuntu 24.04 LTS (Kernel 6.8.0), cgroup v2 Unified Hierarchy  
 **Peer-Review Verification Standard:** Zero-Marketing Honesty, Empirical Grounding, 100% Bitwise Parity  
@@ -20,8 +20,8 @@ Modern Large Language Model (LLM) serving frameworks treat system RAM as a prere
 Over 29 rigorous experimental phases, Kura has mapped the complete physical performance boundary of storage-native computing across models ranging from **0.5 Billion to 70.6 Billion parameters** under strict, swap-disabled OS memory ceilings (`MemoryMax=7500M`, `MemorySwapMax=0`).
 
 The definitive empirical achievement of this project is the **Law of MoE Superiority**:
-- Under a constrained **4 GB to 8 GB RAM budget**, a Dense 70B model requires transferring 36.5 GB per token, physically capping decode speed at **0.038 – 0.078 tok/s** on a single NVMe drive. To reach the interactive conversational usability threshold ($\ge 1.0$ tok/s), Dense 70B requires an enterprise **15-drive Gen4 NVMe RAID-0 storage array costing over $3,500**.
-- In direct contrast, a Sparse Mixture-of-Experts architecture (**OLMoE 1B-7B**) with Kura's coalesced layout streams only active experts (~487 MB per token), achieving **15.21 tok/s on a single budget $80 NVMe drive**—a **400× throughput advantage** under identical hardware and memory limits.
+- Under a constrained **4 GB to 8 GB RAM budget**, a Dense 70B model requires transferring 36.5 GB per token, physically capping decode speed at **0.038 - 0.078 tok/s** on a single NVMe drive. To reach the interactive conversational usability threshold ($\ge 1.0$ tok/s), Dense 70B requires an enterprise **15-drive Gen4 NVMe RAID-0 storage array costing over $3,500**.
+- In direct contrast, a Sparse Mixture-of-Experts architecture (**OLMoE 1B-7B**) with Kura's coalesced layout streams only active experts (~487 MB per token), achieving **15.21 tok/s on a single budget $80 NVMe drive**-a **400× throughput advantage** under identical hardware and memory limits.
 
 ```
 ========================================================================================================
@@ -91,7 +91,7 @@ Ember implements a multi-tiered residency market:
 Prefetch V3 monitors the ratio of storage transfer time ($T_{\text{io}}$) to compute execution time ($T_{\text{compute}}$):
 - **Compute-Dominated ($R_{\text{io}} \le 3.5$):** Operates with a shallow window ($W=1$) to prevent memory pressure.
 - **Balanced ($3.5 < R_{\text{io}} \le 6.0$):** Operates with lookahead $W=2$, perfectly overlapping I/O and compute.
-- **Storage-Dominated ($R_{\text{io}} > 6.0$):** Operates with deep lookahead ($W=3$) across dual async worker threads, achieving **89.5% – 99.0% I/O compute overlap**.
+- **Storage-Dominated ($R_{\text{io}} > 6.0$):** Operates with deep lookahead ($W=3$) across dual async worker threads, achieving **89.5% - 99.0% I/O compute overlap**.
 
 ### 2.5 Flash-Attention with $O(N)$ Linear Scaling
 Vectorized chunked attention processes prompts in 16-token and 64-token tiles with online softmax normalization, maintaining constant $O(1)$ intermediate memory overhead and guaranteeing mathematically exact $O(N)$ prefill latency scaling up to 32,768 tokens.
@@ -164,7 +164,7 @@ Generating 1.0 tok/s on Dense 70B under 8 GB RAM requires streaming 36.5 GB per 
 
 All throughputs represent steady-state decode speed under strict cgroup v2 limits (`MemorySwapMax=0`):
 
-| Model \ RAM | 4 GB | 6 GB | 8 GB | 12 GB | 16 GB | 24 GB | 32 GB – 64 GB |
+| Model \ RAM | 4 GB | 6 GB | 8 GB | 12 GB | 16 GB | 24 GB | 32 GB - 64 GB |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **0.5B Dense** (0.49 GB) | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` | **38.4 tok/s** `USEFUL` |
 | **1.5B Dense** (1.04 GB) | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` | **22.8 tok/s** `USEFUL` |
@@ -173,8 +173,8 @@ All throughputs represent steady-state decode speed under strict cgroup v2 limit
 | **14B Dense** (8.98 GB) | 0.23 tok/s `MARGINAL` | 0.38 tok/s `MARGINAL` | 0.54 tok/s `MARGINAL` | **3.65 tok/s** `USEFUL` | **3.65 tok/s** `USEFUL` | **3.65 tok/s** `USEFUL` | **3.65 tok/s** `USEFUL` |
 | **27B Dense** (16.8 GB) | 0.088 tok/s `IMPERCEPT.` | 0.12 tok/s `MARGINAL` | 0.16 tok/s `MARGINAL` | 0.28 tok/s `MARGINAL` | 0.44 tok/s `MARGINAL` | **1.82 tok/s** `USEFUL` | **1.82 tok/s** `USEFUL` |
 | **32B Dense** (19.8 GB) | 0.075 tok/s `IMPERCEPT.` | 0.098 tok/s `IMPERCEPT.` | 0.13 tok/s `MARGINAL` | 0.22 tok/s `MARGINAL` | 0.35 tok/s `MARGINAL` | **1.45 tok/s** `USEFUL` | **1.45 tok/s** `USEFUL` |
-| **70B Dense (1× NVMe)** | 0.034 tok/s `IMPERCEPT.` | 0.036 tok/s `IMPERCEPT.` | 0.038 tok/s `IMPERCEPT.` | 0.045 tok/s `IMPERCEPT.` | 0.052 tok/s `IMPERCEPT.` | 0.078 tok/s `IMPERCEPT.` | 0.105–0.88 `MARGINAL` |
-| **70B Dense (4× NVMe)** | 0.136 tok/s `MARGINAL` | 0.144 tok/s `MARGINAL` | 0.152 tok/s `MARGINAL` | 0.180 tok/s `MARGINAL` | 0.208 tok/s `MARGINAL` | 0.312 tok/s `MARGINAL` | **1.25–3.52** `USEFUL` |
+| **70B Dense (1× NVMe)** | 0.034 tok/s `IMPERCEPT.` | 0.036 tok/s `IMPERCEPT.` | 0.038 tok/s `IMPERCEPT.` | 0.045 tok/s `IMPERCEPT.` | 0.052 tok/s `IMPERCEPT.` | 0.078 tok/s `IMPERCEPT.` | 0.105-0.88 `MARGINAL` |
+| **70B Dense (4× NVMe)** | 0.136 tok/s `MARGINAL` | 0.144 tok/s `MARGINAL` | 0.152 tok/s `MARGINAL` | 0.180 tok/s `MARGINAL` | 0.208 tok/s `MARGINAL` | 0.312 tok/s `MARGINAL` | **1.25-3.52** `USEFUL` |
 | **OLMoE 1B-7B (MoE)** | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` | **15.21 tok/s** `USEFUL` |
 
 ---

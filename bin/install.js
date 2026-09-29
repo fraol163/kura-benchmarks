@@ -145,7 +145,93 @@ function probeStorageSubsystem() {
   };
 }
 
+function printHelp() {
+  printLogo();
+  console.log(`\n${c.bold}USAGE:${c.reset}`);
+  console.log(`  kura <command> [options]\n`);
+  console.log(`${c.bold}AVAILABLE COMMANDS:${c.reset}`);
+  console.log(`  ${c.cyan}tui${c.reset}               Launch interactive terminal user interface (chat, monitor, packages)`);
+  console.log(`  ${c.cyan}run <model>${c.reset}       Execute text generation on a local GGUF model file`);
+  console.log(`  ${c.cyan}serve${c.reset}             Start OpenAI-compatible HTTP streaming API server (port 8080)`);
+  console.log(`  ${c.cyan}profile${c.reset}           Inspect CPU vector features, RAM bandwidth, and NVMe read speed`);
+  console.log(`  ${c.cyan}plan --model <m>${c.reset}  Calculate LOOM memory execution plan under specified RAM budget`);
+  console.log(`  ${c.cyan}benchmark <model>${c.reset} Measure real decode tokens/sec, TTFT, and storage amplification`);
+  console.log(`  ${c.cyan}doctor${c.reset}            Check Linux environment, swap status, and storage scheduler`);
+  console.log(`  ${c.cyan}models list${c.reset}       List, pull, verify, or delete local GGUF model weights`);
+  console.log(`  ${c.cyan}ember build${c.reset}       Build progressive tiered-fidelity skeleton maps`);
+  console.log(`  ${c.cyan}optimize <model>${c.reset}  Coalesce GGUF physical layout for zero-seek sequential NVMe reads`);
+  console.log(`  ${c.cyan}trace <model>${c.reset}     Print diagnostic decision trace of prefetch and memory tiers`);
+  console.log(`  ${c.cyan}ablate <model>${c.reset}    Run subsystem ablation matrix (CES, MEC, CRF, ERM)`);
+  console.log(`\n${c.bold}OPTIONS:${c.reset}`);
+  console.log(`  ${c.green}--help, -h${c.reset}        Show this command reference`);
+  console.log(`  ${c.green}--version, -v${c.reset}     Print version information`);
+  console.log(`  ${c.green}--json${c.reset}            Emit machine-readable JSON output (where supported)`);
+  console.log(`\n${c.gray}For comprehensive documentation, visit: https://github.com/fraol163/kura-benchmarks${c.reset}\n`);
+}
+
+function printProfile(jsonOutput) {
+  const hw = probeSystemHardware();
+  const storage = probeStorageSubsystem();
+
+  if (jsonOutput) {
+    const profile = {
+      runtime: "kura",
+      version: "1.0.0",
+      detection: "hardware_probe",
+      cpu: {
+        model: hw.cpuModel,
+        physical_cores: hw.cores,
+        logical_threads: hw.cores,
+        simd: {
+          avx512: hw.hasAvx512,
+          neon: hw.hasNeon
+        }
+      },
+      ram: {
+        total_gb: parseFloat(hw.totalMemGB),
+        free_gb: parseFloat(hw.freeMemGB)
+      },
+      storage: {
+        has_nvme: storage.hasNvme,
+        sequential_read_mb_s: storage.estimatedBwMBps
+      }
+    };
+    console.log(JSON.stringify(profile, null, 2));
+    return;
+  }
+
+  printLogo();
+  console.log(`\n${c.bold}============================================================${c.reset}`);
+  console.log(`${c.bold}KURA SENSE HARDWARE PROFILE${c.reset}`);
+  console.log(`${c.bold}============================================================${c.reset}`);
+  console.log(`CPU:         ${hw.cpuModel} (${hw.cores} cores)`);
+  console.log(`Vector ISA:  ${hw.isa}`);
+  console.log(`RAM:         ${hw.totalMemGB} GB total | ${hw.freeMemGB} GB available`);
+  console.log(`Storage:     ${storage.hasNvme ? "PCIe NVMe SSD" : "Block Storage"} (~${storage.estimatedBwMBps} MB/s read bandwidth)`);
+  console.log(`Telemetry:   DISABLED (Strict local privacy)`);
+  console.log(`============================================================\n`);
+}
+
 async function main() {
+  const args = process.argv.slice(2);
+  const command = args[0] ? args[0].toLowerCase() : null;
+
+  if (command === '--help' || command === '-h' || command === 'help') {
+    printHelp();
+    return;
+  }
+
+  if (command === '--version' || command === '-v' || command === 'version') {
+    console.log("kura 1.0.0 (storage-native decoupled runtime)");
+    return;
+  }
+
+  if (command === 'profile') {
+    const jsonOutput = args.includes('--json');
+    printProfile(jsonOutput);
+    return;
+  }
+
   clear();
   printLogo();
 
@@ -176,6 +262,7 @@ async function main() {
   console.log(`\n${c.gray}${"=".repeat(82)}${c.reset}`);
   console.log(`${c.bold}${c.green}◈ KURA ENGINE SUCCESSFULLY CALIBRATED AND READY FOR INFERENCE.${c.reset}`);
   console.log(`\n${c.white}Quick Commands:${c.reset}`);
+  console.log(`  ${c.blue}kura tui${c.reset}                        Launch interactive terminal UI`);
   console.log(`  ${c.blue}kura profile${c.reset}                    Print SENSE hardware execution profile`);
   console.log(`  ${c.blue}kura plan --model <path>${c.reset}        Show LOOM memory execution plan`);
   console.log(`  ${c.blue}kura serve --port 8080${c.reset}          Launch OpenAI-compatible HTTP streaming server`);
