@@ -49,18 +49,18 @@ Kura solves this by treating your fast NVMe solid-state drive (SSD), your system
 Install Kura globally using npm:
 
 ```bash
-# Global installation via npm
-npm install -g kura
+# Global installation directly from GitHub
+npm install -g fraol163/kura-benchmarks
 
 # Run the interactive hardware probe and calibration
 kura
 ```
 
-Or run directly without installing:
+Or run instantly without installation using npx:
 
 ```bash
-# Run instantly with npx
-npx kura
+# Instant run with zero installation
+npx github:fraol163/kura-benchmarks
 ```
 
 You can also clone this repository directly:
@@ -68,7 +68,7 @@ You can also clone this repository directly:
 ```bash
 git clone https://github.com/fraol163/kura-benchmarks.git
 cd kura-benchmarks
-npm install -g .
+node bin/install.js
 ```
 
 The installer detects your CPU features (AVX-512, AVX2, or Apple Silicon NEON), tests your drive read speed, and prepares your system. **Kura includes zero telemetry**: it never sends any analytics or data over the network.
