@@ -155,8 +155,9 @@ kura_bootstrap_target() {
         *) return 1 ;;
     esac
     case "$(uname -s)" in
-        Linux)  echo "linux-$_arch" ;;
-        Darwin) echo "darwin-$_arch" ;;
+        Linux*)  echo "linux-$_arch" ;;
+        Darwin*) echo "darwin-$_arch" ;;
+        CYGWIN*|MINGW*|MSYS*) echo "windows-x86_64" ;;
         *) return 1 ;;
     esac
 }
@@ -168,17 +169,18 @@ kura_binary_url() {
         linux-arm64)  echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-linux-aarch64.tar.gz" ;;
         darwin-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-darwin-x86_64.tar.gz" ;;
         darwin-arm64)  echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-darwin-arm64.tar.gz" ;;
+        windows-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-windows-x86_64.zip" ;;
         *) return 1 ;;
     esac
 }
 
 check_platform() {
     case "$(uname -s 2>/dev/null)" in
-        Linux*) : ;;
-        Darwin*) : ;;
-        *) fail "unsupported platform: $(uname -s). Kura supports Linux and macOS." ;;
+        Linux*|Darwin*|CYGWIN*|MINGW*|MSYS*) : ;;
+        *) fail "unsupported platform: $(uname -s). Kura supports Linux, macOS, and Windows." ;;
     esac
 }
+
 
 json_string() {
     local value="$1" code char escaped
@@ -307,10 +309,23 @@ stage_binary() {
     tmp_dir="$(mktemp -d 2>/dev/null || echo "/tmp/kura-install.$$")"
     mkdir -p "$tmp_dir"
 
-    if run_logged "Fetching $url" curl -LsSf "$url" -o "$tmp_dir/kura.tar.gz"; then
-        tar -xzf "$tmp_dir/kura.tar.gz" -C "$tmp_dir" || fail "failed to unpack kura archive"
+    local archive_name="kura.tar.gz"
+    if [[ "$url" == *.zip ]]; then
+        archive_name="kura.zip"
+    fi
+
+    if run_logged "Fetching $url" curl -LsSf "$url" -o "$tmp_dir/$archive_name"; then
+        if [ "$archive_name" = "kura.zip" ]; then
+            if command -v unzip >/dev/null 2>&1; then
+                unzip -q -o "$tmp_dir/kura.zip" -d "$tmp_dir" || fail "failed to unpack kura archive"
+            else
+                tar -xf "$tmp_dir/kura.zip" -C "$tmp_dir" || fail "failed to unpack kura archive"
+            fi
+        else
+            tar -xzf "$tmp_dir/$archive_name" -C "$tmp_dir" || fail "failed to unpack kura archive"
+        fi
         local extracted
-        extracted="$(find "$tmp_dir" -type f -name "kura*" ! -name "*.tar.gz" | head -n1)"
+        extracted="$(find "$tmp_dir" -type f \( -name "kura" -o -name "kura.exe" -o -name "kura-*" \) ! -name "*.tar.gz" ! -name "*.zip" | head -n1)"
         if [ -n "$extracted" ]; then
             mv "$extracted" "$bin_dest"
             chmod 755 "$bin_dest"

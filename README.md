@@ -45,17 +45,25 @@ Kura solves this by treating your fast NVMe solid-state drive (SSD), your system
 
 ### ◈ Quick Installation
 
-#### Method 1: Automated Shell Bootstrap (Recommended)
+Install Kura and configure your environment in seconds with zero build dependencies across Linux, macOS, and Windows.
 
-Install Kura and configure your environment in seconds with zero build dependencies:
+#### Linux & macOS (Terminal)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash
 ```
 
-The bootstrap installer validates system prerequisites, probes CPU vector SIMD (AVX-512, AVX2, ARM NEON) and NVMe storage bandwidth, acquires the precompiled native binary, configures your shell PATH, and presents the interactive terminal user interface.
+The bootstrap installer validates system prerequisites, probes CPU vector SIMD (AVX-512, AVX2, Apple Silicon ARM NEON) and NVMe storage bandwidth, acquires the precompiled native binary, configures your shell PATH (`~/.zshrc`, `~/.bashrc`, `~/.config/fish/config.fish`), and launches the engine.
 
-#### Method 2: Global Node / npm Package
+#### Windows (PowerShell)
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.ps1 | iex"
+```
+
+The PowerShell installer prepares the Kura runtime directories, downloads the precompiled 64-bit native binary (`kura.exe`), adds the binary directory to your User Environment `PATH`, and sets up direct storage execution.
+
+#### Global npm Package (All Operating Systems)
 
 ```bash
 # Global installation via npm
@@ -71,15 +79,20 @@ Or run instantly with zero installation using npx:
 npx kura-benchmarks
 ```
 
-#### Method 3: Direct Git Checkout
+#### Prebuilt Binary Releases
 
-```bash
-git clone https://github.com/fraol163/kura-benchmarks.git
-cd kura-benchmarks
-./install.sh
-```
+Direct standalone archives are published for every major operating system:
 
-The installer detects your CPU features (AVX-512, AVX2, or Apple Silicon NEON), tests your drive read speed, and prepares your system. **Kura includes zero telemetry**: it never sends any analytics or phone-home data over the network.
+| Platform | Architecture | Archive Package |
+| :--- | :--- | :--- |
+| **Linux** | x86-64 (AVX2, AVX-512) | [`kura-linux-x86_64.tar.gz`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-linux-x86_64.tar.gz) |
+| **Linux** | ARM64 (Graviton, Ampere) | [`kura-linux-aarch64.tar.gz`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-linux-aarch64.tar.gz) |
+| **macOS** | Apple Silicon (M1/M2/M3/M4) | [`kura-darwin-arm64.tar.gz`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-darwin-arm64.tar.gz) |
+| **macOS** | Intel x86-64 | [`kura-darwin-x86_64.tar.gz`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-darwin-x86_64.tar.gz) |
+| **Windows** | x86-64 (`kura.exe`) | [`kura-windows-x86_64.zip`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-windows-x86_64.zip) |
+
+**Kura includes zero telemetry**: it never sends any analytics or phone-home data over the network.
+
 
 ---
 
