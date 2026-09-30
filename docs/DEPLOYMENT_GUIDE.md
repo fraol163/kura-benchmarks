@@ -1,8 +1,8 @@
 # Kura Production Deployment Guide
 
-**Runtime**: Kura Storage-Native Inference Engine  
-**Target Environment**: Linux (Ubuntu 22.04 / 24.04 LTS, RHEL 9, Debian 12)  
-**Hardware Profile**: Commodity NVMe SSD (PCIe Gen3/Gen4/Gen5) + DDR4/DDR5 RAM + Modern CPU (AVX2, AVX-512, or ARM NEON)
+**Runtime**:- Kura Storage-Native Inference Engine  
+**Target Environment**:- Linux (Ubuntu 22.04 / 24.04 LTS, RHEL 9, Debian 12)  
+**Hardware Profile**:- Commodity NVMe SSD (PCIe Gen3/Gen4/Gen5) + DDR4/DDR5 RAM + Modern CPU (AVX2, AVX-512, or ARM NEON)
 
 ---
 
@@ -11,12 +11,12 @@
 Kura achieves high throughput on budget hardware by bypassing traditional page-cache virtual memory buffering and orchestrating sequential storage streaming. Optimal operation requires minimal host tuning.
 
 ### 1.1. Operating System & Kernel
-- **Kernel Version**: Linux `5.15` or higher (Linux `6.8+` recommended).
-- **Cgroup Architecture**: Cgroup v2 unified hierarchy (`/sys/fs/cgroup`).
-- **Filesystem**: `ext4` or `xfs` mounted with standard options (`noatime` recommended for model directories).
+- **Kernel Version**:- Linux `5.15` or higher (Linux `6.8+` recommended).
+- **Cgroup Architecture**:- Cgroup v2 unified hierarchy (`/sys/fs/cgroup`).
+- **Filesystem**:- `ext4` or `xfs` mounted with standard options (`noatime` recommended for model directories).
 
 ### 1.2. Storage Device Tuning
-For optimal pread / direct I/O performance on NVMe devices:
+For optimal pread / direct I/O performance on NVMe devices:-
 ```bash
 # Verify NVMe I/O scheduler is set to none (bypasses OS elevator queues)
 cat /sys/block/nvme0n1/queue/scheduler
@@ -35,7 +35,7 @@ sudo udevadm control --reload && sudo udevadm trigger
 
 ### 1.3. Swap Configuration
 > [!WARNING]
-> Swap degradation destroys deterministic token generation latency. Kura's memory manager is designed to stay completely within physical RAM. Ensure `MemorySwapMax=0` in cgroups or disable system swap on dedicated inference hosts:
+> Swap degradation destroys deterministic token generation latency. Kura's memory manager is designed to stay completely within physical RAM. Ensure `MemorySwapMax=0` in cgroups or disable system swap on dedicated inference hosts:-
 
 ```bash
 # Disable swap immediately
@@ -50,7 +50,7 @@ echo "vm.swappiness=1" | sudo tee -a /etc/sysctl.d/99-kura.conf
 
 ## 2. Model Preparation & Loom Pre-Layout
 
-To achieve peak token generation speed, reorder the model's physical byte layout into sequential forward-pass spans before deployment:
+To achieve peak token generation speed, reorder the model's physical byte layout into sequential forward-pass spans before deployment:-
 
 ```bash
 # 1. Compile the machine execution plan and inspect residency tiers
@@ -245,9 +245,9 @@ systemd-run --user --scope \
 
 ### 6.1. Automated Health Check Probe
 Configure Kubernetes or uptime monitors with:
-- **HTTP Path**: `GET http://ai.example.com/health`
-- **Expected Status**: `200 OK`
-- **Response Validation**: JSON field `status == "healthy"` and `memory_pressure_ratio < 0.95`.
+- **HTTP Path**:- `GET http://ai.example.com/health`
+- **Expected Status**:- `200 OK`
+- **Response Validation**:- JSON field `status == "healthy"` and `memory_pressure_ratio < 0.95`.
 
 ### 6.2. Prometheus Alerting Rules (`kura_alerts.yml`)
 ```yaml
