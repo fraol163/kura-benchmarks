@@ -1,130 +1,179 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" width="100%" height="100%" style="background:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%" style="background:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
   <defs>
-    <filter id="softSketch" x="-2%" y="-2%" width="104%" height="106%" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.06"/>
+    <filter id="softSketch" x="-3%" y="-3%" width="106%" height="106%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.07"/>
     </filter>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e8590c" />
+    </marker>
+    <marker id="arrowheadBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1971c2" />
+    </marker>
   </defs>
 
   <!-- Title & Subtitle -->
-  <text x="500" y="38" text-anchor="middle" fill="#18181b" font-size="21" font-weight="800" letter-spacing="0.5">KURA STORAGE-NATIVE DECOUPLED ARCHITECTURE</text>
-  <text x="500" y="62" text-anchor="middle" fill="#71717a" font-size="13">High-Throughput Local LLM Execution Substrate Powered by NVMe, RAM, and Vector SIMD</text>
+  <text x="500" y="36" text-anchor="middle" fill="#18181b" font-size="22" font-weight="800" letter-spacing="0.5">KURA STORAGE-NATIVE DECOUPLED ARCHITECTURE</text>
+  <text x="500" y="60" text-anchor="middle" fill="#71717a" font-size="13">Streaming 30B-70B Neural Models from NVMe into Constrained RAM with Zero GPU Dependency</text>
 
-  <!-- Xiaohei Engineer at Top Right -->
-  <g transform="translate(880, 15)">
-    <ellipse cx="20" cy="28" rx="11" ry="14" fill="#18181b"/>
-    <circle cx="20" cy="12" r="8" fill="#18181b"/>
-    <circle cx="17" cy="11" r="1.5" fill="#ffffff"/>
-    <circle cx="23" cy="11" r="1.5" fill="#ffffff"/>
-    <line x1="16" y1="42" x2="15" y2="52" stroke="#18181b" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="24" y1="42" x2="25" y2="52" stroke="#18181b" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M 9 26 Q -4 18 -16 20" fill="none" stroke="#18181b" stroke-width="2" stroke-linecap="round"/>
-    <text x="-22" y="14" fill="#e8590c" font-size="10" font-weight="700">Observe!</text>
+  <!-- TOP CARD: HOST SYSTEM & RESOURCE ARENA -->
+  <g transform="translate(60, 82)" filter="url(#softSketch)">
+    <rect width="880" height="92" rx="10" fill="#ffffff" stroke="#18181b" stroke-width="2"/>
+    <rect width="880" height="28" rx="10" fill="#f4f4f5" stroke="#18181b" stroke-width="2"/>
+    <line x1="0" y1="28" x2="880" y2="28" stroke="#18181b" stroke-width="2"/>
+    <text x="440" y="19" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800" letter-spacing="0.5">HOST SYSTEM &amp; MEMORY SCARCITY ARENA</text>
+    
+    <text x="30" y="52" fill="#18181b" font-size="12" font-weight="700">CPU Compute Substrate:</text>
+    <text x="180" y="52" fill="#52525b" font-size="11.5">AVX-512 FMA / ARM NEON SIMD Tiers | NUMA-Aware Thread Worker Pool</text>
+    <text x="30" y="74" fill="#18181b" font-size="12" font-weight="700">Physical Memory Arena:</text>
+    <text x="180" y="74" fill="#52525b" font-size="11.5">Strict 4-8 GB RAM Cap | Paged KV-Cache | Hot Embedding &amp; LM-Head Skeleton</text>
+    
+    <!-- Xiaohei #1: Monitoring Host RAM limit -->
+    <g transform="translate(770, 32)">
+      <ellipse cx="14" cy="22" rx="8" ry="11" fill="#18181b"/>
+      <circle cx="14" cy="9" r="6" fill="#18181b"/>
+      <circle cx="12" cy="8" r="1.2" fill="#ffffff"/>
+      <circle cx="16" cy="8" r="1.2" fill="#ffffff"/>
+      <line x1="11" y1="33" x2="10" y2="42" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="17" y1="33" x2="18" y2="42" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M 6 20 Q -4 14 -12 16" fill="none" stroke="#18181b" stroke-width="1.6" stroke-linecap="round"/>
+      <text x="-70" y="18" fill="#e8590c" font-size="10.5" font-weight="700">RAM &lt; 8 GB Safe!</text>
+    </g>
   </g>
 
-  <!-- Flow Arrows / Connectors (Orange Hand-Drawn Flow) -->
-  <path d="M 240 205 L 268 205" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round"/>
-  <polygon points="274,205 264,200 264,210" fill="#e8590c"/>
+  <!-- Connectors from Host to Engines -->
+  <path d="M 500 174 L 500 205" stroke="#18181b" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="500,211 495,203 505,203" fill="#18181b"/>
+  <text x="510" y="196" fill="#71717a" font-size="10.5" font-weight="600">KAEF Control Loop (Observe - Forecast - Price - Search - Execute)</text>
 
-  <path d="M 490 205 L 518 205" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round"/>
-  <polygon points="524,205 514,200 514,210" fill="#e8590c"/>
+  <!-- MIDDLE ROW: 4 CORE ENGINES -->
 
-  <path d="M 740 205 L 768 205" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" stroke-linecap="round"/>
-  <polygon points="774,205 764,200 764,210" fill="#e8590c"/>
-
-  <!-- BOX 1: SENSE -->
-  <g transform="translate(25, 95)" filter="url(#softSketch)">
-    <rect width="215" height="215" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
-    <rect width="215" height="34" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
-    <line x1="0" y1="34" x2="215" y2="34" stroke="#18181b" stroke-width="1.8"/>
-    <text x="107" y="22" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800">SENSE PROFILER</text>
-    <text x="16" y="58" fill="#18181b" font-size="12" font-weight="700">Hardware Probe</text>
-    <text x="16" y="78" fill="#52525b" font-size="11">• AVX-512 / ARM NEON</text>
-    <text x="16" y="96" fill="#52525b" font-size="11">• NUMA Topology Pinning</text>
-    <text x="16" y="114" fill="#52525b" font-size="11">• Direct NVMe IO Probe</text>
-    <text x="16" y="142" fill="#18181b" font-size="12" font-weight="700">Regime Classifier</text>
-    <text x="16" y="162" fill="#52525b" font-size="11">• T_io / T_compute Ratio</text>
-    <text x="16" y="180" fill="#52525b" font-size="11">• Adaptive Q3/Q4 Quant</text>
-    <text x="16" y="200" fill="#2f9e44" font-size="10.5" font-weight="700">Autonomous Calibration</text>
+  <!-- 1. SENSE PROFILER -->
+  <g transform="translate(60, 218)" filter="url(#softSketch)">
+    <rect width="195" height="190" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
+    <rect width="195" height="30" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
+    <line x1="0" y1="30" x2="195" y2="30" stroke="#18181b" stroke-width="1.8"/>
+    <text x="97" y="20" text-anchor="middle" fill="#18181b" font-size="11.5" font-weight="800">SENSE PROFILER</text>
+    
+    <text x="14" y="52" fill="#18181b" font-size="11" font-weight="700">Hardware Probe</text>
+    <text x="14" y="70" fill="#52525b" font-size="10.5">• SIMD vector capabilities</text>
+    <text x="14" y="86" fill="#52525b" font-size="10.5">• NUMA affinity &amp; memory bw</text>
+    <text x="14" y="102" fill="#52525b" font-size="10.5">• Storage latency &amp; queue depth</text>
+    
+    <text x="14" y="128" fill="#18181b" font-size="11" font-weight="700">Regime Classifier</text>
+    <text x="14" y="146" fill="#52525b" font-size="10.5">• T_io vs T_compute ratio</text>
+    <text x="14" y="162" fill="#52525b" font-size="10.5">• Adaptive precision selector</text>
+    <text x="14" y="180" fill="#2f9e44" font-size="10" font-weight="700">Autonomous Calibration</text>
   </g>
 
-  <!-- BOX 2: LOOM -->
-  <g transform="translate(275, 95)" filter="url(#softSketch)">
-    <rect width="215" height="215" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
-    <rect width="215" height="34" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
-    <line x1="0" y1="34" x2="215" y2="34" stroke="#18181b" stroke-width="1.8"/>
-    <text x="107" y="22" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800">LOOM STORAGE</text>
-    <text x="16" y="58" fill="#18181b" font-size="12" font-weight="700">Coalesced Layout</text>
-    <text x="16" y="78" fill="#52525b" font-size="11">• Forward-pass order</text>
-    <text x="16" y="96" fill="#52525b" font-size="11">• Zero random seeks</text>
-    <text x="16" y="114" fill="#52525b" font-size="11">• MoE Expert Looming</text>
-    <text x="16" y="142" fill="#18181b" font-size="12" font-weight="700">Direct Physical I/O</text>
-    <text x="16" y="162" fill="#52525b" font-size="11">• io_uring Batched async</text>
-    <text x="16" y="180" fill="#52525b" font-size="11">• O_DIRECT unbuffered</text>
-    <text x="16" y="200" fill="#2f9e44" font-size="10.5" font-weight="700">Sequential Saturation</text>
+  <!-- Flow 1 -> 2 -->
+  <path d="M 255 313 L 285 313" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+
+  <!-- 2. KAEF PLANNER (CES / MEC / ERM) -->
+  <g transform="translate(290, 218)" filter="url(#softSketch)">
+    <rect width="195" height="190" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
+    <rect width="195" height="30" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
+    <line x1="0" y1="30" x2="195" y2="30" stroke="#18181b" stroke-width="1.8"/>
+    <text x="97" y="20" text-anchor="middle" fill="#18181b" font-size="11.5" font-weight="800">KAEF PLANNER</text>
+    
+    <text x="14" y="52" fill="#18181b" font-size="11" font-weight="700">CES Beam Search</text>
+    <text x="14" y="70" fill="#52525b" font-size="10.5">• Action trajectory planning</text>
+    <text x="14" y="86" fill="#52525b" font-size="10.5">• Lambda-consistent pruning</text>
+    
+    <text x="14" y="112" fill="#18181b" font-size="11" font-weight="700">Economic Valuation</text>
+    <text x="14" y="130" fill="#52525b" font-size="10.5">• MEC: Trajectory value-delta</text>
+    <text x="14" y="146" fill="#52525b" font-size="10.5">• ERM: Convex scarcity prices</text>
+    <text x="14" y="162" fill="#52525b" font-size="10.5">• CRF: p50/p90 forecast bands</text>
+    <text x="14" y="180" fill="#1971c2" font-size="10" font-weight="700">Closed-Loop Optimization</text>
   </g>
 
-  <!-- BOX 3: EMBER -->
-  <g transform="translate(525, 95)" filter="url(#softSketch)">
-    <rect width="215" height="215" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
-    <rect width="215" height="34" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
-    <line x1="0" y1="34" x2="215" y2="34" stroke="#18181b" stroke-width="1.8"/>
-    <text x="107" y="22" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800">EMBER MEMORY</text>
-    <text x="16" y="58" fill="#18181b" font-size="12" font-weight="700">Decoupled Tiers</text>
-    <text x="16" y="78" fill="#52525b" font-size="11">• Hot: Embed + Head RAM</text>
-    <text x="16" y="96" fill="#52525b" font-size="11">• Warm: Prefix Layers</text>
-    <text x="16" y="114" fill="#52525b" font-size="11">• Cold: NVMe Streamed</text>
-    <text x="16" y="142" fill="#18181b" font-size="12" font-weight="700">KV Management</text>
-    <text x="16" y="162" fill="#52525b" font-size="11">• Paged KV + INT8 Cache</text>
-    <text x="16" y="180" fill="#52525b" font-size="11">• O(1) Causal Rollback</text>
-    <text x="16" y="200" fill="#2f9e44" font-size="10.5" font-weight="700">Strict cgroup Safe</text>
+  <!-- Flow 2 -> 3 -->
+  <path d="M 485 313 L 515 313" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+
+  <!-- 3. LOOM STORAGE -->
+  <g transform="translate(520, 218)" filter="url(#softSketch)">
+    <rect width="195" height="190" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
+    <rect width="195" height="30" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
+    <line x1="0" y1="30" x2="195" y2="30" stroke="#18181b" stroke-width="1.8"/>
+    <text x="97" y="20" text-anchor="middle" fill="#18181b" font-size="11.5" font-weight="800">LOOM STORAGE</text>
+    
+    <text x="14" y="52" fill="#18181b" font-size="11" font-weight="700">Physical Coalescing</text>
+    <text x="14" y="70" fill="#52525b" font-size="10.5">• Execution-order layout</text>
+    <text x="14" y="86" fill="#52525b" font-size="10.5">• Zero random NVMe seeks</text>
+    <text x="14" y="102" fill="#52525b" font-size="10.5">• MoE Expert striping</text>
+    
+    <text x="14" y="128" fill="#18181b" font-size="11" font-weight="700">Direct Physical I/O</text>
+    <text x="14" y="146" fill="#52525b" font-size="10.5">• io_uring asynchronous DMA</text>
+    <text x="14" y="162" fill="#52525b" font-size="10.5">• O_DIRECT unbuffered reads</text>
+    <text x="14" y="180" fill="#e8590c" font-size="10" font-weight="700">Sequential Saturation</text>
   </g>
 
-  <!-- BOX 4: VECTOR ENGINE -->
-  <g transform="translate(775, 95)" filter="url(#softSketch)">
-    <rect width="200" height="215" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
-    <rect width="200" height="34" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
-    <line x1="0" y1="34" x2="200" y2="34" stroke="#18181b" stroke-width="1.8"/>
-    <text x="100" y="22" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800">VECTOR KERNELS</text>
-    <text x="16" y="58" fill="#18181b" font-size="12" font-weight="700">SIMD Execution</text>
-    <text x="16" y="78" fill="#52525b" font-size="11">• Chunked GEMM (K=4)</text>
-    <text x="16" y="96" fill="#52525b" font-size="11">• AVX-512 + ARM NEON</text>
-    <text x="16" y="114" fill="#52525b" font-size="11">• Dynamic Dequant</text>
-    <text x="16" y="142" fill="#18181b" font-size="12" font-weight="700">Attention &amp; MLP</text>
-    <text x="16" y="162" fill="#52525b" font-size="11">• Flash-Attention O(N)</text>
-    <text x="16" y="180" fill="#52525b" font-size="11">• Fused SwiGLU / SiLU</text>
-    <text x="16" y="200" fill="#2f9e44" font-size="10.5" font-weight="700">100% Bitwise Parity</text>
+  <!-- Flow 3 -> 4 -->
+  <path d="M 715 313 L 745 313" stroke="#e8590c" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+
+  <!-- 4. EMBER & VECTOR ENGINE -->
+  <g transform="translate(750, 218)" filter="url(#softSketch)">
+    <rect width="190" height="190" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
+    <rect width="190" height="30" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
+    <line x1="0" y1="30" x2="190" y2="30" stroke="#18181b" stroke-width="1.8"/>
+    <text x="95" y="20" text-anchor="middle" fill="#18181b" font-size="11.5" font-weight="800">EMBER &amp; VECTOR</text>
+    
+    <text x="14" y="52" fill="#18181b" font-size="11" font-weight="700">Tiered Fidelity</text>
+    <text x="14" y="70" fill="#52525b" font-size="10.5">• Hot resident skeleton</text>
+    <text x="14" y="86" fill="#52525b" font-size="10.5">• Speculative draft verification</text>
+    
+    <text x="14" y="112" fill="#18181b" font-size="11" font-weight="700">SIMD Vector Kernels</text>
+    <text x="14" y="130" fill="#52525b" font-size="10.5">• FMA matmul (Q4/Q8)</text>
+    <text x="14" y="146" fill="#52525b" font-size="10.5">• Flash-Attention O(N)</text>
+    <text x="14" y="162" fill="#52525b" font-size="10.5">• Fused SwiGLU / SiLU</text>
+    <text x="14" y="180" fill="#2f9e44" font-size="10" font-weight="700">100% Bitwise Parity</text>
   </g>
 
-  <!-- Bottom Enterprise Services Strip -->
-  <g transform="translate(25, 345)" filter="url(#softSketch)">
-    <rect width="950" height="155" rx="8" fill="#ffffff" stroke="#18181b" stroke-width="1.8"/>
-    <rect width="950" height="32" rx="8" fill="#f4f4f5" stroke="#18181b" stroke-width="1.8"/>
-    <line x1="0" y1="32" x2="950" y2="32" stroke="#18181b" stroke-width="1.8"/>
-    <text x="475" y="21" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800">PRODUCTION SERVICES &amp; PROTOCOL INTERFACES</text>
+  <!-- Connectors to NVMe Storage -->
+  <path d="M 617 408 L 617 448" stroke="#18181b" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="617,454 612,446 622,446" fill="#18181b"/>
 
-    <!-- Sub-boxes -->
-    <g transform="translate(20, 48)">
-      <rect width="290" height="92" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
-      <text x="14" y="24" fill="#1971c2" font-size="12" font-weight="700">OpenAI-Compatible HTTP API</text>
-      <text x="14" y="46" fill="#52525b" font-size="11">• SSE Streaming (/v1/chat)</text>
-      <text x="14" y="64" fill="#52525b" font-size="11">• Health &amp; Dynamic Metrics</text>
-      <text x="14" y="82" fill="#2f9e44" font-size="10.5" font-weight="600">Zero-downtime swap (&lt;1s)</text>
+  <!-- BOTTOM CARD: NVMe DIRECT STORAGE TIER -->
+  <g transform="translate(60, 460)" filter="url(#softSketch)">
+    <rect width="880" height="125" rx="10" fill="#ffffff" stroke="#18181b" stroke-width="2"/>
+    <rect width="880" height="28" rx="10" fill="#f4f4f5" stroke="#18181b" stroke-width="2"/>
+    <line x1="0" y1="28" x2="880" y2="28" stroke="#18181b" stroke-width="2"/>
+    <text x="440" y="19" text-anchor="middle" fill="#18181b" font-size="12" font-weight="800" letter-spacing="0.5">NVMe DIRECT STORAGE TIER (O_DIRECT / io_uring)</text>
+
+    <!-- Sub-tiers -->
+    <g transform="translate(25, 42)">
+      <rect width="250" height="66" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
+      <text x="14" y="20" fill="#1971c2" font-size="11.5" font-weight="700">High-Bandwidth NVMe Array</text>
+      <text x="14" y="38" fill="#52525b" font-size="10.5">• Gen4x4 / Gen5 (7.1+ GB/s DMA)</text>
+      <text x="14" y="54" fill="#2f9e44" font-size="10" font-weight="600">Zero host memory ballooning</text>
     </g>
 
-    <g transform="translate(330, 48)">
-      <rect width="290" height="92" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
-      <text x="14" y="24" fill="#e8590c" font-size="12" font-weight="700">Speculative Verification Core</text>
-      <text x="14" y="46" fill="#52525b" font-size="11">• K=4 Draft Token Batching</text>
-      <text x="14" y="64" fill="#52525b" font-size="11">• Causal KV Cache Rollback</text>
-      <text x="14" y="82" fill="#2f9e44" font-size="10.5" font-weight="600">&gt;= 2.18x target speedup</text>
+    <g transform="translate(300, 42)">
+      <rect width="280" height="66" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
+      <text x="14" y="20" fill="#e8590c" font-size="11.5" font-weight="700">MoE Expert Coalesced Layout</text>
+      <text x="14" y="38" fill="#52525b" font-size="10.5">• 8 of 64 experts activated per token</text>
+      <text x="14" y="54" fill="#2f9e44" font-size="10" font-weight="600">Transfers ~68 MB instead of 35 GB</text>
     </g>
 
-    <g transform="translate(640, 48)">
-      <rect width="290" height="92" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
-      <text x="14" y="24" fill="#2f9e44" font-size="12" font-weight="700">CLI &amp; Autonomous Telemetry</text>
-      <text x="14" y="46" fill="#52525b" font-size="11">• kura profile (JSON/Text)</text>
-      <text x="14" y="64" fill="#52525b" font-size="11">• kura plan --budget &lt;MB&gt;</text>
-      <text x="14" y="82" fill="#2f9e44" font-size="10.5" font-weight="600">Zero external telemetry</text>
+    <!-- Xiaohei #2: Operating the NVMe DMA streaming cart -->
+    <g transform="translate(680, 42)">
+      <rect width="175" height="66" rx="6" fill="#fafafa" stroke="#d4d4d8" stroke-width="1.2"/>
+      <!-- Xiaohei pulling cart -->
+      <g transform="translate(20, 10)">
+        <ellipse cx="14" cy="22" rx="8" ry="11" fill="#18181b"/>
+        <circle cx="14" cy="9" r="6" fill="#18181b"/>
+        <circle cx="12" cy="8" r="1.2" fill="#ffffff"/>
+        <circle cx="16" cy="8" r="1.2" fill="#ffffff"/>
+        <line x1="11" y1="33" x2="8" y2="44" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="17" y1="33" x2="20" y2="44" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- Rope / Arm -->
+        <path d="M 22 20 L 40 28" fill="none" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- Cart with weights -->
+        <rect x="42" y="16" width="30" height="18" rx="2" fill="#e8590c" stroke="#18181b" stroke-width="1.5"/>
+        <circle cx="48" cy="38" r="4" fill="#18181b"/>
+        <circle cx="66" cy="38" r="4" fill="#18181b"/>
+        <text x="80" y="24" fill="#e8590c" font-size="10" font-weight="800">Weights</text>
+        <text x="80" y="36" fill="#18181b" font-size="9" font-weight="600">7.1 GB/s</text>
+      </g>
     </g>
   </g>
 </svg>
