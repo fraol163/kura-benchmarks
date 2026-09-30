@@ -26,7 +26,7 @@
 
 - [What is Kura?](#-what-is-kura)
   - [The Problem: The Memory Wall](#the-problem-the-memory-wall)
-  - [The Kura Solution: Storage-Native Streaming](#the-kura-solution-storage-native-streaming)
+  - [The Kura Solution:- Storage-Native Streaming](#the-kura-solution-storage-native-streaming)
 - [Quick Installation](#-quick-installation)
   - [Linux & macOS (Terminal)](#linux--macos-terminal)
   - [Windows (PowerShell)](#windows-powershell)
