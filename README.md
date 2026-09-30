@@ -30,7 +30,6 @@
 - [Quick Installation](#-quick-installation)
   - [Linux & macOS (Terminal)](#linux--macos-terminal)
   - [Windows (PowerShell)](#windows-powershell)
-  - [Global npm Package (Cross-Platform)](#global-npm-package-all-operating-systems)
   - [Prebuilt Binary Releases](#prebuilt-binary-releases)
 - [Practical Usability: How Fast Does It Run?](#-practical-usability-how-fast-does-it-run)
   - [Throughput Classification Table](#throughput-classification-table)
@@ -111,21 +110,6 @@ powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/fra
 
 The PowerShell installer prepares the Kura runtime directories, downloads the precompiled 64-bit native binary (`kura.exe`), adds the binary directory to your User Environment `PATH`, and sets up direct storage execution.
 
-#### Global npm Package (All Operating Systems)
-
-```bash
-# Global installation via npm
-npm install -g kura-benchmarks
-
-# Run the hardware probe and interactive interface
-kura
-```
-
-Or run instantly with zero installation using npx:-
-
-```bash
-npx kura-benchmarks
-```
 
 #### Prebuilt Binary Releases
 
