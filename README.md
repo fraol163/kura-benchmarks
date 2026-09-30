@@ -3,7 +3,7 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣇
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⡇
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠷⢶⣤⣄⣀
-⣀⣤⣴⣤⡤⠀⠀⠀⠀⠀⢠⣤⣤⣦⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠃
+⣀⣤⣴⣤⡤⠀⠀⠀⠀⠀⢠⣤⣤⣦⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠃
 ⢭⣿⣿⣿⡗⠀⠀⠀⣠⣾⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⢀⣾⣿⠇
 ⡲⣿⣿⣿⡗⠀⣠⣾⣿⣿⡿⠋⠁⢸⣿⣿⠀⠀⠀⢘⣿⣿⠽⣿⣿⣰⣿⣿⣯⠀⠀⠀⣼⣿⣿⣶⣄
 ⣭⣿⣿⣿⣿⣾⣿⣿⣿⠋⠀⠀⠀⢸⣿⣿⠀⠀⠀⢘⡾⣕⢹⣪⢯⠋⠁⠀⠀⠀⠀⣼⣿⡿⠙⣿⣿⡆
@@ -79,8 +79,8 @@ Traditional LLM runtimes (like standard llama.cpp or vLLM) assume that the entir
 - If your computer has 8 GB of RAM and you try to run a 14 GB model, traditional software crashes immediately with an "Out of Memory" (OOM-killer) error.
 - If traditional software tries to use virtual memory mapping (mmap), the operating system freezes up and drops below 0.05 tokens per second because of continuous page thrashing.
 
-#### The Kura Solution: Storage-Native Streaming
-Kura solves this by treating your fast NVMe solid-state drive (SSD), your system RAM, and your CPU as one coordinated team:
+#### The Kura Solution:- Storage-Native Streaming
+Kura solves this by treating your fast NVMe solid-state drive (SSD), your system RAM, and your CPU as one coordinated team:-
 1. **Model Weights Live on Storage**: Instead of loading the whole 14 GB file into RAM, the model stays on your NVMe drive.
 2. **High-Speed Streaming**: While your CPU executes layer 1, Kura reads layer 2 from storage in the background. By the time layer 1 finishes, layer 2 is already waiting in memory.
 3. **Low RAM Footprint**: RAM is only used for the words you generate and the small layer currently being calculated. The engine never runs out of memory.
@@ -121,7 +121,7 @@ npm install -g kura-benchmarks
 kura
 ```
 
-Or run instantly with zero installation using npx:
+Or run instantly with zero installation using npx:-
 
 ```bash
 npx kura-benchmarks
@@ -139,7 +139,7 @@ Direct standalone archives are published for every major operating system:
 | **macOS** | Intel x86-64 | [`kura-darwin-x86_64.tar.gz`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-darwin-x86_64.tar.gz) |
 | **Windows** | x86-64 (`kura.exe`) | [`kura-windows-x86_64.zip`](https://github.com/fraol163/kura-benchmarks/releases/download/v1.0.0/kura-windows-x86_64.zip) |
 
-**Kura includes zero telemetry**: it never sends any analytics or phone-home data over the network.
+**Kura includes zero telemetry**:- it never sends any analytics or phone-home data over the network.
 
 
 ---
@@ -162,7 +162,7 @@ We tested Kura across multiple real-world models under strict memory limits enfo
 | **Qwen2.5 14B (Dense)** | 14.7 Billion | 0.18 tok/s | 0.42 tok/s | **1.15 tok/s** | **1.30 tok/s** | **7.20 tok/s** | **7.20 tok/s** | **7.20 tok/s** | ◈ **USEFUL**: Fully usable at 7.5 GB RAM and above |
 | **Llama-3.1 70B (Dense)** | 70.6 Billion | 0.034 tok/s | 0.045 tok/s | 0.058 tok/s | 0.062 tok/s | 0.082 tok/s | 0.105 tok/s | **2.10 tok/s** | ▫ **STORAGE BOUND**: Single SSD; requires multi-drive array for 1.0+ tok/s under 8 GB RAM |
 
-*Usability categories: USEFUL (1.0 or more tokens/sec: readable speech/text speed), TOLERABLE (0.1 to 1.0 tokens/sec), STORAGE BOUND (under 0.1 tokens/sec).*
+*Usability categories: USEFUL (1.0 or more tokens/sec:- readable speech/text speed), TOLERABLE (0.1 to 1.0 tokens/sec), STORAGE BOUND (under 0.1 tokens/sec).*
 
 ---
 
@@ -174,7 +174,7 @@ Why does OLMoE 1B-7B run at **15.2 tokens per second** on an entry-level \$80 SS
 \text{Throughput}_{\text{MoE}} \approx \frac{\text{NVMe Bandwidth}}{\text{Active Weights per Token}}
 ```
 
-Sparse Mixture-of-Experts (MoE) models are made of many smaller specialized "experts". For every word generated:
+Sparse Mixture-of-Experts (MoE) models are made of many smaller specialized "experts". For every word generated:-
 - Dense models must read **100% of their weights** from the disk.
 - Sparse MoE models only activate a tiny fraction of their experts. OLMoE activates only 8 out of 64 experts per token.
 
@@ -188,18 +188,18 @@ Because Kura only reads the active experts, it transfers only **68 megabytes per
 
 ### ◈ Why Kura Works: The Ablation Ladder
 
-Kura achieves high throughput because its six core subsystems work together in harmony. If you remove even one layer, performance drops significantly:
+Kura achieves high throughput because its six core subsystems work together in harmony. If you remove even one layer, performance drops significantly:-
 
 <div align="center">
   <img src="benchmarks/svg/ablation_ladder.svg" alt="Kura Ablation Ladder" width="100%"/>
 </div>
 
-1. **LOOM File Reorganization (+9.5% gain)**: Arranges weights in exact forward-pass order on disk. This completely eliminates random disk seeks and converts reading into smooth, continuous streaming.
-2. **Prefetch Lookahead (+70.5% gain)**: Uses background worker threads to load upcoming layers ahead of time, achieving a 99.2% overlap between disk reading and CPU compute.
-3. **Flash-Attention (+24.8% gain)**: Calculates attention without saving massive intermediate matrices, keeping memory usage small and constant.
-4. **EMBER Tiered Memory (+10.6% gain)**: Keeps critical input and output layers permanently in RAM while smoothly streaming middle layers.
-5. **Vectorized Math Kernels (+9.8% gain)**: Uses hand-tuned AVX-512 (Intel/AMD) and NEON (Apple Silicon) vector instructions for rapid computation.
-6. **Chunked Speculative Verification (+40.5% gain)**: Checks multiple candidate words at the same time, giving a 2.18x verification speedup with 100% bitwise token parity.
+1. **LOOM File Reorganization (+9.5% gain)**:- Arranges weights in exact forward-pass order on disk. This completely eliminates random disk seeks and converts reading into smooth, continuous streaming.
+2. **Prefetch Lookahead (+70.5% gain)**:- Uses background worker threads to load upcoming layers ahead of time, achieving a 99.2% overlap between disk reading and CPU compute.
+3. **Flash-Attention (+24.8% gain)**:- Calculates attention without saving massive intermediate matrices, keeping memory usage small and constant.
+4. **EMBER Tiered Memory (+10.6% gain)**:- Keeps critical input and output layers permanently in RAM while smoothly streaming middle layers.
+5. **Vectorized Math Kernels (+9.8% gain)**:- Uses hand-tuned AVX-512 (Intel/AMD) and NEON (Apple Silicon) vector instructions for rapid computation.
+6. **Chunked Speculative Verification (+40.5% gain)**:- Checks multiple candidate words at the same time, giving a 2.18x verification speedup with 100% bitwise token parity.
 
 Together, these layers produce a **+298% cumulative speedup** over simple unbuffered direct I/O.
 
@@ -210,8 +210,8 @@ Together, these layers produce a **+298% cumulative speedup** over simple unbuff
 Many LLM engines crash when given long prompts (like long books or legal contracts) because memory usage explodes quadratically with the length of the document.
 
 Kura implements vectorized Flash-Attention with constant-memory chunking:
-- **Standard Attention**: Memory grows quadratically (O(N^2)) and crashes with an out-of-memory error at 4,096 tokens.
-- **Kura Flash-Attention**: Memory scales strictly linearly (O(N)). Even at 32,768 tokens, peak memory remains safely below 6.6 GB, preserving generous headroom under your RAM limit.
+- **Standard Attention**:- Memory grows quadratically (O(N^2)) and crashes with an out-of-memory error at 4,096 tokens.
+- **Kura Flash-Attention**:- Memory scales strictly linearly (O(N)). Even at 32,768 tokens, peak memory remains safely below 6.6 GB, preserving generous headroom under your RAM limit.
 
 <div align="center">
   <img src="benchmarks/svg/context_length_scaling.svg" alt="Context Length Scaling" width="100%"/>
@@ -219,14 +219,14 @@ Kura implements vectorized Flash-Attention with constant-memory chunking:
 
 ---
 
-### ◈ LOOM Physical Coalescing: Random Seeks vs Sequential DMA
+### ◈ LOOM Physical Coalescing:- Random Seeks vs Sequential DMA
 
 Standard LLM runtimes read model weights using unbuffered scatter-gather reads, causing severe storage head seek contention on NVMe SSDs and capping read bandwidth at only ~420 MB/s.
 
 LOOM solves this by pre-ordering model tensors into exact forward-pass execution sequence on disk:
-- **-69% Random Seek Reduction**: Eliminates 4KB random head seeks, converting them into coalesced 64KB to 2MB physical sequential reads.
-- **6,850 MB/s Bus Saturation**: Fully saturates PCIe 4.0 NVMe physical read bandwidth via asynchronous `io_uring` and unbuffered `O_DIRECT`.
-- **99.2% Prefetch Overlap**: Layer prefetching happens entirely in the background while SIMD kernels execute previous layer compute.
+- **-69% Random Seek Reduction**:- Eliminates 4KB random head seeks, converting them into coalesced 64KB to 2MB physical sequential reads.
+- **6,850 MB/s Bus Saturation**:- Fully saturates PCIe 4.0 NVMe physical read bandwidth via asynchronous `io_uring` and unbuffered `O_DIRECT`.
+- **99.2% Prefetch Overlap**:- Layer prefetching happens entirely in the background while SIMD kernels execute previous layer compute.
 
 <div align="center">
   <img src="benchmarks/svg/loom_io_coalescing.svg" alt="LOOM Physical Coalescing" width="100%"/>
@@ -234,7 +234,7 @@ LOOM solves this by pre-ordering model tensors into exact forward-pass execution
 
 ---
 
-### ◈ Speculative Verification: Chunked GEMM Acceleration
+### ◈ Speculative Verification:- Chunked GEMM Acceleration
 
 When generating tokens with speculative decoding, verifying candidate draft tokens sequentially introduces CPU compute bottlenecks.
 
@@ -251,16 +251,16 @@ Kura implements vectorized Chunked GEMM verification combined with the Atlas Mar
 
 ### ◈ Empirical Benchmark Verification (Zero Hallucination Guarantee)
 
-Every number, throughput metric, and memory limit published in this repository is measured directly from real hardware execution. Kura enforces a strict zero-hallucination policy:
+Every number, throughput metric, and memory limit published in this repository is measured directly from real hardware execution. Kura enforces a strict zero-hallucination policy:-
 
-- **Real Hardware Testbed**: Benchmarks were executed on an Intel Xeon w5-3425 workstation (12 physical cores, 24 threads, AVX-512 vector units), standard Samsung 990 Pro PCIe 4.0 NVMe SSD, and verified for 100% bitwise parity on Apple Silicon M-series ARM NEON.
-- **Operating System Memory Enforcement**: Memory limits were physically constrained using Linux kernel control groups (cgroup v2) with swap completely disabled (`MemoryMax=7500M`, `MemorySwapMax=0`). When a system exceeds this limit, the Linux kernel terminates the process immediately. Kura completed all runs with zero crashes and zero swap thrashing.
-- **Real GGUF Weights**: Measurements use real quantized model weights (Q4_K_M quantization) for OLMoE-1B-7B, Qwen2.5 (1.5B, 7B, 14B), and LLaMA-3.1 70B.
-- **Verifiable Raw Data**: The exact machine-readable outputs for every run are preserved in `benchmarks/results/practical_throughput_matrix.json`, `benchmarks/results/phase32_final_optimizations.json`, and `benchmarks/results/phase30_arm_neon_parity.json`.
+- **Real Hardware Testbed**:- Benchmarks were executed on an Intel Xeon w5-3425 workstation (12 physical cores, 24 threads, AVX-512 vector units), standard Samsung 990 Pro PCIe 4.0 NVMe SSD, and verified for 100% bitwise parity on Apple Silicon M-series ARM NEON.
+- **Operating System Memory Enforcement**:- Memory limits were physically constrained using Linux kernel control groups (cgroup v2) with swap completely disabled (`MemoryMax=7500M`, `MemorySwapMax=0`). When a system exceeds this limit, the Linux kernel terminates the process immediately. Kura completed all runs with zero crashes and zero swap thrashing.
+- **Real GGUF Weights**:- Measurements use real quantized model weights (Q4_K_M quantization) for OLMoE-1B-7B, Qwen2.5 (1.5B, 7B, 14B), and LLaMA-3.1 70B.
+- **Verifiable Raw Data**:- The exact machine-readable outputs for every run are preserved in `benchmarks/results/practical_throughput_matrix.json`, `benchmarks/results/phase32_final_optimizations.json`, and `benchmarks/results/phase30_arm_neon_parity.json`.
 
 ---
 
-### ◈ Complete Command Guide: How to Use Kura
+### ◈ Complete Command Guide:- How to Use Kura
 
 Kura provides a complete set of commands for interactive usage, local chat, automated serving, and performance diagnosis.
 
@@ -271,9 +271,9 @@ Launch the full terminal interface to chat, monitor hardware, and manage models 
 kura tui
 ```
 
-- **Welcome & Activation**: Start a 15-day free trial instantly or choose a flexible access package.
-- **Payment Integration**: Supports dual currency billing (USD and ETB) with instant mobile verification (Telebirr, Commercial Bank of Ethiopia, Dashen Bank).
-- **Navigation Shortcuts**:
+- **Welcome & Activation**:- Start a 15-day free trial instantly or choose a flexible access package.
+- **Payment Integration**:- Supports dual currency billing (USD and ETB) with instant mobile verification (Telebirr, Commercial Bank of Ethiopia, Dashen Bank).
+- **Navigation Shortcuts**:-
   - `m` : Open Model Browser to view and load local models.
   - `c` : Open Chat window for live conversation with streaming words.
   - `n` : Open Live Monitor showing real-time CPU, RAM, NVMe read speed, and tokens per second.
@@ -282,7 +282,7 @@ kura tui
   - `q` : Exit the interface cleanly.
 
 #### 2. Direct Model Execution (`kura run`)
-Generate text directly from your terminal using a local GGUF model file:
+Generate text directly from your terminal using a local GGUF model file:-
 
 ```bash
 # Basic run with default 8 GB RAM budget
@@ -316,7 +316,7 @@ Run Kura as a background service that any existing AI application or web UI can 
 kura serve --model ./models/olmoe-1b-7b-q4_k_m.gguf --port 8080 --memory-budget 8G --threads 8
 ```
 
-Connect using standard curl, Python, or JavaScript:
+Connect using standard curl, Python, or JavaScript:-
 
 ```bash
 curl http://127.0.0.1:8080/v1/chat/completions \
@@ -330,7 +330,7 @@ curl http://127.0.0.1:8080/v1/chat/completions \
   }'
 ```
 
-Available Endpoints:
+Available Endpoints:-
 - `POST /v1/chat/completions` : Stream live chat responses (Server-Sent Events).
 - `POST /v1/completions` : Text completion for code editors and scripts.
 - `GET /health` : Check service health, uptime, and current RAM usage.
@@ -351,7 +351,7 @@ kura profile --json
 kura profile ./models/qwen2.5-7b-q4_k_m.gguf --run --ram-budget 8G
 ```
 
-What it reports:
+What it reports:-
 - CPU model name, physical cores, and logical threads.
 - Vector instruction set support: AVX-512, AVX2, SSE4.2, and ARM NEON.
 - Total RAM, available RAM, and swap partition status.
@@ -365,14 +365,14 @@ See how Kura divides layers between RAM and storage before running a model:
 kura plan --model ./models/qwen2.5-7b-q4_k_m.gguf --budget 8G --workload chat
 ```
 
-Output shows:
+Output shows:-
 - Resident layers: Layers kept permanently in fast memory.
 - Streaming layers: Layers streamed from storage on demand.
 - Lookahead window: Prefetch depth (W=1 for compute bound, W=2 for balanced, W=3 for storage bound).
 - Memory breakdown: Bytes reserved for weights, KV cache, and working activations.
 
 #### 6. Performance Benchmarking (`kura benchmark`)
-Measure real token speeds and disk transfer efficiency:
+Measure real token speeds and disk transfer efficiency:-
 
 ```bash
 # Run 64-token benchmark under 8 GB RAM limit
@@ -382,7 +382,7 @@ kura benchmark ./models/olmoe-1b-7b-q4_k_m.gguf --ram-budget 8G --tokens 64
 kura benchmark ./models/qwen2.5-7b-q4_k_m.gguf --ram-budget 8G --phases
 ```
 
-Key Metrics Reported:
+Key Metrics Reported:-
 - `tokens_per_s`: Steady-state word generation speed.
 - `ttft_ms`: Time-To-First-Token in milliseconds (how fast the model starts answering).
 - `storage_amplification`: Ratio of bytes read from disk compared to actual model size (lower is better).
@@ -395,7 +395,7 @@ Check whether your computer is configured properly for high-speed streaming:
 kura doctor --models-dir ./models
 ```
 
-Checks performed:
+Checks performed:-
 - Linux kernel version and asynchronous I/O support (io_uring).
 - Active swap usage (warns if swap is active because swap slows down LLMs).
 - NVMe storage driver type and disk scheduler configuration.
@@ -469,7 +469,7 @@ kura locality ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 400
 kura locality ./models/olmoe-1b-7b-q4_k_m.gguf --tokens 400 --json
 ```
 
-Measures:
+Measures:-
 - Expert activation frequency: Identifies which experts are used most frequently.
 - Coverage curves: Shows how many total experts are touched across different prompts.
 - Working set stability: Predicts how many experts need to be cached in RAM for smooth execution.
@@ -485,7 +485,7 @@ kura graph ./models/olmoe-1b-7b-q4_k_m.gguf --budgets 512K,1M,2M,4M --out sweep.
 Generates an ASCII summary table and an optional SVG chart showing how cache hit rate scales with available memory.
 
 #### 15. Synthetic Workload Generator (`kura synth`)
-Generate synthetic model files to benchmark storage hardware without downloading large models:
+Generate synthetic model files to benchmark storage hardware without downloading large models:-
 
 ```bash
 # Create a synthetic MoE model file for testing disk read speed
@@ -495,7 +495,7 @@ kura synth ./synth-moe.gguf --layers 4 --experts 8 --top-k 2 --hidden 256
 Allows developers and researchers to verify that their NVMe drive and Linux kernel io_uring setup are working properly.
 
 #### 16. Task Capsules (`kura capsule`)
-Bundle and manage task-specific prompts, adapters, and memory settings together:
+Bundle and manage task-specific prompts, adapters, and memory settings together:-
 
 ```bash
 # List all saved task capsules
@@ -503,7 +503,7 @@ kura capsule list
 ```
 
 #### 17. LoRA Adapter Fabric (`kura adapters`)
-Attach fine-tuned LoRA adapters to base models on the fly:
+Attach fine-tuned LoRA adapters to base models on the fly:-
 
 ```bash
 # List loaded LoRA adapters
@@ -517,7 +517,7 @@ kura adapters remove medical-specialist
 ```
 
 #### 18. Session Hibernation (`kura session`)
-Save and resume active chat sessions without losing context or KV cache history:
+Save and resume active chat sessions without losing context or KV cache history:-
 
 ```bash
 # Save current active conversation state to disk
@@ -531,7 +531,7 @@ kura session resume my-research-session
 ```
 
 #### 19. Vocabulary Intelligence (`kura vocab`)
-Inspect and optimize tokenizer vocabulary coverage:
+Inspect and optimize tokenizer vocabulary coverage:-
 
 ```bash
 # Check how efficiently the tokenizer covers a target dataset
@@ -572,7 +572,7 @@ kura heatmap inspect ./models/olmoe-1b-7b-q4_k_m.heatmap.json
 ```
 
 #### 23. Placement & Tuning Planner (`kura tune`)
-Plan automated layer placement for fine-tuning workloads:
+Plan automated layer placement for fine-tuning workloads:-
 
 ```bash
 # Validate dataset format and schema
@@ -583,7 +583,7 @@ kura tune placement --layers 16 --ram-budget 8G
 ```
 
 #### 24. Scientific Experiment Suite (`kura esuite` & `kura bench`)
-Execute automated verification suites and hardware preflight checks:
+Execute automated verification suites and hardware preflight checks:-
 
 ```bash
 # Check hardware configuration and kernel prerequisites
@@ -618,7 +618,7 @@ kura-benchmarks/
 
 ### ◈ Peer Review & Citation
 
-To cite the Kura architecture or benchmark data in academic research, please reference:
+To cite the Kura architecture or benchmark data in academic research, please reference:-
 
 ```bibtex
 @article{kura2026storagenative,
