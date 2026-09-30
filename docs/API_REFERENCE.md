@@ -1,8 +1,8 @@
 # Kura Production API Reference
 
-**Runtime Version**: `v0.1.0`  
-**Protocol Compliance**: OpenAI API Specification (`v1`), Server-Sent Events (SSE, RFC 8895), Prometheus Exposition (`v0.0.4`)  
-**Architecture Target**: Storage-Native High-Throughput Inference Engine
+**Runtime Version**:- `v0.1.0`  
+**Protocol Compliance**:- OpenAI API Specification (`v1`), Server-Sent Events (SSE, RFC 8895), Prometheus Exposition (`v0.0.4`)  
+**Architecture Target**:- Storage-Native High-Throughput Inference Engine
 
 ---
 
@@ -11,12 +11,12 @@
 Kura exposes a production-ready HTTP server engineered for low-latency, memory-constrained inference over local storage. The server provides 100% drop-in API compatibility with the OpenAI SDK and ecosystem tools, enabling seamless integration into existing AI applications, agent frameworks, and monitoring pipelines.
 
 ### Key Capabilities
-- **OpenAI Compatible**: Native support for `/v1/completions`, `/v1/chat/completions`, and `/v1/models`.
-- **Zero-Allocation SSE Streaming**: Token-by-token streaming with Server-Sent Events (`stream: true`), unblocking frontend token display.
-- **Enterprise Telemetry**: Production `/health` endpoint for Kubernetes/systemd liveness probes and Prometheus `/metrics` exposition for Grafana dashboards.
-- **Transient Error Resilience**: Automated 3-retry exponential backoff on storage reads (`pread64`), eliminating transient kernel I/O drops.
-- **Memory Pressure Protection**: Autonomous force-eviction of Cold/Warm weight tiers when RSS >= 95% of cgroup limit, preventing OOM kills.
-- **Graceful Draining & Shutdown**: Signal listeners (`SIGTERM`, `SIGINT`) that stop accepting traffic, drain in-flight requests within a 10s deadline, flush metrics, and unmap staging buffers cleanly.
+- **OpenAI Compatible**:- Native support for `/v1/completions`, `/v1/chat/completions`, and `/v1/models`.
+- **Zero-Allocation SSE Streaming**:- Token-by-token streaming with Server-Sent Events (`stream: true`), unblocking frontend token display.
+- **Enterprise Telemetry**:- Production `/health` endpoint for Kubernetes/systemd liveness probes and Prometheus `/metrics` exposition for Grafana dashboards.
+- **Transient Error Resilience**:- Automated 3-retry exponential backoff on storage reads (`pread64`), eliminating transient kernel I/O drops.
+- **Memory Pressure Protection**:- Autonomous force-eviction of Cold/Warm weight tiers when RSS >= 95% of cgroup limit, preventing OOM kills.
+- **Graceful Draining & Shutdown**:- Signal listeners (`SIGTERM`, `SIGINT`) that stop accepting traffic, drain in-flight requests within a 10s deadline, flush metrics, and unmap staging buffers cleanly.
 
 ---
 
@@ -465,22 +465,22 @@ PREFETCH & KV POLICY
 
 ## 5. Error Recovery Specifications
 
-Kura implements fault tolerance at the storage and memory boundaries:
+Kura implements fault tolerance at the storage and memory boundaries:-
 
 ### 5.1. Storage Read Retry with Exponential Backoff
-All weight reads (`pread64`) are protected against transient kernel I/O pressure:
+All weight reads (`pread64`) are protected against transient kernel I/O pressure:-
 - If a read returns `EAGAIN`, `EINTR`, `EIO`, `WouldBlock`, or `TimedOut`, Kura automatically retries up to **3 times** with exponential backoff (1 ms -> 2 ms -> 4 ms).
 - Persistent failures after 3 attempts return a clear `500 Internal Server Error` without terminating the process or corrupting the global state.
 
 ### 5.2. Memory Pressure Eviction (MPE)
-To guarantee zero Out-Of-Memory (OOM) kills under strict cgroup limits:
+To guarantee zero Out-Of-Memory (OOM) kills under strict cgroup limits:-
 - Prior to and during layer execution, the engine inspects current RSS against the cgroup memory limit (`/sys/fs/cgroup/memory.current` vs `memory.max`).
 - When Usage / Limit >= 0.95 (95%), the engine automatically force-evicts all Cold and Warm cached weight tensors.
 - The Hot tier (critical transformer backbone and vocabulary embeddings) is preserved, avoiding swap thrashing and keeping inference operational.
 
 ### 5.3. Graceful Draining & Shutdown
-When receiving a termination signal (`SIGINT` / `SIGTERM`):
-1. **Traffic Gate Closed**: The HTTP listener stops accepting new connections immediately.
-2. **Active Request Drain**: In-flight completions are allowed to finish decoding (timeout: 10 seconds).
-3. **Telemetry Flush**: Prometheus counters and access logs are flushed to disk.
-4. **Clean Resource Deallocation**: Staging arenas are unmapped and file descriptors are closed safely before process exit code 0.
+When receiving a termination signal (`SIGINT` / `SIGTERM`):-
+1. **Traffic Gate Closed**:- The HTTP listener stops accepting new connections immediately.
+2. **Active Request Drain**:- In-flight completions are allowed to finish decoding (timeout: 10 seconds).
+3. **Telemetry Flush**:- Prometheus counters and access logs are flushed to disk.
+4. **Clean Resource Deallocation**:- Staging arenas are unmapped and file descriptors are closed safely before process exit code 0.
