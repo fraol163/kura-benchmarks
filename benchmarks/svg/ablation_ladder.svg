@@ -56,8 +56,8 @@
     <!-- Rung 6: Chunked GEMM Speculative -->
     <g transform="translate(0, 288)">
       <text x="210" y="20" text-anchor="end" fill="#18181b" font-size="12" font-weight="800">+ Chunked GEMM Speculative (K=4)</text>
-      <rect x="230" y="5" width="398" height="22" rx="4" fill="#8ce99a" stroke="#2b8a3e" stroke-width="2"/>
-      <text x="638" y="21" fill="#237032" font-size="13" font-weight="800">0.215 tok/s (3.98x total speedup)</text>
+      <rect x="230" y="5" width="310" height="22" rx="4" fill="#8ce99a" stroke="#2b8a3e" stroke-width="2"/>
+      <text x="550" y="21" fill="#237032" font-size="13" font-weight="800">0.168 tok/s (3.10x total speedup, +9.7% gain)</text>
     </g>
   </g>
 

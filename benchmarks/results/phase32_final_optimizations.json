@@ -6,7 +6,7 @@
     "draft_tokens_evaluated": 4,
     "serial_verification_ms": 236.017267,
     "chunked_verification_ms": 215.09224,
-    "measured_speedup": 2.18,
+    "measured_speedup": 1.10,
     "target_speedup": 2.0,
     "token_parity_pct": 100.0,
     "status": "VERIFIED_ADOPTED"

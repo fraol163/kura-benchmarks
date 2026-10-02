@@ -183,9 +183,9 @@ Kura achieves high throughput because its six core subsystems work together in h
 3. **Flash-Attention (+24.8% gain)**:- Calculates attention without saving massive intermediate matrices, keeping memory usage small and constant.
 4. **EMBER Tiered Memory (+10.6% gain)**:- Keeps critical input and output layers permanently in RAM while smoothly streaming middle layers.
 5. **Vectorized Math Kernels (+9.8% gain)**:- Uses hand-tuned AVX-512 (Intel/AMD) and NEON (Apple Silicon) vector instructions for rapid computation.
-6. **Chunked Speculative Verification (+40.5% gain)**:- Checks multiple candidate words at the same time, giving a 2.18x verification speedup with 100% bitwise token parity.
+6. **Chunked Speculative Verification (+9.7% gain)**:- Evaluates candidate token windows in chunks, achieving a 1.10x verification speedup (236.02 ms vs 215.09 ms) with 100% bitwise token parity.
 
-Together, these layers produce a **+298% cumulative speedup** over simple unbuffered direct I/O.
+Together, these layers produce a **+210% cumulative speedup** (3.10x) over simple unbuffered direct I/O.
 
 ---
 
@@ -223,7 +223,7 @@ LOOM solves this by pre-ordering model tensors into exact forward-pass execution
 When generating tokens with speculative decoding, verifying candidate draft tokens sequentially introduces CPU compute bottlenecks.
 
 Kura implements vectorized Chunked GEMM verification combined with the Atlas Markov prefetch predictor:
-- **2.18x Verification Speedup**: Verifies candidate token windows (up to K=4) simultaneously in a single chunked matrix multiplication pass.
+- **1.10x Verification Speedup**: Verifies candidate token windows (up to K=4) simultaneously in a single chunked matrix multiplication pass (215.09 ms vs 236.02 ms sequential pass).
 - **100% Bitwise Parity**: Guaranteed exact mathematical token parity against sequential autoregressive execution, with zero divergence.
 - **98.4% Cache Hit Rate**: The Atlas Markov predictor achieves 98.4% accuracy across conversational and coding workloads, eliminating I/O pipeline stalls.
 

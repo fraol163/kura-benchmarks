@@ -142,7 +142,7 @@ Two-Model Speculative Acc: [█████████████████�
 2. **KAEF Lookahead (Confirmed Rejected):** Predictive AIO lookahead saturated the storage controller, collapsing decode speed by -95.4% down to 0.702 tok/s. Reactive LRU is strictly superior.
 3. **Atlas Batched Execution (Adopted for Serving):** Coordinated shared I/O across concurrent tokens (B=1..8), reaching **74.90% route reuse**, reducing per-token I/O by 3.98x (from 487.6 to 122.5 MB/tok), and scaling throughput to **6.36 tok/s**.
 4. **Conservative Early-Exit (Confirmed Rejected):** Intermediate hidden states lack calibrated vocabulary probabilities. At P >= 0.999, 0 exits occur; at lower thresholds, token parity degrades to 80.0%, failing the 99.9% gate.
-5. **Two-Model Speculative Decoding (Adopted with Chunked GEMM):** Achieved **75.0% acceptance rate** with 100% token parity between 1.5B draft and 14B target, achieving a **2.18x verification speedup** with batched chunked GEMM verification.
+5. **Two-Model Speculative Decoding (Adopted with Chunked GEMM):** Achieved **75.0% acceptance rate** with 100% token parity between 1.5B draft and 14B target, achieving a **1.10x verification speedup** (236.02 ms vs 215.09 ms) with batched chunked GEMM verification.
 
 ---
 
@@ -233,7 +233,7 @@ benchmarks/
 ## 9. Physical Boundaries & Subsystem Milestones
 
 1. **Dense 70B Consumer Physical Boundary:** Running Dense 70B at conversational speeds (>= 1.0 tok/s) on consumer PCs with <= 16 GB RAM is physically constrained on a single NVMe drive by the 36.5 GB/token storage bus transfer limit. Users must deploy multi-drive NVMe RAID-0 arrays or switch to Sparse MoE.
-2. **Chunked Speculative Verification (Phase 32):** Speculative draft verification with fused chunked GEMMs achieved a **2.18x verification speedup** with 100% token sequence parity (recorded in `phase32_final_optimizations.json`).
+2. **Chunked Speculative Verification (Phase 32):** Speculative draft verification with fused chunked GEMMs achieved a **1.10x verification speedup** (236.02 ms vs 215.09 ms) with 100% token sequence parity (recorded in `phase32_final_optimizations.json`).
 3. **Cross-Platform Vectorization (Phase 30):** Hand-tuned ARM NEON intrinsics for Apple Silicon M-series were integrated and verified with **100% bitwise parity** against x86-64 AVX-512 kernels (recorded in `phase30_arm_neon_parity.json`).
 4. **Production Server & TUI Deployment (Phases 33 & 34):** OpenAI-compatible HTTP inference service with SSE streaming (`kura serve`) and interactive terminal user interface (`kura tui`) are fully implemented and verified.
 
