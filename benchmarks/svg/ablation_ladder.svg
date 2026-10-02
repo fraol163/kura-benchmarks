@@ -4,9 +4,9 @@
   <text x="500" y="62" text-anchor="middle" fill="#71717a" font-size="13">Marginal Throughput Gain of Each Subsystem Measured on Qwen2.5-14B (7.5 GB RAM Ceiling)</text>
 
   <!-- Total Summary Badge -->
-  <g transform="translate(730, 20)">
-    <rect width="210" height="42" rx="6" fill="#ebfbee" stroke="#2f9e44" stroke-width="1.8"/>
-    <text x="105" y="26" text-anchor="middle" fill="#2b8a3e" font-size="14" font-weight="800">+298% TOTAL SPEEDUP</text>
+  <g transform="translate(710, 20)">
+    <rect width="250" height="42" rx="6" fill="#ebfbee" stroke="#2f9e44" stroke-width="1.8"/>
+    <text x="125" y="26" text-anchor="middle" fill="#2b8a3e" font-size="14" font-weight="800">+210% TOTAL SPEEDUP (3.10x)</text>
   </g>
 
   <!-- Horizontal Bars Container -->

@@ -73,7 +73,7 @@ Kura utilizes Linux `io_uring` and multi-threaded asynchronous `pread` pipelines
 - Staging buffers are pre-allocated and page-locked, avoiding runtime memory allocations in the decode critical path.
 
 ### 2.5 VECTOR KERNELS:- High-Performance SIMD Dispatch
-- **Chunked GEMM Speculative Verification:** Evaluates K=4 draft tokens simultaneously in batched GEMMs, dequantizing model weights once for all draft candidates and achieving >= 2.18x verification speedup with 100% token sequence parity.
+- **Chunked GEMM Speculative Verification:** Evaluates K=4 draft tokens simultaneously in batched GEMMs, dequantizing model weights once for all draft candidates and achieving 1.10x verification speedup (236.02 ms down to 215.09 ms, +9.7% gain) with 100% token sequence parity.
 - **Cross-Platform Bitwise Parity:-** Hand-tuned AVX-512 FMA and ARM NEON intrinsics for `Q4_K`, `Q5_K`, `Q6_K`, and `Q8_0` formats, guaranteeing exact identical logits across x86-64 and ARM64 Apple Silicon.
 - **Flash-Attention:-** Causal chunked attention scaling with linear O(N) memory complexity.
 
