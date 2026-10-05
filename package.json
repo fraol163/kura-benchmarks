@@ -1,6 +1,6 @@
 {
   "name": "kura-benchmarks",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Storage-Native Decoupled LLM Inference Engine & Benchmark Reproduction Suite",
   "main": "bin/install.js",
   "bin": {
