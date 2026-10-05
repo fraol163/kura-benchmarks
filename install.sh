@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Kura Storage-Native Decoupled Inference Engine Bootstrap Installer
 #
-# Inspired by and adapting the stage protocol, logged child execution,
-# sha256 artifact verification, and robust shell path wiring from Hermes Agent.
-#
 # Supported Usage:
 #   curl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash
 #   ./install.sh [--dir PATH] [--kura-home PATH] [--stage NAME] [--manifest] [--json] [--non-interactive] [--verbose]
@@ -58,8 +55,6 @@ LOG_DIR="$KURA_HOME/logs"
 MODELS_DIR="$KURA_HOME/models"
 INSTALL_LOG="$LOG_DIR/install.log"
 
-KURA_PIN_VERSION="1.0.0"
-
 # Color styling for terminals
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
     C_RED=$'\033[0;31m'
@@ -80,7 +75,38 @@ log_warn() { printf '%s▫%s %s\n' "$C_YELLOW" "$C_NC" "$1"; }
 log_error() { printf '%s✗%s %s\n' "$C_RED" "$C_NC" "$1" >&2; }
 fail() { STAGE_REASON="$1"; log_error "$1"; exit 1; }
 
+detect_latest_tag() {
+    if [ -n "${KURA_VERSION:-}" ]; then
+        local user_tag="$KURA_VERSION"
+        [[ "$user_tag" == v* ]] || user_tag="v$user_tag"
+        echo "$user_tag"
+        return 0
+    fi
+
+    local tag=""
+    # 1. Query GitHub releases/latest API endpoint
+    tag="$(curl -fsSL -H "User-Agent: Kura-Installer" "https://api.github.com/repos/fraol163/kura-benchmarks/releases/latest" 2>/dev/null | grep -m1 '"tag_name":' | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/' || true)"
+
+    # 2. Fallback to GitHub releases API list
+    if [ -z "$tag" ]; then
+        tag="$(curl -fsSL -H "User-Agent: Kura-Installer" "https://api.github.com/repos/fraol163/kura-benchmarks/releases" 2>/dev/null | grep -m1 '"tag_name":' | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/' || true)"
+    fi
+
+    # 3. Fallback to git remote tags
+    if [ -z "$tag" ] && command -v git >/dev/null 2>&1; then
+        tag="$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/fraol163/kura-benchmarks.git 2>/dev/null | grep -o 'refs/tags/v[0-9].*' | sed 's|refs/tags/||' | tail -n1 || true)"
+    fi
+
+    # 4. Safe baseline fallback
+    if [ -z "$tag" ]; then
+        tag="v0.5.0"
+    fi
+    echo "$tag"
+}
+
 print_banner() {
+    local tag
+    tag="$(detect_latest_tag)"
     printf '\n%s%s' "$C_CYAN" "$C_BOLD"
     printf '%s\n' "  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣇⠀⠀⠀⠀⠀⠀"
     printf '%s\n' "  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⡇⠀⠀⠀⠀⠀⠀"
@@ -95,7 +121,7 @@ print_banner() {
     printf '%s\n' "  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠉⠉⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁"
     printf '%s\n' "=================================================================================="
     printf '%s\n' "                   STORAGE-NATIVE DECOUPLED INFERENCE ENGINE"
-    printf '%s\n' "               Proprietary Release v1.0.0 : Zero-Telemetry Verified"
+    printf '%s\n' "               Production Release ${tag} : Zero-Telemetry Verified"
     printf '%s\n' "=================================================================================="
     printf '%s\n' "$C_NC"
 }
@@ -155,21 +181,32 @@ kura_bootstrap_target() {
         *) return 1 ;;
     esac
     case "$(uname -s)" in
-        Linux*)  echo "linux-$_arch" ;;
-        Darwin*) echo "darwin-$_arch" ;;
-        CYGWIN*|MINGW*|MSYS*) echo "windows-x86_64" ;;
+        Linux*)
+            if [ "$_arch" = "arm64" ]; then
+                echo "linux-aarch64"
+            else
+                echo "linux-x86_64"
+            fi
+            ;;
+        Darwin*)
+            echo "darwin-$_arch"
+            ;;
+        CYGWIN*|MINGW*|MSYS*)
+            echo "windows-x86_64"
+            ;;
         *) return 1 ;;
     esac
 }
 
 kura_binary_url() {
     local target="$1"
+    local tag="$2"
     case "$target" in
-        linux-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-linux-x86_64.tar.gz" ;;
-        linux-arm64)  echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-linux-aarch64.tar.gz" ;;
-        darwin-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-darwin-x86_64.tar.gz" ;;
-        darwin-arm64)  echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-darwin-arm64.tar.gz" ;;
-        windows-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/v${KURA_PIN_VERSION}/kura-windows-x86_64.zip" ;;
+        linux-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/kura-linux-x86_64.tar.gz" ;;
+        linux-aarch64|linux-arm64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/kura-linux-aarch64.tar.gz" ;;
+        darwin-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/kura-darwin-x86_64.tar.gz" ;;
+        darwin-arm64)  echo "https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/kura-darwin-arm64.tar.gz" ;;
+        windows-x86_64) echo "https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/kura-windows-x86_64.zip" ;;
         *) return 1 ;;
     esac
 }
@@ -180,7 +217,6 @@ check_platform() {
         *) fail "unsupported platform: $(uname -s). Kura supports Linux, macOS, and Windows." ;;
     esac
 }
-
 
 json_string() {
     local value="$1" code char escaped
@@ -282,28 +318,28 @@ stage_binary() {
         fail "unsupported platform architecture: $(uname -s) $(uname -m)"
     fi
 
+    local tag
+    tag="$(detect_latest_tag)"
+    log "Resolved target platform: $target | Detected latest release tag: $tag"
+
     mkdir -p "$BIN_DIR"
     local bin_dest="$BIN_DIR/kura"
 
-    # 1. Check if a local workspace build exists to use immediately
-    local local_build="/home/Renan/Desktop/Kura/target/release/kura"
-    if [ -f "$local_build" ] && [ -x "$local_build" ]; then
-        cp -f "$local_build" "$bin_dest"
-        chmod 755 "$bin_dest"
-        log_success "Kura native binary synced from workspace release ($bin_dest)"
-        return 0
+    # Check if installed binary already matches target version
+    if [ -x "$bin_dest" ]; then
+        local installed_ver
+        installed_ver="$("$bin_dest" --version 2>/dev/null | awk '{print $2}')"
+        local target_clean_ver="${tag#v}"
+        if [ -n "$installed_ver" ] && [ "$installed_ver" = "$target_clean_ver" ]; then
+            log_success "Kura native binary already up to date ($bin_dest, version $installed_ver)"
+            return 0
+        fi
     fi
 
-    # 2. Check if binary already installed and healthy
-    if [ -x "$bin_dest" ] && "$bin_dest" --version >/dev/null 2>&1; then
-        log_success "Kura native binary already installed ($bin_dest)"
-        return 0
-    fi
-
-    # 3. Download prebuilt release binary from GitHub Releases
+    # Download prebuilt release binary from GitHub Releases
     local url
-    url="$(kura_binary_url "$target")" || fail "no release binary URL mapped for $target"
-    log "Downloading precompiled Kura binary for $target from GitHub Releases"
+    url="$(kura_binary_url "$target" "$tag")" || fail "no release binary URL mapped for $target"
+    log "Downloading precompiled Kura binary for $target ($tag) from GitHub Releases"
 
     local tmp_dir
     tmp_dir="$(mktemp -d 2>/dev/null || echo "/tmp/kura-install.$$")"
@@ -315,6 +351,27 @@ stage_binary() {
     fi
 
     if run_logged "Fetching $url" curl -LsSf "$url" -o "$tmp_dir/$archive_name"; then
+        # Check integrity if SHA256SUMS.txt is available in the release
+        local sha_url="https://github.com/fraol163/kura-benchmarks/releases/download/${tag}/SHA256SUMS.txt"
+        if curl -fsSL -s "$sha_url" -o "$tmp_dir/SHA256SUMS.txt" 2>/dev/null; then
+            local expected_hash
+            local target_asset_name="${url##*/}"
+            expected_hash="$(grep "$target_asset_name" "$tmp_dir/SHA256SUMS.txt" 2>/dev/null | awk '{print $1}')"
+            if [ -n "$expected_hash" ]; then
+                local computed_hash=""
+                if command -v sha256sum >/dev/null 2>&1; then
+                    computed_hash="$(sha256sum "$tmp_dir/$archive_name" | awk '{print $1}')"
+                elif command -v shasum >/dev/null 2>&1; then
+                    computed_hash="$(shasum -a 256 "$tmp_dir/$archive_name" | awk '{print $1}')"
+                fi
+                if [ -n "$computed_hash" ] && [ "$computed_hash" != "$expected_hash" ]; then
+                    rm -rf "$tmp_dir"
+                    fail "SHA-256 checksum mismatch for $target_asset_name (expected $expected_hash, got $computed_hash)"
+                fi
+                log_success "SHA-256 integrity verified ($computed_hash)"
+            fi
+        fi
+
         if [ "$archive_name" = "kura.zip" ]; then
             if command -v unzip >/dev/null 2>&1; then
                 unzip -q -o "$tmp_dir/kura.zip" -d "$tmp_dir" || fail "failed to unpack kura archive"
@@ -336,7 +393,7 @@ stage_binary() {
     fi
     rm -rf "$tmp_dir"
 
-    # 4. Fallback: Check if cargo is present to compile on-host
+    # Fallback: Check if cargo is present to compile on-host
     if command -v cargo >/dev/null 2>&1; then
         log_warn "Release asset not reachable; falling back to local compilation via cargo"
         cargo install --git "$REPO_URL" --bin kura --root "$KURA_HOME" || fail "cargo build failed"
@@ -413,6 +470,7 @@ stage_complete() {
     echo "  kura tui                        Launch interactive terminal UI"
     echo "  kura run <model.gguf>           Execute text generation"
     echo "  kura serve --port 8080          Start OpenAI-compatible HTTP server"
+    echo "  kura update check               Query genuine update availability"
     echo "  kura profile                    Inspect CPU SIMD and NVMe storage bandwidth"
     echo "  kura plan --model <model.gguf>  Compile LOOM physical execution plan"
     printf '%s\n' "$C_NC"
