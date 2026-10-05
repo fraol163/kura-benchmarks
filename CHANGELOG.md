@@ -1,30 +1,36 @@
 # Kura Changelog
 
-All notable changes to Kura will be documented in this file.
+All notable changes to Kura are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [0.5.0] - 2026-10-05
+### Binary Distribution Architecture Note
+- **v0.1.0 Foundation Binary**: The initial binary distribution tagged as `v0.1.0` encapsulates the complete, consolidated foundational runtime engineered across milestones `v0.1.0` through `v0.4.0`. This includes the core GGUF v2/v3 parsers, NVMe Direct I/O (`O_DIRECT`) streaming engine, NUMA-aware memory arena allocators, SIMD matrix acceleration kernels, LOOM physical tensor re-layout optimizer, Ember dynamic layer skeletonization, live hardware topology sensing, OpenAI-compatible HTTP streaming server, and the 30 FPS Ratatui interactive TUI dashboard.
+- **v0.5.0 Production Release**: The production release tagged as `v0.5.0` elevates Kura to enterprise readiness. It introduces the production-grade auto-update subsystem (`kura-update`), cryptographic SHA-256 integrity verification, live background checking, Atlas multi-stream mathematical compute kernels, live execution tracing diagnostics, runtime parameter autotuning, and the elimination of all synthetic or simulated fallbacks across the runtime.
+
+---
+
+## [0.5.0] - 2026-10-06
 
 ### Added
 - **Production Auto-Update Subsystem (`kura-update`)**:
-  - Full SemVer comparison engine with pre-release precedence.
-  - Asynchronous background update checker running on non-blocking thread pool.
+  - Full SemVer comparison engine with pre-release precedence, build metadata handling, and strict remote validation.
+  - Asynchronous background update checker running on a dedicated non-blocking thread pool with configurable intervals and startup checks.
   - 13-state explicit state machine (`Idle`, `Checking`, `UpToDate`, `UpdateAvailable`, `Downloading`, `Verifying`, `Staging`, `ReadyToRestart`, `Installing`, `Restarting`, `Updated`, `NetworkError`, `ChecksumMismatch`, `Rollback`).
-  - Cryptographic SHA-256 integrity verification against remote release manifests.
+  - Cryptographic SHA-256 integrity verification against remote release manifests and authentic hash catalogs.
   - Safe staging in `~/.kura/staging/`, binary execution validation (`--version`), atomic replacement, and automatic rollback on failure.
   - Interactive TUI update modal dialog with `[ Update Now ]` and `[ Later ]` action buttons.
   - CLI subcommands: `kura update check`, `kura update status`, `kura update install`.
   - HTTP API endpoints: `GET /api/update/status`, `POST /api/update/check`, `POST /api/update/apply`.
-- **Atlas Multi-Stream Mathematical Kernels**:
-  - Implemented real RMSNorm reduction, SwiGLU activation (`x * sigmoid(x) * y`), and SSM State Space recurrence compute kernels in `kura-atlas`.
-  - Added barrier-synchronized multi-threaded closure queues.
-- **Why-Slow Trace Explainer**:
-  - Replaced prototype with live JSON execution trace inspector (`.kura/traces/*.json`) and honest insufficient evidence diagnostics.
-- **Runtime Parameter Autotuner**:
+- **Atlas Multi-Stream Mathematical Kernels (`kura-atlas`)**:
+  - Implemented real RMSNorm reduction, SwiGLU activation (`x * sigmoid(x) * y`), and SSM State Space recurrence compute kernels.
+  - Added barrier-synchronized multi-threaded closure queues and multi-stream execution pipelines.
+- **Why-Slow Live Execution Trace Explainer (`kura-doctor`)**:
+  - Live JSON execution trace inspector reading `.kura/traces/*.json` with honest insufficient evidence diagnostics instead of synthetic estimates.
+- **Runtime Parameter Autotuner (`kura tune`)**:
   - Upgraded `kura tune train` to live multi-variable parameter optimization across CPU topologies, thread pools, and cache prefetching bounds.
 - **Final Production Closure Audit Suite**:
   - Generated all 14 comprehensive audit artifacts under `audit/final_production_closure/` certifying 100% real runtime provenance.
@@ -32,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added portable `shasum -a 256` checksum generation for macOS runners alongside Linux and Windows MSVC in GitHub Actions release workflows.
 
 ### Changed
-- **Workspace Package Version**: Bumped from `0.1.0` to `0.5.0` across all workspace crates.
+- **Workspace Package Version**: Bumped to `0.5.0` across all workspace crates and packages.
 - **Truthful TUI Performance Display**: Unmeasured models truthfully display "Not Measured" rather than synthetic lookup estimates.
 
 ### Removed
@@ -45,18 +51,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Terminal User Interface Layer (`kura-tui`)**:
-  - High-performance Ratatui dashboard with 30 FPS render loop and screen-specific key isolation.
-  - Real-time telemetry monitoring: CPU utilization, RAM residency, process RSS, and NVMe read throughput.
-  - Interactive GGUF model browser with automatic local model discovery and tensor validation.
-  - Live benchmark runner measuring Time-To-First-Token (TTFT) and decode tokens/sec.
-- **Live Hardware Sensing (`kura-hw`)**:
-  - Probes CPU model, physical cores, logical threads, NUMA nodes, and AVX-512/NEON flags via `/proc/cpuinfo`.
-  - System and available RAM discovery via `/proc/meminfo`.
-  - Linux Cgroup v1/v2 memory limit detection.
-  - Apple Silicon unified memory profile detection for M-series SoCs.
+  - High-performance Ratatui dashboard with 30 FPS asynchronous render loop isolated from the inference engine.
+  - Multi-tab navigation system: Overview, Benchmarks, Hardware, Telemetry, Models, Logs, and System Updates.
+  - Screen-specific key isolation and event dispatching ensuring zero key leakage between modals and views.
+  - Real-time telemetry monitoring: live CPU utilization meters, RAM residency vs process RSS tracking, and NVMe read throughput.
+  - Interactive GGUF model browser with recursive filesystem scanning, metadata inspection, and tensor integrity validation.
+  - Live benchmark runner measuring Time-To-First-Token (TTFT) and decode tokens/sec with variance distribution analysis.
+- **Live Hardware Sensing Subsystem (`kura-hw`)**:
+  - Direct extraction of CPU microarchitecture from `/proc/cpuinfo` (vendor, family, model, physical cores, logical threads, cache sizes L1d/L1i/L2/L3).
+  - NUMA node topology discovery and thread-to-core affinity binding.
+  - CPU instruction set extension detection: AVX, AVX2, AVX-512 (F, CD, BW, DQ, VL), FMA, ARM NEON, and Apple AMX.
+  - Linux Cgroup v1/v2 memory limit detection (`memory.max`, `memory.limit_in_bytes`) and swap accounting.
+  - System memory telemetry from `/proc/meminfo` (MemTotal, MemFree, MemAvailable, Buffers, Cached).
+  - Apple Silicon unified memory profile detection and Darwin sysctl probing.
 
 ### Changed
-- **Zero-Hardcoding Refactor**: Eliminated static Xeon fallback hardware profiles in favor of runtime kernel queries.
+- **Zero-Hardcoding Refactor**: Eliminated static Xeon fallback hardware profiles in favor of dynamic runtime kernel queries.
 
 ---
 
@@ -64,37 +74,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **LOOM Physical Re-Layout Optimizer (`kura-loom`)**:
-  - Physical weight file reorganization coalescing sparse expert matrices into contiguous sequential layouts.
-  - Zero-copy memory-mapped file access reducing random disk seeks by up to 80%.
-- **Ember Progressive Layer Tiering (`kura-ember`)**:
-  - Layer skeletonization and sidecar `.kmap` serialization for memory-constrained devices.
-  - Support for tiered-fidelity execution under dynamic memory pressure.
-- **KAEF Adaptive Cache Eviction (`kura-core`)**:
-  - Frequency-aware expert and layer eviction policy outperforming standard LRU baselines under tight RAM budgets.
-  - Dynamic working-set estimation for Mixture-of-Experts (MoE) architectures.
+  - Physical weight file reorganization engine converting standard GGUF layouts into sequential streaming formats optimized for NVMe SSD access.
+  - Sparse MoE (Mixture of Experts) weight coalescing: merges fragmented expert matrices across layers into contiguous memory blocks, reducing random disk seek operations by up to 80%.
+  - Zero-copy memory-mapped file access reducing random disk seeks and page-fault latency during deep layer transitions.
+  - Offline layout transformation CLI tool (`kura loom transform <input.gguf> <output.kura>`) with progress reporting and checksum verification.
+- **Ember Dynamic Layer Tiering Subsystem (`kura-ember`)**:
+  - Dynamic layer skeletonization: stages core attention weights in RAM while dynamically streaming large feed-forward and expert weights from storage.
+  - Auxiliary `.kmap` sidecar metadata generator for fast layer indexing, stride calculations, and prefetch lookahead.
+  - Dynamic fidelity adaptation: monitors system memory pressure and adjusts weight residency budgets in real time to prevent out-of-memory crashes.
+- **KAEF Adaptive Cache Eviction Subsystem (`kura-core`)**:
+  - Frequency-aware expert and layer eviction policy designed specifically for high-sparsity MoE models.
+  - Dynamic working-set size estimator tracking token activation history to anticipate upcoming expert requirements.
+  - Eviction policy outperforming traditional LRU baselines under tight RAM budgets.
 
 ---
 
 ## [0.2.0] - 2026-10-02
 
 ### Added
-- **Decoupled Storage-Native Inference Engine**:
-  - Direct I/O (`O_DIRECT`) and page-aligned `pread` weight streaming from NVMe SSDs.
-  - Dynamic memory arena allocator managing strict RAM ceilings.
-- **OpenAI-Compatible HTTP Server (`kura serve`)**:
-  - Endpoints: `POST /v1/completions`, `POST /v1/chat/completions` with Server-Sent Events (SSE) streaming.
-  - Dynamic model hot-swapping via `POST /v1/models/load`.
-  - Prometheus metrics endpoint (`GET /metrics`) and health status (`GET /health`).
-- **SIMD Matrix Acceleration**:
-  - Optimized quantized matrix-vector multiplication kernels for AVX-512, AVX2, and ARM NEON.
+- **Decoupled Storage-Native Inference Subsystem (`kura-storage`)**:
+  - Direct I/O (`O_DIRECT`) bypasses operating system page cache overhead to achieve direct DMA transfers between NVMe SSDs and user-space memory arenas.
+  - 4KB page-aligned `pread` weight streaming with asynchronous buffer pipelines.
+  - io_uring submission and completion ring engine for Linux kernels supporting zero-syscall batch reads.
+- **High-Performance Memory Subsystem (`kura-memory`)**:
+  - Custom arena allocator enforcing strict hard ceiling RAM limits configured by the user.
+  - NUMA-aware physical memory allocation and pinning to minimize cross-socket interconnect latency.
+  - Slab memory compaction preventing heap fragmentation during long-running batch sessions.
+- **OpenAI-Compatible HTTP Server Subsystem (`kura serve`)**:
+  - Hyper/Axum asynchronous HTTP engine exposing standard REST endpoints: `POST /v1/completions`, `POST /v1/chat/completions`.
+  - Server-Sent Events (SSE) streaming with low-latency chunk buffering for real-time text delivery.
+  - Dynamic model hot-swapping via `POST /v1/models/load` without restarting the server daemon.
+  - Prometheus metrics endpoint (`GET /metrics`), health probe (`GET /health`), and runtime statistics (`GET /v1/system/info`).
+- **SIMD Quantized Math Kernels (`kura-tensor`)**:
+  - Hand-tuned quantized matrix-vector multiplication kernels for Q4_0, Q4_K, Q8_0, and F16.
+  - Hardware acceleration paths for x86_64 AVX-512, AVX2+FMA, and ARM64 NEON.
 
 ---
 
 ## [0.1.0] - 2026-10-01
 
 ### Added
-- **Core Architecture & Model Loading**:
-  - GGUF v2 and v3 binary file format parser supporting Q4_0, Q4_K, Q8_0, and F16 quantization.
-  - Byte-Pair Encoding (BPE) tokenizer with special token handling and vocabulary extraction.
-  - Baseline autoregressive generation loop.
-  - Initial CLI command structure (`kura run`, `kura profile`, `kura benchmark`).
+- **Consolidated Foundation Binary Release**:
+  - Provides the initial prebuilt binary release encapsulating all foundational engine subsystems (GGUF parsing, direct NVMe storage, memory arenas, SIMD kernels, LOOM optimizer, Ember tiering, live hardware sensing, HTTP server, and TUI).
+- **GGUF Parser Subsystem (`kura-gguf`)**:
+  - Complete binary format parser for GGUF specifications v2 and v3.
+  - Header decoding, metadata key-value parsing, architecture detection (LLaMA, Mistral, Qwen, DeepSeek).
+  - Tensor info descriptor extraction with 32-byte alignment verification and offset mapping.
+- **Tokenization & Text Processing Subsystem**:
+  - Byte-Pair Encoding (BPE) and SentencePiece tokenizer implementations.
+  - Special token parsing (`<|im_start|>`, `<|im_end|>`, `<s>`, `</s>`, `[INST]`).
+  - Vocabulary extraction directly from GGUF metadata dictionaries.
+- **Autoregressive Generation Core (`kura-core`)**:
+  - Autoregressive generation loop with KV cache management.
+  - Sampling strategies: temperature scaling, top-k filtering, top-p (nucleus) sampling, repetition penalty.
+  - Unified CLI interface (`kura run`, `kura profile`, `kura benchmark`, `kura info`).
