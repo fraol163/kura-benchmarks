@@ -11,7 +11,7 @@ if (-not $KuraTag) {
         $ReleaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/fraol163/kura-benchmarks/releases/latest" -Headers @{ "User-Agent" = "Kura-Installer" } -ErrorAction Stop
         $KuraTag = $ReleaseInfo.tag_name
     } catch {
-        $KuraTag = "v0.5.0"
+        $KuraTag = "v1.0.0"
     }
 }
 if (-not $KuraTag.StartsWith("v")) {

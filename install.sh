@@ -99,7 +99,7 @@ detect_latest_tag() {
 
     # 4. Safe baseline fallback
     if [ -z "$tag" ]; then
-        tag="v0.5.0"
+        tag="v1.0.0"
     fi
     echo "$tag"
 }
