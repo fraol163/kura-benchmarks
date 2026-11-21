@@ -74,7 +74,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {7}Loom: Physical Storage Layout Compilation}{7}{section.7}\protected@file@percent }
 \newlabel{sec:loom}{{7}{7}{Loom: Physical Storage Layout Compilation}{section.7}{}}
 \newlabel{sec:loom@cref}{{[section][7][]7}{[1][7][]7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{7}{subsection.7.1}\protected@file@percent }
 \citation{von2007tutorial}
 \newlabel{fig:io_trace}{{2a}{8}{Random NVMe reads under GGUF vs.\ Loom}{figure.caption.7}{}}
 \newlabel{fig:io_trace@cref}{{[subfigure][1][2]2a}{[1][7][]8}{}{}{}}
@@ -87,11 +86,12 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure).}}{8}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:loom_eval}{{2}{8}{Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure)}{figure.caption.7}{}}
 \newlabel{fig:loom_eval@cref}{{[figure][2][]2}{[1][7][]8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{8}{subsection.7.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Spectral Partitioning and Block Coalescing}{8}{subsection.7.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Contiguous NVMe Sidecar File Layout}{8}{subsection.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Progressive Tiered-Fidelity: The Ember Subsystem}{8}{section.8}\protected@file@percent }
-\newlabel{sec:ember}{{8}{8}{Progressive Tiered-Fidelity: The Ember Subsystem}{section.8}{}}
-\newlabel{sec:ember@cref}{{[section][8][]8}{[1][8][]8}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Progressive Tiered-Fidelity: The Ember Subsystem}{9}{section.8}\protected@file@percent }
+\newlabel{sec:ember}{{8}{9}{Progressive Tiered-Fidelity: The Ember Subsystem}{section.8}{}}
+\newlabel{sec:ember@cref}{{[section][8][]8}{[1][8][]9}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Low-Rank Expert Skeleton Formulation}{9}{subsection.8.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Ember Operational Modes}{9}{subsection.8.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Negative Result: The Prohibitive Cost of Online SVD}{9}{subsection.8.3}\protected@file@percent }
@@ -102,7 +102,7 @@
 \newlabel{sec:implementation}{{9}{9}{Systems Implementation and Zero-Copy Execution}{section.9}{}}
 \newlabel{sec:implementation@cref}{{[section][9][]9}{[1][9][]9}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Linux Direct I/O and io\_uring Asynchrony}{9}{subsection.9.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}RamArena: Fixed-Slab Aligned Memory Allocations}{9}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}RamArena: Fixed-Slab Aligned Memory Allocations}{10}{subsection.9.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {9.3}SIMD Quantization and CPU Inference Kernels}{10}{subsection.9.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Empirical Equivalence Across Tested Configurations}{10}{subsection.9.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {10}Empirical Evaluation}{10}{section.10}\protected@file@percent }
@@ -164,13 +164,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Evaluation Hardware Specification}{13}{subsection.A.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Memory Isolation and cgroup v2 Configuration}{13}{subsection.A.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Option A: User-Space Scope (Recommended, No Root Required)}{13}{section*.14}\protected@file@percent }
-\newlabel{tocindent-1}{0pt}
-\newlabel{tocindent0}{0pt}
-\newlabel{tocindent1}{10.00003pt}
-\newlabel{tocindent2}{17.77783pt}
-\newlabel{tocindent3}{0pt}
-\newlabel{tocindent4}{0pt}
-\newlabel{tocindent5}{0pt}
 \@writefile{toc}{\contentsline {paragraph}{Option B: Root Control Group}{14}{section*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Model Weights and Proxy Artifacts}{14}{subsection.A.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Reproducing Benchmark Telemetry}{14}{subsection.A.4}\protected@file@percent }
@@ -182,9 +175,16 @@
 \newlabel{sec:appendix_math@cref}{{[section][2][]B}{[1][14][]14}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Convex Scarcity Pricing Equilibrium}{14}{subsection.B.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Singular Value Decomposition Truncation Error Bounds}{14}{subsection.B.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {C}Extended Experimental Tables}{14}{appendix.C}\protected@file@percent }
-\newlabel{sec:appendix_tables}{{C}{14}{Extended Experimental Tables}{appendix.C}{}}
-\newlabel{sec:appendix_tables@cref}{{[section][3][]C}{[1][14][]14}{}{}{}}
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{0pt}
+\newlabel{tocindent1}{10.00003pt}
+\newlabel{tocindent2}{17.77783pt}
+\newlabel{tocindent3}{0pt}
+\newlabel{tocindent4}{0pt}
+\newlabel{tocindent5}{0pt}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Extended Experimental Tables}{15}{appendix.C}\protected@file@percent }
+\newlabel{sec:appendix_tables}{{C}{15}{Extended Experimental Tables}{appendix.C}{}}
+\newlabel{sec:appendix_tables@cref}{{[section][3][]C}{[1][14][]15}{}{}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence.}}{15}{table.caption.19}\protected@file@percent }
 \newlabel{tab:extended_ladder}{{6}{15}{Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence}{table.caption.19}{}}
 \newlabel{tab:extended_ladder@cref}{{[table][6][]6}{[1][14][]15}{}{}{}}
