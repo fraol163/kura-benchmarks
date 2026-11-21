@@ -1,0 +1,1364 @@
+--- PAGE 1 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+            Kura:   Storage-Native       Decoupled      Inference    for            
+                                                                                    
+               Memory-Constrained           Mixture-of-Experts                      
+                                                                                    
+                                                                                    
+                                     Fraol Teshome                                  
+                                   Independent Researcher                           
+                                        Ethiopia                                    
+                                  fraolteshome444@gmail.com                         
+       Abstract                             average controller overhead of ≈12.35ms per decision
+       DeployingLargeLanguageModels(LLMs)andMixture- (4,741.47ms sequence-wide across 24 tokens), causing
+       of-Experts (MoE) architectures on commodity client throughput regressions at intermediate memory budgets
+       hardware remains fundamentally constrained by the below the model size where hit-rate parity fails to over-
+       memory wall. Standard inference runtimes rely on oper- come decision overhead; consequently, simple LRU com-
+       ating system demand paging (mmap), which degenerates bined with Loom layout compilation outperforms KAEF
+       intocatastrophicpage-cachethrashing,synchronousI/O in unconstrained or moderate memory regimes. Second,
+       lockcontention,andout-of-memory(OOM)abortswhen computing low-rank SVD sketches online incurs an in-
+       model weights exceed physical RAM.   tolerable 3,018.20ms CPU bottleneck (+408.2% cold
+         Inthiswork,wepresentKura,astorage-nativedecou- TTFT increase), demonstrating that dynamic runtime
+       pled inference runtime engineered to sustain determinis- decomposition is prohibitive and SVD skeletons must
+       tic execution on memory-constrained commodity hard- strictly be precompiled offline. We release all compila-
+       ware. Kura replaces passive virtual memory swapping tion pipelines, harness implementations, and benchmark
+       withthreecomplementarymechanisms:(1)Loom,anof- traces.                       
+       flinephysicallayoutcompilerthatclustersexpertweight                          
+                                            Keywords: Mixture of Experts, Out-of-Memory Infer-
+       tensorsaccordingtoempiricalco-activationgraphs,trans-                        
+                                            ence, Memory Wall, Storage-Native Systems, Spectral
+       forming fine-grained random 4KB solid-state storage                          
+                                            Layout Coalescing                       
+       reads into contiguous sequential streaming extents; (2)                      
+       RamArena, a user-space memory manager utilizing 1 Introduction               
+       bufferedasynchronousLinuxio_uringqueuesandPOSIX                              
+                                            Theparameterscaleofmoderntransformerarchitectures
+       pread64 routines into 64-byte aligned slabs to eliminate                     
+                                            hasoutpacedthephysicalmemorycapacitiesofcommod-
+       hot-path virtual memory re-allocations; and (3) KAEF                         
+                                            ityedgeandclientcomputingdevices.Whilestate-of-the-
+       (Kura Adaptive Economics Framework), an online auc-                          
+                                            art dense and sparse Mixture-of-Experts (MoE) models
+       tion scheduler that prices memory residency via convex                       
+                                            offer unprecedented reasoning capabilities, executing a
+       scarcity curves to dynamically balance weight retention                      
+                                            7-billion parameter dense model or an MoE architecture
+       againstre-fetchpenalties.Additionally,weevaluateEm-                          
+                                            withdozensofroutedexpertsrequiresbetween4GBand
+       ber, a tiered-fidelity preview engine based on offline                       
+                                            32GB of high-speed memory. On commodity laptops
+       truncated Singular Value Decomposition (SVD).                                
+                                            and embedded systems—typically equipped with 4GB
+         We evaluate Kura under strict Linux cgroups v2                             
+                                            to 8GB of unified system RAM and commodity SATA
+       physical memory caps without swap. On an 8-layer,                            
+                                            or entry-level NVMe storage (delivering 300–500MB/s
+       32-expert sub-network of OLMoE-1B-7B (1.21GB in                              
+                                            sequential bandwidth)—running these models natively
+       Q8_0 quantization) constrained to a 256MB RAM                                
+                                            has historically been deemed intractable.
+       limit, Loom collapses random storage reads by 67.13%                         
+                                             Existing systems address this memory deficit through
+       (from 216 to 71 seeks) and reduces I/O stall duration by                     
+                                            operating system virtual memory swapping or memory-
+       29.26% (from 266.30ms to 188.37ms), improving gener-                         
+                                            mapped file access (mmap) [5, 14]. However, traditional
+       ation throughput by +14.38% (10.57 to 12.09 tokens/s).                       
+                                            OS-level demand paging suffers from structural patholo-
+       Across synthetic traces at 24MB RAM limits, storage                          
+                                            gies when applied to autoregressive inference:
+       stalldurationisreducedbyupto74.25%(1,807.61msto                              
+                                              1. Random Access Amplification: In MoE archi-
+       465.31ms). Precompiled Ember skeletons synthesize pro-                       
+                                                tectures, token-level routing dynamically selects
+       visionalspeculativedraftpreviewsin0.16ms(exhibiting                          
+                                                a sparse subset of expert feed-forward networks
+       1.99% relative 𝐿 divergence) while full exact weights                        
+                  2                                                                 
+                                                (e.g., top-2 of 16, or top-8 of 64) at every layer.
+       load asynchronously over 739.40ms.                                           
+                                                Because standard weight formats store tensors
+         Crucially, we report two key negative systems results:                     
+                                                sequentially by layer and expert index, access-
+       First, KAEF’s online convex optimization introduces an                       
+                                                ing routed experts causes scattered 4KB random
+
+--- PAGE 2 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+           reads across storage blocks, collapsing commodity on offline precompiled truncated Singular Value
+           SSD throughput down to single-digit megabytes Decomposition (SVD) expert sketches. In precom-
+           per second.                          piled Mode C, Ember synthesizes a provisional
+          2. Page Fault Stalls and Thrashing: Standard speculative draft preview token in 0.16ms (ex-
+           mmapimplementationsrelyontheOSkernel’spage hibiting 1.99% relative 𝐿 divergence) to provide
+                                                               2                    
+           cache and virtual memory management subsys- immediate user-facing responsiveness while exact
+           tem.WhenavailablephysicalRAMissignificantly weights load asynchronously over 739.40ms.
+           smaller than the active working set, page replace-                       
+                                             Crucially, this work also documents the Econom-
+           ment algorithms (such as global active/inactive                          
+                                            ics of Systems Overhead: through adversarial abla-
+           list LRU) evict pages that are immediately re-                           
+                                            tion,weshowthatcomplexonlinedynamicoptimization
+           quired by subsequent tokens, triggering severe                           
+                                            frameworks—specificallyKAEF’sconvexshadow-pricing
+           page-fault thrashing, kernel lock contention on                          
+                                            auction scheduler—incur an average controller overhead
+           mm->mmap_lock, and eventual invocation of the                            
+                                            of ≈12.35ms per decision (4,741.47ms cumulative se-
+           Linux Out-Of-Memory (OOM) killer.                                        
+                                            quencelatency).Atintermediatememorycapacities,this
+          3. Kernel Double-Buffering Overhead: Stan-                                
+                                            optimization overhead exceeds the storage latency saved
+           dard cached POSIX reads route storage blocks                             
+                                            by prefetching, making static LRU combined with Loom
+           through kernel page-cache buffers before copying                         
+                                            layout compilation the superior production choice. Simi-
+           data into user-space process memory, polluting                           
+                                            larly, we demonstrate that attempting to compute SVD
+           CPUL2/L3cachesandaddingredundantmemory                                   
+                                            low-rank sketches dynamically online introduces a cata-
+           copyoperationsonmemory-bandwidth-starvedar-                              
+                                            strophic 3,018.20ms CPU bottleneck (+408.2% latency
+           chitectures.                                                             
+                                            regression),provingthatprogressivefidelitymechanisms
+         To overcome these barriers, we formulate the Com- must remain strictly decoupled from the live serving
+       moditySATAThesis:Byco-designingphysicalon-disk path.                         
+       weightlayoutswithuser-spaceasynchronousbufferedI/O                           
+       pipelines and empirical residency heuristics, large lan-                     
+                                            Nomenclature                            
+       guage models can be reliably streamed and executed on                        
+                                            2  Background and Motivation            
+       low-endcommodityclienthardwareunderstrictOSmem-                              
+       ory limits that trigger fatal OOM failures in standard 2.1 Mixture-of-Experts Architecture
+       virtual memory systems.                                                      
+                                            An autoregressive Transformer layer with a Mixture-
+         In this paper, we present Kura, a storage-native de-                       
+                                            of-Experts (MoE) feed-forward network replaces the
+       coupled execution engine designed specifically for severe                    
+                                            standard dense multi-layer perceptron (MLP) with a
+       memory constraints. Kura makes three central systems set of 𝐸 independent expert networks {𝐹 }𝐸 and a
+                                                                      𝑖 𝑖=1         
+       contributions:                                                               
+                                            gating router 𝐺(𝑥). For an input hidden representation
+          ∙ Physical Layout Coalescing (Loom): We de- 𝑥∈R𝑑, the router computes a normalized routing prob-
+           sign Loom, an offline layout compiler that mea- ability vector 𝑔(𝑥) = Softmax(TopK(𝑊 𝑔 𝑥,𝑘)), where
+           sures expert co-activation frequencies across cal- 𝑊 𝑔 ∈R𝐸×𝑑 denotes the learnable router weight matrix,
+           ibration sequences, constructs a sparse Markov andTopK(·,𝑘)zeroesoutallentriesexceptthe𝑘 largest
+           graph, and solves a 1D graph arrangement prob- values (typically 𝑘 ∈{1,2,8}).
+           lemviacontinuousspectralrelaxation.Loomphys- The final output of the MoE layer is computed as
+           ically serializes frequently co-activated experts the weighted linear combination of the selected expert
+           into contiguous storage extents, converting scat- outputs:               
+           tered random seeks into broad sequential reads.                          
+                                                          ∑︁                        
+          ∙ User-SpaceBufferedI/OArenas(RamArena):  𝑦 =𝑥+    𝑔(𝑥) ·𝐹 (𝑥)   (1)      
+                                                                𝑖 𝑖                 
+           RatherthanrelyingonOSpagefaultsorunaligned    𝑖∈TopK                     
+           kernel-bypassdirectDMA,Kurapre-allocatesfixed,                           
+           64-byte aligned user-space memory slabs and or- In modern MoE models, non-MoE components (such
+           chestrates non-blocking prefetching using Linux as multi-head self-attention, layer normalization, and
+           io_uring and POSIX pread64. This eliminates router gating projections) represent a small fraction
+           runtimepageallocationsintheexecutionhotpath of total parameters (typically 5%–15%), while expert
+           andensurespredictableresidentsetsize(RSS)sta- weight matrices account for the remaining 85%–95%. In
+           bility.                          OLMoE-1B-7B [12], 64 experts per layer are configured,
+          ∙ ProgressiveTiered-FidelityPreviews(Ember): with 𝑘 =8 active experts per token; in Mixtral-8x7B [8],
+           We evaluate Ember, an execution scheme based each layer contains 8 experts with 𝑘 =2 active.
+                                          2                                         
+
+--- PAGE 3 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+         Term   Definition                  where 𝑡 latency encompasses controller overhead, com-
+         Kura   Storage-nativedecoupledinferenceruntimefor mand submission, and queue dispatch, and BW NVMe
+                memory-constrainedLLMs      is the effective storage transfer bandwidth.
+         Loom   Offlinephysicallayoutcompiler;clustersexpert                        
+                tensorsviaspectralco-activationgraphstocon- Crucially,modernNVMeSSDsexhibitprofoundasym-
+                vertrandomseeksintosequentialreads                                  
+                                            metry between sequential streaming bandwidth and
+         RamArena User-space memory manager; utilizes pre-                          
+                allocated,64-bytealignedslabstoeliminatehot- small-block random access:
+                pathOSpageallocations                                               
+         KAEF   Kura Adaptive Economics Framework; online ∙ SequentialTransfers:ModernPCIeGen4/Gen5
+                auctionschedulerthatpricesmemoryresidency                           
+                viaconvexscarcitycurves         NVMe SSDs achieve sequential read bandwidths
+         Ember  Progressivetiered-fidelityengine;utilizesoffline                    
+                                                exceeding 7,000MB/s by saturating multiple par-
+                precompiledtruncatedSVDskeletonsforsub-                             
+                millisecondprovisionaldraftpreviews allel flash channels and internal die planes using
+         Sense  Autonomoushardwareprobe;benchmarkshost                              
+                                                large block sizes (128KB to 1MB).   
+                memory,storage,andCPUtopologytoclassify                             
+                executionregimes              ∙ Random Access: Fine-grained random reads
+         MEC    MarginalExecutionContribution;theeconomic                           
+                utilitymetricusedbyKAEFtobidformemory (4KB to 64KB) suffer from Flash Translation
+                residency                       Layer (FTL) address translation table lookups,
+         CES    CounterfactualExecutionSearch;thesearchal-                          
+                gorithmusedbyKAEFtosolveoptimaladmis- internal read disturb mitigations, and controller
+                sionandevictionschedules        command queue serialization, often yielding effec-
+         𝜆-pruning ThresholdingmechanisminCESthatdropslow-                          
+                utility memory states to maintain interactive tive throughputs below 150MB/s (> 40× band-
+                latency                                                             
+                                                width degradation).                 
+         LLM    LargeLanguageModel                                                  
+         MoE    Mixture-of-Experts           Under standard GGUF layouts, experts are stored
+         OOM    Out-of-Memory                                                       
+         NVMe   Non-VolatileMemoryExpress   sequentially in index order (𝐹 ,𝐹 ,𝐹 ,...). If a token
+                                                              0 1 2                 
+         SSD    SolidStateDrive                                                     
+         SATA   SerialAdvancedTechnologyAttachment activates experts 𝐹 3 and 𝐹 58 , the runtime issues two
+         PCIe   PeripheralComponentInterconnectExpress disconnected non-contiguous reads. If the operating sys-
+         TTFT   Time-To-First-Token                                                 
+         SVD    SingularValueDecomposition  tem’s page cache fetches contiguous 4KB pages reac-
+         CRF    ConditionalRandomField                                              
+         RSS    ResidentSetSize             tively, it incurs severe storage read amplification:
+         DMA    DirectMemoryAccess                                                  
+         VFS    VirtualFileSystem                                                   
+         FTL    FlashTranslationLayer                 Bytes Read from NVMe          
+         GGUF   GPT-GeneratedUnifiedFormat   𝛼 storage = Bytes Computationally Utilized ≫1.0 (3)
+         SIMD   SingleInstruction,MultipleData                                      
+         AVX/AVX2 AdvancedVectorExtensions                                          
+         VNNI   VectorNeuralNetworkInstructions In historical evaluations with Linux mmap, storage am-
+         FMA    FusedMultiply-Add                                                   
+         CPU    CentralProcessingUnit       plification routinely exceeds 2.5× to 4.0×, as the OS
+         GPU    GraphicsProcessingUnit                                              
+         OS     OperatingSystem             kernel speculatively prefetches adjacent, non-activated
+         POSIX  PortableOperatingSystemInterface                                    
+                                            experts into page cache, evicting actively needed data
+         DRAM   DynamicRandom-AccessMemory                                          
+         VRAM   VideoRandom-AccessMemory    and saturating the PCIe bus.            
+         MLP    Multi-LayerPerceptron                                               
+         IOPS   Input/OutputOperationsPerSecond                                     
+         LRU/LFU LeastRecently/FrequentlyUsed                                       
+                                            2.3 Limitations of Reactive LRU Caching 
+       Table 1. Key acronyms, proprietary subsystems, and                           
+                                            A common mitigation is to implement an application-
+       systems terminology used in this work.                                       
+                                            level Least Recently Used (LRU) software cache in user
+                                            space. However, as demonstrated in our experiments,
+                                            LRU suffers from structural misalignment with MoE
+                                            routing:                                
+                                              1. Burstiness and Spatial Locality: Router acti-
+       2.2 The Out-of-RAM Dilemma and Storage                                       
+                                                vations across natural language sequences are not
+           Amplification                                                            
+                                                uniformly random; certain domain-specific tokens
+       When the aggregate model parameters ℳ exceed the activate clusters of specialized experts over sev-
+       physical system memory ℬ RAM , weights must reside eral consecutive tokens, followed by abrupt topic
+       on secondary non-volatile storage (such as NVMe flash transitions that render previous experts cold.
+       SSDs) and be transferred to RAM on demand. Let 𝒮 exp 2. Capacity Thrashing: When the available cache
+       denotethebytesizeofanindividualexperttensor.When capacity can hold only a subset of active experts
+       an expert 𝐹 𝑖 is required but not resident in host RAM, (e.g., room for 4 out of 8 active experts per layer),
+       the runtime must issue an I/O read request to storage: an LRU policy evicts weights that were activated
+                                                at layer 𝑙−1 but will be urgently needed again
+                             𝒮                  at layer 𝑙 or at the subsequent token, resulting in
+               𝑇  (𝐹 )=𝑡  +   exp      (2)                                          
+               load 𝑖 latency BW                constant thrashing.                 
+                              NVMe                                                  
+                                          3                                         
+
+--- PAGE 4 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       This motivates an integrated approach combining pre- 3.3 Storage-Aware and Edge MoE Inference
+       dictive token-level economics with physical disk layout Recent works investigate parameter offloading and CPU-
+       compilation.                         GPUpipeliningforsparseMixture-of-Experts.Mixtral-
+                                            offloading [3] introduces LRU caching and specula-
+                                            tive expert loading across PCIe for consumer GPUs.
+                                            Fiddler [9] orchestrates CPU-GPU hybrid execution
+       3  Related Work                      by evaluating non-offloaded expert activations on host
+       3.1 Memory-Constrained and Offloaded LLM CPUs rather than transferring full weight matrices over
+           Inference                                                                
+                                            bandwidth-constrainedbuses.Pre-gatedMoE[7]breaks
+                                            the sequential routing dependency by predicting expert
+       Offloading LLM parameters to secondary storage has                           
+                                            activations prior to attention computation, enabling
+       been investigated across multiple hardware configura-                        
+                                            overlapping of parameter staging with preceding layers.
+       tions. FlexGen [14] explored throughput-oriented of-                         
+                                            Concurrently, MoE-Lightning [15] introduces batched
+       floadingfordensemodelsbyformulatinglinearprogram-                            
+                                            memorypipeliningacrossCPUDRAMandGPUVRAM 
+       ming schedules across GPU VRAM, host CPU DRAM,                               
+                                            to maximize offloading throughput.      
+       and NVMe SSDs. However, FlexGen operates under                               
+                                             Attheextremeedge,EdgeMoE[10]andHOBBIT[17]
+       batchedthroughputmaximizationparadigmswhereweights                           
+                                            propose hierarchical storage tiering and mixed-precision
+       can be amortized across massive batch sizes (𝐵 ≥ 64).                        
+                                            dynamic dequantization to fit MoE models on mobile
+       In interactive, latency-critical inference (𝐵 =1), amor-                     
+                                            and embedded systems, substituting missing experts
+       tizing dense weight transfers across tokens is impossible,                   
+                                            with low-precision approximations. However, all these
+       rendering raw I/O transfer time the strict lower bound                       
+                                            frameworks assume either a dedicated GPU accelerator,
+       on token latency.                                                            
+                                            high-speed PCIe interconnects, or standard OS page
+         llama.cpp [5] provides lightweight CPU/GPU ex-                             
+                                            caches for host memory storage. They retain sequential
+       ecution of quantized GGUF models. For out-of-RAM                             
+                                            on-disk tensor layouts, incurring catastrophic random
+       execution,llama.cppreliesonOS-managedmmapdemand                              
+                                            seek overheads when streamed directly from commod-
+       paging with madvise(MADV_WILLNEED). While effective                          
+                                            ity block devices. In contrast, Kura targets single-host
+       for dense models with predictable linear access, mmap                        
+                                            CPU execution under strict OS memory ceilings (e.g.,
+       degrades precipitously on sparse MoE models due to                           
+                                            3.5GB cgroup limits) backed by commodity SATA stor-
+       random 4KB faulting, page cache overhead, and lack of                        
+                                            age. Rather than relying on OS virtual memory paging
+       cross-layer prefetching coordination.                                        
+                                            or accelerator offloading, Kura co-designs physical on-
+                                            disk layout via Loom spectral coalescing (converting
+                                            random seeks into sequential reads) and executes via
+                                            deterministic, fixed-footprint user-space memory slabs
+       3.2 Mixture-of-Experts Serving Systems                                       
+                                            (RamArena) driven by asynchronous io_uring and
+       High-performance MoE serving systems in data cen- pread64.                   
+       ters—such as DeepSpeed-MoE [13], Tutel [6], and                              
+       vLLM[11]—focusprimarilyondistributedGPUclusters                              
+       with tensor and expert parallelism. While these systems                      
+       optimize GPU memory management (e.g., PagedAtten- 3.4 Weight Approximation and Low-Rank
+       tion)andall-to-allcommunicationcollectivesacrosshigh- Compression            
+       speed InfiniBand/NVLink networks, they assume aggre- To mitigate storage and memory overheads, low-rank
+       gate GPU VRAM is sufficient to hold all parameters. decomposition methods have been widely studied. SVD-
+         Closer to our setting, MoE-Infinity [4] proposed LLM [19] and related post-training compression tech-
+       activation-aware expert offloading for multi-GPU nodes. niques decompose large projection weight matrices into
+       MoE-Infinity tracks expert activation history to predict truncatedlow-rankfactors𝑈Σ𝑉𝑇.InMoEarchitectures,
+       future expert demand using empirical heuristics. How- recent works explore expert pruning [2] and dynamic
+       ever, MoE-Infinity remains GPU-centric, relies on stan- expert capacity throttling.
+       dard host memory pinning, and does not alter the phys- Kura’s Ember subsystem distinguishes itself from
+       ical storage layout of expert tensors on disk. In contrast, static model pruning: rather than permanently degrad-
+       Kura addresses commodity workstations and single-host ing model capacity or quantizing weights, Ember imple-
+       systems by co-compiling physical on-disk storage layout ments a progressive, tiered-fidelity execution pipeline.
+       (Loom)withuser-spaceasynchronousbufferedio_uring In precompiled Mode C, Ember loads lightweight singu-
+       andpread64intopre-allocatedmemory-alignedRamAre- lar value sketches to instantly synthesize a provisional
+       nas.                                 preview token while initiating non-blocking background
+                                          4                                         
+
+--- PAGE 5 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       I/Otofetchexactfull-rankweights,ensuringsubsequent allocation and layout reordering overhead 𝑇 , and
+                                                                      overhead      
+       tokens maintain full mathematical precision. non-volatile storage I/O stall time 𝑇 :
+                                                                  IO                
+                                               𝑇  (𝑡)=𝑇   (𝑡)+𝑇    (𝑡)+𝑇 (𝑡) (6)    
+       3.5 Optimal Caching and Predictive Economics step compute overhead IO        
+       The theoretical foundation of cache replacement origi- Letℛ ⊆ ⋃︀𝐿 {𝐹(𝑙)}𝐸 denotethesetofexperttensors
+                                               𝑡   𝑙=1 𝑖 𝑖=1                        
+       nates with Belady’s optimal MIN algorithm [1], which resident in host DRAM at step 𝑡. If an active expert
+       evicts the page whose next access is furthest in the 𝐹(𝑙) ∈ 𝒜(𝑙) is not resident (𝐹(𝑙) ∈/ ℛ ), a cache miss
+       future. In systems where future access sequences are 𝑖 𝑡 𝑖  𝑡                
+                                            occurs, requiring an NVMe transfer.     
+       stochastic rather than deterministic, probabilistic exten-                   
+                                             Let 𝑁 (𝑡) denote the total number of non-resident
+                                                 miss                               
+       sions and machine learning-guided caching have been                          
+                                            experts required at step 𝑡:             
+       proposed [16].                                                               
+         Kura’sKAEFtranslatestheseconceptsintoanauction- 𝑁 (𝑡)= ∑︁ 𝐿 ∑︁ I (︁ 𝐹(𝑙) ∈/ ℛ )︁ (7)
+       based resource allocation market. Rather than relying miss 𝑖  𝑡              
+       on scalar heuristic scores, KAEF computes the Marginal 𝑙=1𝑖∈𝒜(𝑙)             
+                                                             𝑡                      
+       Execution Contribution (MEC) of every tensor, clearing                       
+                                            Under traditional I/O subsystems, each cache miss trig-
+       host memory allocation through convex scarcity pricing                       
+                                            gersanindependentrandomreadofsize𝒮 atphysical
+                                                                     exp            
+       and counterfactual execution search with 𝜆-pruning.                          
+                                            disk offset offset(𝐹(𝑙)). The total I/O transfer time is
+                                                       𝑖                            
+                                            governed by:                            
+       4  Problem Formulation and System                                            
+          Model                                                                     
+                                                𝑇 (𝑡)=                              
+                                                     𝑁m∑︁iss(𝑡)                     
+                                                          𝑡 (𝑚)+                    
+                                                                𝑁                   
+                                                                 miss               
+                                                                    (𝑡)·𝒮           
+                                                                       exp (8)      
+       4.1 Formal Execution Model                IO       seek    BW                
+                                                                    NVMe            
+                                                      𝑚=1                           
+       Consider an 𝐿-layer autoregressive Mixture-of-Experts                        
+                                            where 𝑡 (𝑚) represents the queueing and seek penalty
+       language model evaluated over a prompt sequence of seek                      
+                                            incurred by non-contiguous block accesses.
+       length 𝑆 followed by 𝑁 autoregressive token genera-                          
+                     gen                                                            
+                                             When 𝑡 dominates, total step latency is bounded
+       tion steps. Each layer 𝑙∈{1,...,𝐿} consists of: seek                         
+                                            by random read throughput rather than compute ca-
+          1. A static, dense self-attention module requiring                        
+                                            pacity. Furthermore, if the operating system prefetches
+           memory ℳ(𝑙) .                                                            
+                  attn                      surrounding un-activated weights into the kernel page
+          2. A sparse MoE feed-forward module containing 𝐸                          
+                                            cache, the physical bytes transferred from disk 𝒟 (𝑡)
+                                                                         read       
+           distinct expert parameter blocks {𝐹(𝑙)}𝐸 , each far exceed the computationally necessary bytes:
+                                 𝑖 𝑖=1                                              
+           consuming 𝒮 bytes.                                                       
+                   exp                                      𝒟  (𝑡)                  
+          3. A router gating projection 𝑊(𝑙) ∈R𝐸×𝑑 selecting 𝛼 (𝑡)= read ≥1.0 (9)   
+                             𝑔                     storage 𝑁  (𝑡)·𝒮                 
+           𝑘 active experts per token.                     miss  exp                
+         Let 𝒜(𝑙) ⊂{1,...,𝐸} denote the set of active expert The core objective of Kura is to minimize both 𝛼 storage
+            𝑡                               and the random seek penalty ∑︀ 𝑡 by converting dis-
+       indices selected by the router at layer 𝑙 for generation seek                
+                                            jointreadsintocoalescedsequentialblocktransfers,while
+       step 𝑡, where |𝒜(𝑙)|=𝑘. The total parameter footprint                        
+                 𝑡                          maximizing the hit rate |𝒜(𝑙)∩ℛ |/𝑘 through predictive
+       of the model is:                                     𝑡  𝑡                    
+                                            economic scheduling.                    
+                     𝐿                                                              
+              ℳ   =                                                                 
+                    ∑︁(︁                                                            
+                       ℳ(𝑙) +𝐸·𝒮                                                    
+                                 )︁                                                 
+                                       (4)                                          
+                total    attn  exp          5  System Architecture                  
+                    𝑙=1                                                             
+                                            Kura decouples model execution into two operational
+       The system operates under a strict physical host mem-                        
+                                            phases: an Offline Physical Compilation Phase that
+       ory budget ℬ enforced by the operating system                                
+                RAM                                                                 
+                                            structures model artifacts for sequential storage stream-
+       (e.g., through Linux cgroups v2). We focus on the con-                       
+                                            ing, and an Online Storage-Native Serving Phase
+       strained regime:                                                             
+                                            that schedules asynchronous transfers into pre-allocated
+                   ℬ RAM <ℳ total      (5)  memory arenas.                          
+       whereitismathematicallyimpossibletoretainallmodel                            
+                                            5.1 Subsystem Decomposition             
+       weights resident in host DRAM simultaneously.                                
+                                            The runtime architecture consists of five modular sub-
+       4.2 Latency Decomposition and Storage systems:                               
+           Amplification                      1. Offline Layout Compiler (kura-loom): Ana-
+       At each token generation step 𝑡, the execution latency lyzes expert routing traces, solves the spectral
+       𝑇  (𝑡)decomposesintocomputetime𝑇 ,memory arrangement heuristic, and reorders tensor byte
+        step                   compute                                              
+                                          5                                         
+
+--- PAGE 6 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+             OFFLINE COMPILATION (Loom)            ONLINE RUNTIME ENGINE (KAEF)     
+                  Model Weights                        SENSE Hardware Probe         
+                 (GGUF / SafeTensors) COMMODITY STORAGE R=Model Size/ RAM          
+                                   Contiguous Blocks                                
+                                   (Clustered Experts) Economic Scarcity Auction    
+               Co-Activation Markov Graph             MEC + Exponential Pricing     
+                 Laplacian L=D−W                                                    
+                                    Asynchronous I/O                                
+                                   io_uring / pread64 RamArena Slab Allocator       
+                                                     64-byte Aligned DMA Buffers    
+                Fiedler Spectral Ordering                                           
+               Clustered Extents (.sidecar)                                         
+                                                    SIMD Kernels (AVX-512 VNNI / AVX2)
+                                                                                    
+       Figure 1. End-to-endKuraarchitecture.(1)Theofflinelayoutcompiler(Loom)ingestsmodeltensorsandcalibration
+       traces, constructs an expert co-activation Markov graph, and writes physically clustered expert blocks to solid-state
+       storagealongsidea.kuralayoutsidecar.(2)Atruntime,thehardwareprobe(Sense)benchmarksmemorybandwidth,
+       storage read rates, and core topology. (3) The execution engine schedules tensor loads using buffered asynchronous
+       Linuxio_uringqueuesandPOSIXpread64routinesinto64-bytealigneduser-spaceRamArenaslabs,eliminatinghot-
+       path OS page allocations. (4) For high memory pressure, KAEF provides convex scarcity pricing, while precompiled
+       Ember low-rank skeletons supply optional provisional draft previews.         
+                                                                                    
+           offsets within an independent payload file without in a compact, permanently pinned DRAM tier,
+           mutating original GGUF model headers. servingprovisionaldraftrepresentationswhenfull
+          2. StorageandAsynchronousI/OLayer(kura-storage): weights reside on storage.
+           Manages asynchronous kernel interactions. It im-                         
+           plements high-concurrency io_uring submission 5.2 Memory Isolation and User-Space
+           and completion ring queues, falling back to a Buffering                  
+           threadpool of POSIX pread64 workers when run- AfoundationaldesignprincipleofKuraistheseparation
+           ning on older Linux kernels.     of user-space memory management from the operat-
+          3. AlignedSlabMemoryManager(kura-memory): ing system’s virtual memory subsystem. Standard mmap
+           ManagesphysicalRAMallocationviapre-allocated runtimes delegate memory management entirely to the
+           RamArena slabs. RamArena acquires a contiguous Linux kernel, which lacks domain-specific knowledge of
+           virtual memory mapping at engine initialization transformer layer sequences. Consequently, the OS ker-
+           and sub-allocates fixed 64-byte aligned chunks for nel evicts recently loaded weights unpredictably under
+           residenttensors,ensuringSIMDvectorinstruction memory pressure.           
+           alignment and preventing heap fragmentation. In Kura, the memory footprint is strictly bounded by
+          4. AdaptiveExecutionFabric(kura-core/kura-econth):e size of the pre-allocated RamArena. Rather than by-
+           Contains the KAEF state machine. It computes passingthekernelpagecacheviarawbufferedI/O,Kura
+           marginal execution contributions, forecasts future utilizesstandardbufferedPOSIXreadcallsdirectedinto
+           expert routing using a Conditional Random Field memory-pinnedslabbuffers.Bypre-allocatingtheentire
+           (CRF), and prices memory residency using con- arenaslabatinitializationandmanagingtensorlifetimes
+           vex shadow curves. When available memory is explicitly within user-space ring buffers, Kura ensures
+           sufficient to hold the model, KAEF is explicitly that:                   
+           deactivated by the system classifier to eliminate                        
+                                                  RSS   ≤ℬ    +ℬ           (10)     
+                                                    process arena runtime_static    
+           scheduling overhead.                                                     
+                                            where ℬ is the user-configured RAM budget and
+          5. ProgressiveTiered-FidelityEngine(kura-ember): arena                    
+                                            ℬ       represents thefixed overhead of tokenem-
+           Stores precompiled low-rank SVD expert sketches runtime_static           
+                                            beddings, normalization weights, and engine metadata.
+                                          6                                         
+
+--- PAGE 7 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       6  KAEF:  Kura Adaptive Economics    which is unknown prior to executing layer 𝑙−1. KAEF
+          Framework                         addresses this through a lightweight Conditional Ran-
+                                            dom Field (CRF) quantile estimator coupled with Shan-
+       6.1 Economic Resource Markets and Scarcity                                   
+                                            non entropy tracking. Let 𝐻(𝑔(𝑙))=− ∑︀𝐸 𝑔(𝑙)log𝑔(𝑙)
+           Pricing                                                   𝑖=1 𝑖  𝑖       
+                                            denote the router entropy observed at layer 𝑙. When
+       Rather than employing heuristic eviction policies such                       
+                                            router entropy is low (𝐻 < 𝐻 ), gating confi-
+       as LRU or LFU, KAEF formulates memory residency as      threshold            
+                                            dence is high, and the router distribution closely follows
+       a micro-economic market clearing problem. Host mem-                          
+                                            a power-law rank distribution. KAEF predicts future
+       ory ℬ  is treated as a finite, non-renewable resource                        
+           RAM                              layeractivationsbyevaluatingintermediaterouterlogits
+       auctioned among competing expert tensors.                                    
+                                            computed during the early attention projection. When
+         Let 𝑈(𝑡)∈[0,1] denote the memory utilization ratio                         
+                                            entropy is high (indicating semantic ambiguity or topic
+       at step 𝑡:                                                                   
+                     ∑︀                     transition), KAEF widens its prefetch quantile window
+                          𝒮  (𝐹 )                                                   
+                 𝑈(𝑡)= 𝐹𝑖∈ℛ𝑡 exp 𝑖    (11)  𝒬 𝛼 , allocating budget to the top-2𝑘 candidate experts.
+                        ℬ                                                           
+                         RAM                                                        
+       Topreventcatastrophicout-of-memorystateswhilemax-                            
+                                            6.4 Counterfactual Execution Search (CES)
+       imizing resident capacity utilization, KAEF defines a                        
+                                               with 𝜆-Pruning                       
+       convex scarcity price function 𝑃 (𝑈):                                        
+                           scarcity                                                 
+                                            Given current resident set ℛ , incoming candidate ex-
+                            (︂   )︂                           𝑡                     
+                              𝛽             perts 𝒞 , and memory budget ℬ , KAEF solves the
+              𝑃    (𝑈)=𝑃 ·exp         (12)      𝑡              RAM                  
+               scarcity 0    1−𝑈            optimal admission and eviction schedule using Coun-
+                                            terfactual Execution Search (CES). CES constructs a
+       where 𝑃 is the base price and 𝛽 >0 controls the steep-                       
+            0                                                                       
+                                            search tree of possible memory allocation states across
+       ness of the barrier penalty as utilization approaches                        
+       unity (𝑈 →1). As host RAM fills, the marginal cost of horizon 𝐻. Because exhaustive search over
+                                                                       (︀𝐸)︀𝐻       
+                                                                          com-      
+                                                                       𝑘            
+       maintaining an expert resident escalates exponentially, binations is computationally intractable for interactive
+       forcing low-utility tensors out of memory. inference, CES applies 𝜆-pruning: 
+       6.2 Marginal Execution Contribution (MEC)                                    
+                                             Net Benefit(𝐹 )=MEC(𝐹 ,𝑡)−𝑃 (𝑈(𝑡))·𝒮   
+                                                     𝑖       𝑖   scarcity exp       
+       Each expert tensor 𝐹(𝑙) submits a bid reflecting its an-            (14)     
+                    𝑖                                                               
+       ticipated utility to the forward pass over a planning Anycandidatestatewhosenetbenefitfallsbelowthresh-
+       horizon 𝐻. We define the Marginal Execution Contribu- old 𝜆·max Net Benefit(𝐹 ) is immediately pruned. In
+                                                   𝑗        𝑗                       
+       tion (MEC) of expert 𝐹(𝑙) as:        our implementation, 𝜆-pruned CES explores fewer than
+                      𝑖                                                             
+                                            32 candidate states, completing the mathematical auc-
+                  𝑡+𝐻                                                               
+       MEC (︁ 𝐹(𝑙),𝑡 )︁ = ∑︁ 𝛾𝜏−𝑡·𝑝ˆ (︁ 𝐹(𝑙) )︁ ·E[‖𝑔(𝑥 ) ‖ ]·∆ (︁ 𝐹 t ( i 𝑙 o ) )︁n in less than 0.54ms (< 0.15% of total step time).
+             𝑖          𝜏  𝑖      𝜏 𝑖 2 latency T𝑖ensors whose net benefit is negative are designated for
+                  𝜏=𝑡                                                               
+                                      (13)  eviction, clearing space for incoming high-MEC blocks.
+       where:                                                                       
+                                            7  Loom: Physical Storage Layout        
+          ∙ 𝛾 ∈(0,1] is a temporal discount factor penalizing                       
+           distant predictions.                Compilation                          
+          ∙ 𝑝ˆ 𝜏 (𝐹 𝑖 (𝑙)) is the forecasted activation probability of While KAEF optimizes online memory residency de-
+           expert 𝐹 𝑖 at time 𝜏.            cisions, the underlying physical transfer cost of non-
+          ∙ E[‖𝑔(𝑥 𝜏 ) 𝑖 ‖ 2 ]istheexpectedgatingroutingweight, resident experts remains fundamentally governed by
+           representing the magnitude of the expert’s math- NVMe hardware characteristics. Standard file formats
+           ematical contribution to output logits. (such as GGUF) store model tensors in sequential linear
+          ∙ ∆   (𝐹(𝑙)) = 𝑇 (𝐹(𝑙))−𝑇 represents the order:                           
+            latency 𝑖 IO 𝑖    res                                                   
+           latency penalty avoided by having the tensor al-                         
+           ready resident in DRAM versus fetching it from ℒ = [︁ 𝐹(1),𝐹(1),...,𝐹(1),𝐹(2),...,𝐹(𝐿) ]︁ (15)
+           NVMe.                              standard 1 2    𝐸   1    𝐸            
+       6.3 Router Uncertainty and Quantile  When the router selects experts 𝐹(1) and 𝐹(1), the disk
+           Forecasting                                          2     61            
+                                            controllermustexecutetwogeographicallyseparatedI/O
+       A critical requirement for computing MEC is accurate operations across disk address spaces. Loom addresses
+       estimationof𝑝ˆ (𝐹(𝑙)).Inautoregressiveinference,router this structural limitation by compiling physical storage
+                𝜏 𝑖                                                                 
+       gatingdecisionsdependonthehiddenrepresentation𝑥 , layouts to align with empirical activation dynamics.
+                                        𝜏                                           
+                                          7                                         
+
+--- PAGE 8 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+          (a) Random NVMe reads under GGUF vs. Loom. (b) Storage traffic under constrained RAM budgets.
+                                                                                    
+       Figure 2. Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered
+       random 4KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents,
+       reducing random reads by 67.1% to 69.4%. (b) Under severe memory scarcity, KAEF reduces storage traffic by 58.7%
+       under a 16MB RAM budget on Synthetic MoE (10.4× pressure) and by 56.2% on OLMoE-1B-7B under a 256MB
+       RAM budget (4.8× pressure).                                                  
+                                                                                    
+       7.1 Co-Activation Markov Graph Construction The 1D ordering 𝜋(𝑙) : {1,...,𝐸} → {1,...,𝐸} is de-
+       Loom operates as an offline compiler prior to runtime rived by sorting the elements of 𝑣(𝑙):
+                                                                2                   
+       deployment. Given a representative calibration corpus   (︁ )︁                
+       𝒟 calib , Loom records the activation sequences of router 𝜋(𝑙) =argsort 𝑣 2 (𝑙) (18)
+       selections across all layers. For each layer 𝑙, Loom con-                    
+                                            Sorting the continuous coordinates of the Fiedler vec-
+       structsanundirectedweightedco-activationgraph𝒢(𝑙) =                          
+                                            tor yields a discrete permutation 𝜋 that serves as a
+       (𝒱(𝑙),ℰ(𝑙),𝒲(𝑙)), where vertices 𝒱(𝑙) ={1,...,𝐸} repre-                      
+                                            standardspectralrelaxationheuristicapproximatingthe
+       sent the individual experts. The edge weight 𝑤(𝑙) ∈𝒲(𝑙)                      
+                                   𝑖𝑗       1D minimum arrangement problem, ensuring that ex-
+       between expert 𝑖 and expert 𝑗 represents the empirical                       
+                                            perts with high empirical co-activation frequencies are
+       joint co-activation frequency:                                               
+                                            assigned adjacent permutation indices without claiming
+                                            unconstrained discrete optimality.      
+             𝑤(𝑙) =                                                                 
+                  |𝒟 ∑︁calib|                                                       
+                     I                                                              
+                      (︁                                                            
+                       𝑖∈𝒜(𝑙)∧𝑗 ∈𝒜(𝑙)                                               
+                                  )︁                                                
+                                      (16)  7.3 Contiguous NVMe Sidecar File Layout 
+              𝑖𝑗          𝑡     𝑡                                                   
+                  𝑡=1                       Using the optimized permutation 𝜋(𝑙), Loom compiles
+                                            a custom binary sidecar file (.kura_sidecar). Expert
+       The resulting adjacency matrix 𝐴(𝑙) ∈ R𝐸×𝐸 captures weightsaregroupedintosuper-blocksalignedtophysical
+       the spatial affinity of expert executions. 128KB NVMe boundaries. When KAEF schedules the
+                                            prefetch of expert 𝐹(𝑙), Kura checks whether adjacent
+                                                        𝑖                           
+       7.2 Spectral Partitioning and Block Coalescing co-activated experts 𝐹(𝑙) in the Loom cluster have
+                                                          𝜋(𝑖)+1                    
+       To map the high-dimensional affinity graph 𝒢(𝑙) onto a non-zeroMECvalues.Ifso,Kuraissuesasinglecoalesced
+                                            sequential read request spanning both experts:
+       one-dimensional physical NVMe address space, Loom                            
+       applies spectral graph partitioning [18]. Let 𝐷(𝑙) = (︀ (︀ )︀       )︀       
+                                             Request= offset=Addr 𝐹 ,length=2·𝒮     
+          (︁    )︁                                            𝜋(𝑖)        exp       
+       diag ∑︀ 𝑗 𝑤 𝑖 ( 𝑗 𝑙) denotethedegreematrix,andlet𝐿( n 𝑙 o ) rm =    (19)     
+       𝐼−(𝐷(𝑙))−1/2𝐴(𝑙)(𝐷(𝑙))−1/2denotethenormalizedgraph As shown in Figure 2a, this coalescing eliminates in-
+       Laplacian. Loom computes the Fiedler vector 𝑣(𝑙)—the termediate disk seeks and converts scattered random
+                                    2       4KBtransfersintosustained,high-bandwidthsequential
+       eigenvector corresponding to the second-smallest eigen-                      
+                                            DMA bursts. On OLMoE-1B-7B, Loom collapses ran-
+       value of 𝐿(𝑙) :                                                              
+             norm                           dom NVMe reads from 216 to 71 (a 67.1% reduction),
+                                            and on synthetic MoE benchmarks from 248 to 76 (a
+                   𝐿(𝑙) 𝑣(𝑙) =𝜆 𝑣(𝑙)  (17)  69.3% reduction).                       
+                    norm 2 2 2                                                      
+                                          8                                         
+
+--- PAGE 9 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       8  Progressive Tiered-Fidelity: The  8.3 Negative Result: The Prohibitive Cost of
+          Ember Subsystem                      Online SVD                           
+       When serving large models under extreme memory con- Our empirical evaluation established a critical negative
+       straints, storage I/O latency on commodity drives can finding regarding dynamic low-rank construction. As
+       introduce substantial stalls during the initial Time-To- quantified in Table 2, computing SVD decompositions
+       First-Token (TTFT) phase. To explore whether mathe- dynamicallyonCPUduringtheinferencepath(ModeB)
+       maticalweightapproximationcanmitigatetheselatency introduces an average processing stall of 3,018.20ms
+       penalties, we developed and evaluated Ember, a tiered- for a 64-expert network.
+       fidelity execution subsystem based on low-rank matrix                        
+       decomposition.                                                               
+                                            Table 2. Ember operational gate metrics evaluated on
+       8.1 Low-Rank Expert Skeleton Formulation commodity host hardware. Online SVD computation
+                                            introduces an intolerable 3-second bottleneck, while pre-
+       Foreachexpertfeed-forwardnetworkwithweightmatrix                             
+                                            compiled skeletons supply sub-millisecond provisional
+       𝑊 ∈R𝑑inter×𝑑model, Ember computes a low-rank approx-                         
+                                            previews at minor quality divergence.   
+       imation via truncated Singular Value Decomposition                           
+       (SVD):                                                                       
+                                            OperationalMode ColdTTFT(ms) Relative𝐿2Error SVDStall(ms) SystemStatus
+                                            ModeA(ExactBaseline) 739.40 0.000% 0.00 ProductionStandard
+                 𝑊 ≈𝑈 Σ 𝑉𝑇 =𝐴 𝐵       (20)  M M o o d d e e B C ( ( O Pr n e l c in o e m S p V ile D d ) Draft) 0.16 3,7 ( 5 p 7 re .6 v 0 iew) 1 1 . . 9 9 9 9 1 1 % % 3,0 0 1 .0 8 0 .20 REJ U E s C er T -F E ac D ing (+ Fa 4 s 0 t 8 P .2 r % evie r w eg O re n s l s y ion)
+                     𝑟 𝑟 𝑟   𝑟 𝑟                                                    
+       where 𝑟 ≪ min(𝑑 ,𝑑 ) denotes the truncation                                  
+                 √ inter model    √                                                 
+       rank, 𝐴                                                                      
+            𝑟                                                                       
+             = 𝑈                                                                    
+                𝑟                                                                   
+                  Σ                                                                 
+                   𝑟                                                                
+                    ∈ R𝑑inter×𝑟, and 𝐵                                              
+                               𝑟                                                    
+                                 = Σ                                                
+                                    𝑟                                               
+                                     𝑉                                              
+                                      𝑟                                             
+                                      𝑇 ∈    This computational overhead increased cold TTFT
+       R𝑟×𝑑model.                           from739.40msto3,757.60ms—a408.2%performance
+         By storing only the low-rank factors 𝐴 and 𝐵 in regression. Consequently, runtime on-the-fly matrix
+                                 𝑟    𝑟                                             
+       memory, the parameter storage requirement scales as decomposition is fundamentally unviable for latency-
+       𝒪(𝑟(𝑑  +𝑑   )) rather than 𝒪(𝑑 ·𝑑 ). For sensitive inference. Ember’s utility is strictly restricted
+           inter model        inter model                                           
+       an expert of dimension 1024×1408 with rank 𝑟 = 8, to Mode C, where precompiled skeletons provide provi-
+       the memory footprint drops from 4.59MB down to sional streaming previews while exact weights load in
+       0.06MB—a 98.7% reduction.            the background.                         
+       8.2 Ember Operational Modes          9  Systems Implementation and           
+       Ember evaluates three operational regimes to balance Zero-Copy Execution     
+       latency against numerical precision: Kura is implemented in Rust (> 18,000 lines of code
+                                            across 5 workspace crates), designed for bare-metal sys-
+          ∙ Mode A (Exact Full-Rank Baseline): Ember                                
+                                            tems execution on Linux kernels (≥5.10). To eliminate
+           is completely disabled. All expert executions re-                        
+                                            OS-induced latency spikes, Kura employs several low-
+           quireauthenticfull-rankquantizedweightsfetched                           
+                                            level systems optimizations:            
+           from storage.                                                            
+          ∙ Mode B (Dynamic Online SVD Decompo-                                     
+           sition): When an expert cache miss occurs, the 9.1 Linux Buffered I/O and io_uring
+           runtime dynamically fetches full-rank weights and Asynchrony             
+           computes the truncated SVD on CPU during live StandardPOSIXfileoperations(read,pread)andmmap
+           inference before caching the low-rank sketch. pass through the Linux Virtual File System (VFS) and
+          ∙ Mode C (Offline Precompiled SVD Skele- pagecache.InadditiontoCPUoverheadfrompagecache
+           tons): Low-rank matrices 𝐴 and 𝐵 are com- hashlookupsandlockcontention,cachedI/Ointroduces
+                             𝑟    𝑟                                                 
+           puted ahead-of-time during model packaging and double-buffering: data is transferred from NVMe via
+           stored in a compact, persistent binary artifact DMA into kernel page cache buffers, then copied via
+           (.kura.skeleton).Atruntime,whenanexpertis CPU instructions into user-space process memory. Kura
+           not resident in DRAM, Ember executes an imme- optimizes storage interaction by driving asynchronous
+           diateforwardpassusingtheprecompiledlow-rank I/O through Linux io_uring and POSIX pread64 into
+           sketch to synthesize a provisional speculative pre-allocated memory-aligned buffers. Submission and
+           draft preview in 0.16ms. Simultaneously, a completion queues (SQ and CQ) are mapped into user
+           background asynchronous io_uring request re- space,allowingbatchsubmissionofmultipleexpertfetch
+           trieves the exact full-rank weights over 739.40ms. requests with a single io_uring_enter() syscall.
+                                          9                                         
+
+--- PAGE 10 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       9.2 RamArena: Fixed-Slab Aligned Memory 10 Empirical Evaluation              
+           Allocations                      We evaluate Kura against baseline runtime architectures
+       High-performance vectorized memory transfers require under strictly controlled memory ceilings.
+       thatalluser-spacememorybuffers,fileoffsets,andtrans-                         
+                                            10.1 Experimental Methodology and Testbed
+       fer lengths be strictly aligned to the underlying block                      
+                                                Hardware                            
+       storage sector boundary (typically 4096 bytes). Fur-                         
+       thermore, high-performance AVX-512 and AVX2 vector All empirical benchmarks were conducted on a dedi-
+       SIMD instructions require 64-byte alignment to pre- cated Linux workstation running kernel 6.8.0-48 with
+       vent cache-line split penalties. To satisfy these dual con- cgroups v2 unified hierarchy enabled. Memory limits
+       straints without incurring heap fragmentation, Kura im- werestrictlyenforcedviamemory.maxwithswapdisabled
+       plements RamArena. At startup, RamArena pre-allocates (memory.swap.max=0). Prior to every cold benchmark
+       acontiguousvirtualaddressblockusingmmap(MAP_ANONYMOUSexecution,thehostpagecachewassystematicallycleared
+       | MAP_PRIVATE) with posix_memalign. The arena is viaecho 3 > /proc/sys/vm/drop_caches.Storageteleme-
+       partitioned into fixed-size slots sized to exact expert try and page-fault counts were captured directly via
+       tensor dimensions. When KAEF designates an expert Linux getrusage and /proc/<pid>/io.
+       for eviction, the slot is marked available in an 𝑂(1) bit-                   
+                                            10.2 Model Ladder and Benchmark Datasets
+       mask, avoiding dynamic heap allocation or system-level                       
+       remapping.                           We evaluate three model configurations: 
+                                              1. SyntheticMoE(166.08MB):4layers,16experts
+       9.3 SIMD Quantization and CPU Inference                                      
+                                                per layer, top-2 active (𝑘 =2), hidden dimension
+           Kernels                                                                  
+                                                𝑑=512, evaluated under a 24MB RAM budget
+       For host CPU computation, Kura incorporates custom (6.9× memory pressure).   
+       vector kernels targeting x86_64 AVX-512 (with VNNI 2. OLMoE-1B-7BSub-NetworkProxy(1.21GB
+       support) and AVX2 architectures. Weight tensors are in Q8_0 quantization): 8 layers, 32 experts per
+       stored in 4-bit and 8-bit quantized formats (Q4_K_M, layer, top-8 active (𝑘 = 8), hidden dimension
+       Q8_0).Thematrix-vectormultiplicationkernelunpacks 𝑑 = 1024, intermediate dimension 𝑑 = 1408,
+                                                                      inter         
+       quantized nibbles into 8-bit integers, computes dot prod- evaluated under a 256MB RAM budget (4.8×
+       uctsviaintegermultiply-accumulate(_mm512_dpbusd_epi32), memorypressure)forstorageI/Oandcacheaccess
+       and applies scaling factors in single-precision floating characterization.   
+       point.                                 3. Llama-3.1-70BDenseModel(39.97GB,Q4_K_M):
+                                                80 layers, evaluated under severe memory con-
+       9.4 Empirical Equivalence Across Tested                                      
+                                                straints (36.5GB budget, 1.2× memory pressure)
+           Configurations                                                           
+                                                tomeasuresustainedstreamingthroughputwhere
+       A vital requirement for systems-level optimizations is standard mmap triggers kernel thrashing.
+       numericalcorrectness.Kura’smemoryresidencyreorder-                           
+       ing, buffered I/O pipelines, and layout compilations do 10.3 I/O Reduction and Throughput on Real
+       not alter the underlying mathematical tensor operations. MoE Architecture    
+       Across an extensive automated test suite comprising 262 Table 3 details the comparative performance of baseline
+       deterministic unit and layer test cases, Kura validates static LRU versus Kura on the OLMoE 8-layer proxy
+       numerical equivalence against un-optimized reference under a 256MB physical RAM limit.
+       baselines. Specifically, for all tested synthetic MoE and                    
+       OLMoE-1B-7B layer/kernel configurations under float32 Table 3. Performance on the OLMoE-1B-7B 8-layer
+       and quantized Q4_K_M/Q8_0 formats:   proxy (1.21GB, Q8_0) under a 256MB cgroup limit.
+                                            Loom spectral coalescing collapses random storage
+                  ‖𝑦  −𝑦 ‖                                                          
+             ∆𝐿 =  Kura ref 2 =0.00000000 (21) seeks and reduces I/O stalls, improving sustained to-
+               2    ‖𝑦 ‖                                                            
+                     ref 2                  ken throughput.                         
+       withmaximumabsoluteelement-wisedivergencemax|𝑦 −                             
+                                        Kura                                        
+       𝑦 | = 0.0 and cosine similarity cos(𝑦 ,𝑦 ) = 1.0.                            
+        ref                    Kura ref     Configuration ColdTTFT(ms) Throughput(tok/s) RandReads SeqReads I/OStall(ms) StorageTraffic
+       We emphasize that this equivalence is empirical, estab- B B a a s s e e l l i i n n e e L L R R U U ( ( R R u u n n A B) ) 3 3 3 3 8 0 . . 9 4 0 3 1 1 0 0 . . 5 7 7 8 1 1 1 1 7 7 0 0 2 1 8 8 2 5 . . 7 4 1 0 4 4 8 8 . . 6 6 0 0M M B B / / t t o o k k
+                                            Kura(Loom+LRU)(RunA) 250.80 12.09 71 145 184.40 21.30MB/tok
+       lished strictly within the scope of the 262 tested deter- Kura(Loom+KAEF)(RunB) 264.24 12.09 71 145 188.37 21.30MB/tok
+                                            ObservedImprovement -20.03%to-26.00% +12.15%to+14.38% -67.13% — -29.26% -56.17%
+       ministic layer configurations; it does not constitute an                     
+       unconstrained mathematical proof of bit-level invariance By grouping experts that exhibit high empirical co-
+       across all arbitrary neural architectures, floating-point activation into contiguous physical disk sectors, Loom
+       environments, or un-tested quantization schemes. reduces random storage lookups from 216 down to 71
+                                          10                                        
+
+--- PAGE 11 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       seeks (a 67.13% reduction), allowing sequential read 11 System Operating Regimes and
+       bursts to absorb over 67% of total traffic. Consequently, Systems Overhead Analysis
+       storage I/O stall duration collapses by 29.26% (from                         
+                                            11.1 RAM Sweep and Intermediate Inversion
+       266.30ms down to 188.37ms in Run B), translating                             
+                                                Anomalies                           
+       directly into a +14.38% throughput gain (from 10.57 to                       
+                                            To identify the operational boundaries of predictive allo-
+       12.09 tok/s).                                                                
+                                            cation, weconducteda systematic memory sweepon the
+                                            166.08MBmodelfrom16MBupto128MBRAMlimits.
+                                            Table 4 reveals a non-monotonic performance curve.
+       10.4 Dense Model Streaming Limits:                                           
+            Llama-3.1-70B                                                           
+                                            Table 4. System performance across memory budgets
+       On dense models, streaming entire transformer layers on on the 166MB model. At intermediate budgets (24–
+       every token generates massive storage traffic. On Llama- 48MB), KAEF suffers performance regressions due to
+       3.1-70B under a 36.5GB memory limit (1.2× memory cache thrashing and controller decision overhead.
+       pressure), baseline mmap suffers severe page thrashing                       
+       and triggers process termination. In contrast, Kura’s                        
+                                            RAMLimit PressureRatio LRU(tok/s) KAEF(tok/s) LRUHit% KAEFHit% KAEFAdvantage
+       user-space buffered streaming sustains continuous ex- 16MB ≈10.4× 2.78 4.73 14.1% 52.1% +70.09%
+                                            24MB  ≈6.9× 7.66 1.70 25.0% 25.0% -77.78%
+       ecution, completing generation at a measured decode 3 4 2 8 M M B B ≈ ≈ 5 3 . . 2 5 × × 5 5 . . 5 8 0 0 2 5 . . 2 0 7 1 3 4 2 5 . . 3 3 % % 3 5 2 3 . . 3 1 % % - - 5 1 8 3 . . 8 5 1 2 % %
+                                            64MB  ≈2.6× 6.38 8.78 47.9% 62.0% +37.64%
+       throughput of 0.019 tokens/s (average step latency 128MB ≈1.3× 8.54 5.80 47.9% 83.3% -32.03%
+       of 51.45s per token, transferring 39.97GB per step at                        
+       740.93MB/ssustainedreadbandwidth).Thisestablishes Atseverememorypressure(16MB),KAEFachievesa
+       the authentic physical ceiling of pure storage streaming +70.09%speedupbyleveragingCRFlookaheadprefetch-
+       on dense architectures without layer reuse. ingtoraisecachehitratesfrom14.1%to52.1%.However,
+                                            at intermediate budgets (24MB and 32MB), perfor-
+                                            mance regresses sharply: LRU achieves 7.66 tok/s while
+                                            KAEFdeliversonly1.70tok/s(a-77.78% regression).
+       10.5 Deterministic Memory Allocation vs. OS                                  
+            Demand Paging                                                           
+                                            11.2 Root Cause: The 12.35 ms Decision  
+       To quantify the memory subsystem dynamics between Overhead                   
+       operating system virtual memory paging and user-space                        
+                                            Instrumentation of KAEF’s internal pipeline in Table 5
+       arena management, we execute live benchmarks on the                          
+                                            explains this inversion:                
+       AMDRyzen33250Uclienttestbedunderastrict3.5GB                                 
+       cgrouplimit(MemoryMax=3500M,MemorySwapMax=0)across                           
+                                            Table 5. Cumulative timing breakdown of KAEF plan-
+       three independent repetitions (𝑁 = 3). When evaluat-                         
+                                            ning pipeline across 24 tokens (384 decisions) under a
+       ing the memory-resident Qwen2.5-1.5B model (0.98GB                           
+                                            24MB RAM budget.                        
+       GGUF), the model fits comfortably within the physical                        
+       memory ceiling, yielding identical decode throughput of                      
+                                             Pipeline Component        Cumulative Time Fraction
+       ≈0.25tok/s across all configurations. However, the un-                       
+       derlyingmemoryallocationmechanismsdifferdrastically CRF Routing Forecasting 1.98 ms 0.04%
+       between standard demand paging and Kura. MEC Marginal Contribution     1.44 ms 0.03%
+         In the standard mmap baseline, the operating system Convex Scarcity Pricing 0.27 ms 0.01%
+       kernel relies on passive demand faulting. On a cold start CES Beam Search 4.19 ms 0.09%
+       (Repetition 1), mmap incurred a massive 103,831 minor Arena Allocation & Decision Apply 4,741.47 ms 99.83%
+       page faults as the kernel repeatedly trapped execu-                          
+                                             Total Controller Overhead     4,749.35 ms 100.00%
+       tion to populate page table entries and allocate page                        
+       cache buffers across the 28 transformer blocks. In con-                      
+       trast, Kura’s pre-allocated, 64-byte aligned RamArena Whilepredictivesearchexecutesinunder8ms,apply_decision()
+       slabs (evaluated in both buffered io_uring and Loom incurs 4,741.47ms across the sequence (≈12.35ms per
+       configurations) restricted minor page faults to ≈8,000 call). This cost stems from synchronous memory arena
+       (recording 7,865 in buffered and 8,042 in Loom). This slabre-allocations,vectordequantization,andtemporary
+       empirical finding proves that Kura provides determinis- buffer allocations during cache rebalancing. At interme-
+       tic, user-space memory isolation that bypasses the OS diate budgets, hit rate parity between LRU and KAEF
+       kernel’s page-fault overhead, ensuring predictable resi- (25.0%) fails to offset this 12.35ms controller latency,
+       dentsetsize(RSS)stability(1,146MBpeakRSS)under leading to severe throughput degradation. Consequently,
+       strict cgroups v2 limits.            Kura explicitly deactivates KAEF in ample memory
+                                          11                                        
+
+--- PAGE 12 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       regimes, adopting static LRU as the optimal production explicitly targeted at edge and workstation deployments
+       baseline.                            where host memory is constrained.       
+                                             Hardware Testbed Decommissioning: Primary
+                                            benchmarks were conducted on a 12-core, 24-thread In-
+       12  Threats to Validity and Limitations                                      
+                                            tel Xeon w5-3425 workstation with Samsung 990 PRO
+       12.1 Internal Validity                                                       
+                                            NVMe storage. Because this specific physical machine
+       Cold Storage Latency Variance: As documented in was subsequently decommissioned, full benchmark re-
+       Section10,independenthistoricalrepetitionsonOLMoE- execution cannot be repeated on our current lightweight
+       1B-7B yielded a 26.00% cold TTFT reduction in Run A validation environment (AMD Ryzen 3 3250U, 5.7GB
+       versus a 20.03% reduction in Run B. Physical cold read RAM). All historical benchmark logs, raw telemetry
+       latencies fluctuate across independent benchmark runs dumps, and SHA-256 manifests have been cryptographi-
+       followingOSpagecachedropsduetosystem-leveldevice cally preserved and validated without modification.
+       and block-layer initialization variance. Importantly, our                    
+       experimental telemetry records macroscopic block read 13 Conclusion          
+       times and queue latencies but does not capture inter-                        
+                                            This paper presented an empirical and architectural in-
+       nal NVMe controller firmware states or PCIe physical                         
+                                            vestigation into storage-native decoupled inference for
+       link transitions; we therefore refrain from attributing                      
+                                            memory-constrained large language models. By refram-
+       run-to-run variance to unmeasured microarchitectural                         
+                                            ingmodelweightstoragefrompassiveOSvirtualmemory
+       mechanisms. Steady-state token throughput after cold                         
+                                            paging to structured user-space streaming, Kura enables
+       start converged identically to 12.09tok/s across runs.                       
+                                            reliable execution under strict physical memory ceilings
+         Synchronous Memory Mutation: Micro-profiling                               
+                                            where conventional mmap runtimes collapse into fatal
+       proves that synchronous memory arena unmapping and                           
+                                            page-thrashing and OOM termination.     
+       remappingconsumesover99.8%ofKAEFplanningtime.                                
+                                             Our primary positive systems finding is that Loom
+       Systems that do not batch arena mutations or utilize                         
+                                            physical layout compilationfundamentallyaltersthe
+       lockless circular ring buffers will observe throughput                       
+                                            storage access profile of sparse MoE models. By solving
+       regressions at intermediate memory capacities.                               
+                                            anofflinespectralarrangementonempiricalco-activation
+                                            graphs,Loomclustersroutedexperttensorsintocontigu-
+       12.2 Construct Validity                                                      
+                                            ous physical sectors, collapsing random seeks by 67.13%
+       ScopeofNumericalEquivalence:Thebit-levelequiv- and reducing storage I/O stall duration by 29.26%. This
+       alence (∆𝐿 = 0.0, cosine similarity = 1.0) reported yields sustained throughput improvements of +12.15%
+              2                                                                     
+       in Section 9 was verified across 262 deterministic test to +14.38% on real MoE sub-network topologies using
+       assertions covering tested synthetic MoE and OLMoE- standardbufferedasynchronousI/Ointoalignedmemory
+       1B-7B kernel and layer implementations under float32 slabs.                  
+       and quantized Q4_K_M/Q8_0 formats. This empirical Equally critical are our negative systems results:
+       validation confirms that Kura’s memory scheduling and                        
+                                              1. Complex economic auction frameworks (KAEF)
+       Buffered I/O pipelines preserve mathematical correct-                        
+                                                incur non-trivial systems overhead (≈ 12.35ms
+       nessforthetestedconfigurations;itdoesnotconstitutea                          
+                                                per decision), creating performance inversions at
+       formal mathematical proof of bit-level invariance across                     
+                                                intermediate memory capacities. Unless memory
+       un-tested architectures, floating-point rounding modes,                      
+                                                pressure is severe (≥10× model-to-RAM ratio),
+       or multi-threaded schedules.                                                 
+                                                simple static LRU combined with Loom layout
+         Ember Tiered-Fidelity Characterization: Ember                              
+                                                compilation provides a faster, more predictable
+       Mode C delivers a provisional speculative draft preview                      
+                                                execution path.                     
+       in0.16mswith1.99%qualitydivergence,whilefullexact                            
+                                              2. Dynamic runtime SVD sketch construction (Em-
+       completion requires 739.40ms. Provisional draft tokens                       
+                                                ber Mode B) introduces a prohibitive 3,018ms
+       arespeculativeapproximationsdesignedtohidecoldI/O                            
+                                                CPU stall, demonstrating that progressive fidelity
+       latency and are not equivalent to full exact inference.                      
+                                                techniques cannot be generated on-the-fly and
+                                                must strictly rely on offline precompiled skeletons.
+       12.3 External and Environmental Validity 3. Dense model architectures stream weights propor-
+       Target Workload Focus: Our evaluation targets in- tionally to model size on every token step, estab-
+       teractive, single-user generation (batch_size=1). High- lishing an inescapable physical throughput ceiling
+       concurrency datacenter serving (𝐵 ≥ 64) increases ex- governed strictly by the sequential bandwidth of
+       pert reuse across concurrent requests within the same commodity solid-state drives (0.019tok/s on 70B
+       layer, reducing cache miss rates for all systems. Kura is models over SATA storage).
+                                          12                                        
+
+--- PAGE 13 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+         By publishing our verified telemetry, corrected claim GenerativeInferenceofLargeLanguageModelswithaSingle
+       matrices, layout compilers, and execution harnesses, we GPU. In International Conference on Machine Learning
+       establishatransparent,reproduciblebenchmarkbaseline (ICML).31094–31116.      
+                                            [15] Shwai Song et al. 2024. MoE-Lightning: High-Throughput
+       for future research into storage-aware language model                        
+                                              MoEInferenceonMemory-constrainedGPUs. arXivpreprint
+       systems.                                                                     
+                                              arXiv:2411.11217 (2024).              
+                                            [16] Zhenyu Song, Daniel Giles, et al. 2020. Learning Relaxed
+       References                             BeladyforContentDistributionNetworkCaching. USENIX
+                                              NSDI (2020).                          
+        [1] LaszloA.Belady.1966. Astudyofreplacementalgorithms                      
+                                            [17] PengTang,JiachengLiu,XiaofengHou,etal.2024.HOBBIT:
+          for a virtual-storage computer. IBM Systems Journal 5, 2                  
+                                              AMixedPrecisionExpertOffloadingSystemforFastMoE
+          (1966),78–101.                                                            
+                                              Inference. arXiv preprint arXiv:2411.01433 (2024).
+        [2] TianlongChen,YuCheng,XuesuZhang,etal.2023. Task-                        
+                                            [18] UlrikeVonLuxburg.2007. Atutorialonspectralclustering.
+          SpecificExpertPruningforSparseMixture-of-Experts.arXiv                    
+                                              Statistics and Computing 17,4(2007),395–416.
+          preprint arXiv:2306.00989 (2023).                                         
+                                            [19] Xin Wang, Yu Hu, Zhangyang Tan, et al. 2024. SVD-
+        [3] Artyom Eliseev and Denis Mazur. 2023. Fast Inference of                 
+                                              LLM: Truncation-aware Singular Value Decomposition for
+          Mixture-of-ExpertsLanguageModelswithOffloading. arXiv                     
+                                              Large Language Model Compression. arXiv preprint
+          preprint arXiv:2312.17238 (2023).                                         
+                                              arXiv:2403.07378 (2024).              
+        [4] LeyangGao,ZhenDong,HaiquanShen,BeidiChen,JosephE                        
+          Gonzalez,andKurtKeutzer.2024. MoE-Infinity:Activation-                    
+                                            A  Artifact Appendix: Reproducibility   
+          Aware Expert Offloading for Efficient MoE Serving. arXiv                  
+          preprint arXiv:2401.14361 (2024).    and Hardware Setup                   
+        [5] GeorgiGerganov.2023.llama.cpp:PortofFacebook’sLLaMA                     
+          modelinC/C++. https://github.com/ggerganov/llama.cpp. A.1 Evaluation Hardware Specification
+        [6] Changho Hwang, Wei Wei, Yuxiong Min, Minjia Zheng, All contemporary benchmarks and experimental eval-
+          Samyam Rajbhandari, and Yuxiong He. 2023. Tutel:                          
+                                            uations in this paper were conducted on a commodity
+          Adaptive Mixture-of-Experts at Scale. In arXiv preprint                   
+                                            consumer client platform:               
+          arXiv:2206.03382.                                                         
+        [7] Ranggi Hwang, Jianyu Wei, Shijie Cao, Changho Hwang, ∙ Processor: AMD Ryzen 3 3250U with Radeon
+          Xiaohu Tang, Ting Cao, and Mao Yang. 2024. Pre-gated Graphics(2physicalcores,4threads,base2.60GHz,
+          MoE: An Algorithm-System Co-Design for Fast and Scal-                     
+                                                boost 3.50GHz, 4MB shared L3 cache, x86-64-v3
+          ableMixture-of-ExpertInference.InProceedings of the 51st                  
+                                                with AVX2 and FMA3 instruction support).
+          Annual International Symposium on Computer Architecture                   
+          (ISCA).629–643.                     ∙ Host Memory: 5.7GB usable physical DDR4-
+        [8] AlbertQJiang,AlexandreSablayrolles,AntoineRoux,Arthur 2400 single-channel RAM.
+          Mensch, Blanche Savary, Chris Bamford, Devendra Singh ∙ StorageDevice:128GBSATAM.2SSD(/dev/sda,
+          Chaplot, Diego de las Casas, Emma Bou Hanna, Florian                      
+                                                SamsungPM871bMZNTY128HDHP-000L7).Mea-
+          Bressand, et al. 2024. Mixtral of Experts. arXiv preprint                 
+                                                sured sequential read bandwidth: 350.19MB/s;
+          arXiv:2401.04088 (2024).                                                  
+        [9] KeisukeKamahori,YileGu,andBarisKasikci.2025. Fiddler: 4KBrandomreadQD1:8,158.7IOPS(31.87MB/s)
+          CPU-GPU Orchestration for Fast Inference of Mixture-of- at 122.57𝜇s latency.
+          ExpertsModels.InTheThirteenthInternationalConference ∙ Operating System: Linux kernel 6.8+ (x86_64)
+          on Learning Representations (ICLR).                                       
+                                                with cgroups v2 unified hierarchy enabled.
+       [10] SouvikKunduetal.2023. EdgeMoE:FastOn-DeviceInfer-                       
+          enceofMoE-basedLargeLanguageModels. arXiv preprint ∙ Toolchain: Rust 1.80+ (cargo 1.99.1, rustc
+          arXiv:2308.14352 (2023).              1.99.1), Python 3.10+ with numpy, pandas, and
+       [11] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, matplotlib.         
+          Lianmin Zheng, Cody Hao Yu, Joseph E Gonzalez, Hao                        
+          Zhang,andIonStoica.2023. EfficientMemoryManagement A.2 Memory Isolation and cgroup v2
+          forLargeLanguageModelServingwithPagedAttention.In                         
+                                                Configuration                       
+          ACM Symposium on Operating Systems Principles (SOSP).                     
+          611–626.                          To rigorously evaluate out-of-memory behavior with-
+       [12] Niklas Muennighoff, Luca Soldaini, Dirk Groeneveld, Kyle out interference from available physical host memory,
+          Richardson,NathanLambert,AbhilashaRavichander,Yuling                      
+                                            memoryceilingsarestrictlyenforcedusingLinuxControl
+          Gu, Binyuan Liu, Noah Hall, Shengyi Jiang, et al. 2024.                   
+                                            Groupsv2withswapexplicitlydisabled(memory.swap.max
+          OLMoE:OpenMixture-of-ExpertsLanguageModels. arXiv                         
+          preprint arXiv:2409.02060 (2024). = 0).                                   
+       [13] Samyam Rajbhandari, Conglong Li, Zhewei Yao, Minjia Reviewers can enforce the exact 3.5GB ceiling using
+          Zhang, Reza Yazdani Aminabadi, Ammar Ahmad Awan, either user-space systemd scopes or root cgroup con-
+          Jeff Rasley, and Yuxiong He. 2022. DeepSpeed-MoE: Ad-                     
+                                            trollers:                               
+          vancingMixture-of-ExpertsInferenceandTrainingtoPower                      
+          Next-GenerationAIModels. (2022),18332–18346. Option A: User-Space Scope (Recommended,
+       [14] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li,                    
+                                            No Root Required).                      
+          Max Ryabinin, Beidi Chen, Percy Liang, Christopher Re,                    
+          IonStoica,andCeZhang.2023. FlexGen:High-Throughput systemd-run --user --scope \
+                                          13                                        
+
+--- PAGE 14 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+          -p MemoryMax=3500M \              B  Mathematical Formulations and        
+          -p MemorySwapMax=0 \                 Proofs                               
+          bash                                                                      
+                                            B.1 Convex Scarcity Pricing Equilibrium 
+         Option B: Root Control Group.      Theorem B.1 (Memory Market Stability). Let the
+                                                                         (︁ )︁      
+       sudo mkdir -p /sys/fs/cgroup/kura_bench scarcity pricing function 𝑃 scarcity (𝑈) = 𝑃 0 exp 1− 𝛽 𝑈
+       echo "3670016000" | sudo tee /sys/fs/cgroup/kura_bebnecdhe/fimneemdoroyn.m𝑈ax∈ [0,1), with 𝛽 > 0,𝑃 > 0. Under
+                                                                    0               
+       echo "0" | sudo tee /sys/fs/cgroup/kura_bench/memorbyo.usnwdaedp.emxapexrt utility MEC(𝐹 )≤𝑀 <∞, the mem-
+                                                             𝑖   max                
+       sudo cgexec -g memory:kura_bench bash ory utilization ratio 𝑈(𝑡) strictly satisfies 𝑈(𝑡) < 1 for
+                                            all steps 𝑡.                            
+       A.3 Model Weights and Proxy Artifacts                                        
+       The reproduction suite requires the following weight Proof. An expert 𝐹 𝑖 is admitted or retained in memory
+       artifacts placed in models/:         if and only if its net economic surplus is non-negative:
+          1. Qwen2.5-1.5B-Instruct-Q4_K_M (0.99GB                                   
+                                             Net Benefit(𝐹 )=MEC(𝐹 )−𝑃 (𝑈)·𝒮 ≥0     
+                                                     𝑖       𝑖  scarcity exp        
+           GGUF):Fitscomfortablywithinthe3.5GBmem-                                  
+                                                                           (22)     
+           oryceiling;servesasthein-memorycomputebase-                              
+                                            Rearranging gives the condition for retention:
+           line.                                                                    
+          2. Qwen2.5-7B-Instruct-Q4_K_M(4.68GBGGUF):       MEC(𝐹 ) 𝑀                
+                                                  𝑃    (𝑈)≤     𝑖 ≤ max    (23)     
+           Strictly exceeds the 3.5GB RAM ceiling; demon- scarcity 𝒮 𝒮              
+                                                             exp    exp             
+           strates real dense model streaming limits from                           
+           commodity SATA.                  Substituting the definition of 𝑃 (𝑈):   
+                                                               scarcity             
+          3. OLMoE Sub-Network Proxy (shared-olmoe.                                 
+                                                (︂   )︂               (︂    )︂      
+           gguf.kura,1.21GB):An8-layer,32-expertQ8_0 𝛽  𝑀        𝛽      𝑀           
+                                            𝑃 exp     ≤  max =⇒    ≤ln   max        
+           sub-network (4,595,712 bytes per expert) derived 0 1−𝑈 𝒮 1−𝑈 𝑃 ·𝒮        
+                                                         exp            0  exp      
+           from OLMoE-1B-7B, utilized for high-fidelity I/O                (24)     
+           access and cache policy characterization. Let 𝜅= 1 ln (︁ 𝑀max )︁ . If 𝑀max >1, then:
+                                                 𝛽   𝑃0·𝒮exp 𝑃0·𝒮exp                
+       A.4 Reproducing Benchmark Telemetry                                          
+                                                        1          1                
+         1. Dense Model SATA Reality Suite. To execute 1−𝑈 ≥ =⇒ 𝑈 ≤1− <1   (25)     
+                                                        𝜅         𝜅                 
+       the N=3 benchmark comparison across baseline mmap,                           
+       Kura Buffered, and Kura + Loom under the 3.5GB Thus, memory utilization is bounded strictly away from
+       memory limit:                        unitybyapositivemargin𝛿 =1/𝜅>0.Hence,themem-
+                                            ory auction guarantees that physical memory capacity
+       # From repository root                                                       
+                                            is never exceeded, preventing out-of-memory faults. □
+       chmod +x scripts/run_phase2_sata_reality.sh                                  
+       ./scripts/run_phase2_sata_reality.sh                                         
+                                            B.2 Singular Value Decomposition Truncation
+       This emits telemetry to benchmarks/results/phase2_ Error Bounds              
+       sata_reality.json,capturingwall-clocktime,time-to-                           
+                                            Theorem B.2 (Eckart-Young-Mirsky Theorem). Let
+       first-token(TTFT),tokenspersecond,andmajor/minor                             
+       page faults.                                                                 
+                                            𝑊 ∈ R𝑑out×𝑑in have singular values 𝜎    
+                                                                   1                
+                                                                    ≥ 𝜎             
+                                                                       2            
+                                                                        ≥ ··· ≥     
+                                            𝜎 ≥ 0. The truncated rank-𝑟 approximation 𝑊˜ =
+         2. MoE Trace and Layout Evaluation. To exe- ∑︀                             
+                                             𝑟                                      
+                                             𝑟 𝑗 𝑘 =1 𝜎 𝑗 𝑢 𝑗 𝑣 𝑗 𝑇 satisfies:      
+                                                              𝑘           𝑟𝑘        
+       cute the MoE routing access trace with Loom layout                           
+                                                                     ⎯              
+       coalescing:                                                   ⎸  𝑟           
+       ca                                                                           
+         -                                                                          
+         r                                                                          
+          -                                                                         
+          g                                                                         
+          c                                                                         
+          o                                                                         
+           on                                                                       
+            r                                                                       
+            f                                                                       
+            u                                                                       
+             i                                                                      
+             n                                                                      
+              g                                                                     
+               -                                                                    
+               b                                                                    
+               -r                                                                   
+                e                                                                   
+                 e                                                                  
+                 n                                                                  
+                  l                                                                 
+                  c                                                                 
+                  e                                                                 
+                  h                                                                 
+                   a                                                                
+                   m                                                                
+                    s                                                               
+                    a                                                               
+                    e                                                               
+                    rks                                                             
+                      -                                                             
+                       /                                                            
+                       -                                                            
+                       c                                                            
+                       b                                                            
+                        o                                                           
+                        i                                                           
+                         n                                                          
+                         n                                                          
+                         fi                                                         
+                          k                                                         
+                           g                                                        
+                           u                                                        
+                            s                                                       
+                            r                                                       
+                            /                                                       
+                            a                                                       
+                             o                                                      
+                             _                                                      
+                              l                                                     
+                              b                                                     
+                               m                                                    
+                               e                                                    
+                               o                                                    
+                               n                                                    
+                                e                                                   
+                                c                                                   
+                                 _                                                  
+                                 h                                                  
+                                 re                                                 
+                                  -                                                 
+                                   a                                                
+                                   -                                                
+                                    l                                               
+                                    \                                               
+                                    _trace.json                                     
+                                             rank                                   
+                                               m                                    
+                                               (𝐵                                   
+                                                in                                  
+                                                )≤𝑟𝑘                                
+                                                   ‖𝑊 −𝐵‖ 𝐹 =‖𝑊 −𝑊˜ 𝑟𝑘 ‖ 𝐹 = ⎸ ⎷    
+                                                                       𝑗=           
+                                                                       ∑︁           
+                                                                        𝑟𝑘+1        
+                                                                           𝜎 𝑗 2    
+                                                                           (26)     
+         3. Regenerating Publication Figures. All figures                           
+                                             In trained Transformer MoE layers, the singular value
+       in the manuscript can be regenerated directly from                           
+                                            spectrum of feed-forward projection matrices exhibits
+       telemetry JSONs:                                                             
+                                            rapid power-law decay (𝜎 ∝ 𝑗−𝛼 with 𝛼 ≈ 1.2–1.8).
+                                                            𝑗                       
+       python3 generate_all_figures.py                                              
+                                            Consequently, setting 𝑟 =16 preserves over 94% of the
+                                                          𝑘                         
+       TheresultingPDFandPNGassetsaredepositeddirectly spectralenergywhilereducingparameterstoragebyover
+       into figures/ and manuscript/latex/figures/. 98%.                            
+                                          14                                        
+
+--- PAGE 15 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       C   Extended Experimental Tables                                             
+       Table 6. Comprehensiveperformance breakdown across                           
+       the evaluated model configurations under tested host                         
+       RAM limits. Throughput is measured in tokens/second;                         
+       storage I/O stall time is cumulative per sequence.                           
+                                                                                    
+        ModelCheckpoint Footprint RAMBudget EngineMode TTFT(ms) Throughput(tok/s) I/OStall(s)
+        SyntheticMoE 166.08MB 24MB Kura Ba ( s L el o in o e m ( + LR K U A ) EF) 4 5 2 4 . .8 6 3 1 2 3 2 9 . . 6 1 4 2 0 0 . . 0 10 9
+        OLMoE-1B-7B 1.21GB 256MB(RunA) K B u a r s a eli ( n L e o ( o K m A + EF K B A a E se F ) ) 2 3 5 3 0 8. . 9 8 0 0 1 1 2 0 . .7 0 8 9 0 0 . . 1 27 8
+                 256MB(RunB) K B u a r s a eli ( n L e o ( o K m A + EF K B A a E se F ) ) 2 3 6 3 4 0. . 4 2 3 4 1 1 2 0 . .5 0 7 9 0 0 . . 1 27 9
+        Qwen1.5-MoE-A2.7B 5.37GB 2GB B K as u el r i a ne 1 1 , , 0 4 8 80 5 . . 2 0 0 0 3 2 . . 6 45 2 0 1 . . 8 28 4
+        Mixtral-8x7B 15.77GB 4GB B K as u el r i a ne OO 3 M ,42 / 0 C .5 r 0 ash 1 0 . . 8 00 8 2 — .94
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                          15                                        
+                                                                                    
+                                                                                    
+                                                                                    
+

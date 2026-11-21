@@ -3,7 +3,7 @@
 
 Kura is implemented in Rust ($>18{,}000$ lines of code across 5 workspace crates), designed for bare-metal systems execution on Linux kernels ($\ge 5.10$). To eliminate OS-induced latency spikes, Kura employs several low-level systems optimizations:
 
-\subsection{Linux Direct I/O and io\_uring Asynchrony}
+\subsection{Linux Buffered I/O and \texttt{io\_uring} Asynchrony}
 Standard POSIX file operations (\texttt{read}, \texttt{pread}) and \texttt{mmap} pass through the Linux Virtual File System (VFS) and page cache. In addition to CPU overhead from page cache hash lookups and lock contention, cached I/O introduces double-buffering: data is transferred from NVMe via DMA into kernel page cache buffers, then copied via CPU instructions into user-space process memory.
 Kura optimizes storage interaction by driving asynchronous I/O through Linux \texttt{io\_uring} and POSIX \texttt{pread64} into pre-allocated memory-aligned buffers. Submission and completion queues (\texttt{SQ} and \texttt{CQ}) are mapped into user space, allowing batch submission of multiple expert fetch requests with a single \texttt{io\_uring\_enter()} syscall.
 
@@ -15,7 +15,7 @@ To satisfy these dual constraints without incurring heap fragmentation, Kura imp
 For host CPU computation, Kura incorporates custom vector kernels targeting x86\_64 AVX-512 (with \texttt{VNNI} support) and AVX2 architectures. Weight tensors are stored in 4-bit and 8-bit quantized formats (Q4\_K\_M, Q8\_0). The matrix-vector multiplication kernel unpacks quantized nibbles into 8-bit integers, computes dot products via integer multiply-accumulate (\texttt{\_mm512\_dpbusd\_epi32}), and applies scaling factors in single-precision floating point.
 
 \subsection{Empirical Equivalence Across Tested Configurations}
-A vital requirement for systems-level optimizations is numerical correctness. Kura's memory residency reordering, direct I/O pipelines, and layout compilations do not alter the underlying mathematical tensor operations.
+A vital requirement for systems-level optimizations is numerical correctness. Kura's memory residency reordering, buffered I/O pipelines, and layout compilations do not alter the underlying mathematical tensor operations.
 Across an extensive automated test suite comprising 262 deterministic unit and layer test cases, Kura validates numerical equivalence against un-optimized reference baselines. Specifically, for all tested synthetic MoE and OLMoE-1B-7B layer/kernel configurations under float32 and quantized Q4\_K\_M/Q8\_0 formats:
 \begin{equation}
     \Delta L_2 = \frac{\| y_{\text{Kura}} - y_{\text{ref}} \|_2}{\| y_{\text{ref}} \|_2} = 0.00000000
