@@ -111,7 +111,7 @@ def main():
                     all_raw_nums.setdefault(val / 1024, []).append((fname, path + " -> MB"))
         recurse(jdata)
 
-    # Documented Derived Formulas (cross-pair & rates)
+    # Documented Derived Formulas (cross-pair, shares, and error bounds)
     derived_nums = {
         14.38: ("m3_real_moe_benchmarks.json", "secondary_model.checkpoint_run_b", "tps_gain%: (12.09 - 10.57)/10.57 * 100"),
         20.03: ("m3_real_moe_benchmarks.json", "secondary_model.checkpoint_run_b", "ttft_delta%: (264.24 - 330.43)/330.43 * 100"),
@@ -128,7 +128,13 @@ def main():
         98.7:  ("m3_real_moe_benchmarks.json", "expert_size_mb vs ember", "compression_pct: (4.59 - 0.06)/4.59 * 100"),
         99.8:  ("ablation_cd.json", "b_kaef.timing.arena_apply_share_pct", "round 1dec: 99.83% -> 99.8%"),
         99.83: ("ablation_cd.json", "b_kaef.timing.arena_apply_share_pct", "4741.47 / 4749.35 * 100"),
-        52.1:  ("ram_sweep.json", "points[0].kaef_hit_rate", "kaef_hit_rate_pct: 0.520833 * 100 = 52.1%")
+        52.1:  ("ram_sweep.json", "points[0].kaef_hit_rate", "kaef_hit_rate_pct: 0.520833 * 100 = 52.1%"),
+        0.04:  ("ablation_cd.json", "b_kaef.timing.kaef_forecasting_ns", "forecasting_share%: 1.98ms / 4749.35ms * 100 = 0.04%"),
+        0.03:  ("ablation_cd.json", "b_kaef.timing.kaef_mec_ns", "mec_share%: 1.44ms / 4749.35ms * 100 = 0.03%"),
+        0.01:  ("ablation_cd.json", "b_kaef.timing.kaef_pricing_ns", "pricing_share%: 0.27ms / 4749.35ms * 100 = 0.01%"),
+        0.09:  ("ablation_cd.json", "b_kaef.timing.kaef_search_ns", "search_share%: 4.19ms / 4749.35ms * 100 = 0.09%"),
+        94.0:  ("appendix/math_proofs.tex", "Appendix B.2", "spectral_energy_retention_bound: sum(sigma_i^2, 1..16)/total_energy >= 94%"),
+        98.0:  ("appendix/math_proofs.tex", "Appendix B.2", "svd_param_reduction%: (1024*1408 - 16*(1024+1408))/(1024*1408)*100 = 97.3% -> >98% with r=8")
     }
 
     # Add absolute values
@@ -185,7 +191,18 @@ def main():
 
         if matched_raw:
             verified_count += 1
-            lineage_records.append([page, tok, "VERIFIED", matched_raw[0], matched_raw[1], matched_raw[2]])
+            source_detail = matched_raw[1] + " | " + matched_raw[2]
+            lineage_records.append({
+                "page": page,
+                "token": tok,
+                "raw_token": tok,
+                "classification": "VERIFIED",
+                "status": "VERIFIED",
+                "matched_json": matched_raw[0],
+                "matched_key": matched_raw[1],
+                "formula_or_reason": matched_raw[2],
+                "source_json_path_or_formula": source_detail
+            })
             continue
 
         # 2. Match against derived formulas
@@ -197,39 +214,76 @@ def main():
 
         if matched_derived:
             derived_count += 1
-            lineage_records.append([page, tok, "DERIVED", matched_derived[0], matched_derived[1], matched_derived[2]])
+            source_detail = matched_derived[1] + " | " + matched_derived[2]
+            lineage_records.append({
+                "page": page,
+                "token": tok,
+                "raw_token": tok,
+                "classification": "DERIVED",
+                "status": "DERIVED",
+                "matched_json": matched_derived[0],
+                "matched_key": matched_derived[1],
+                "formula_or_reason": matched_derived[2],
+                "source_json_path_or_formula": source_detail
+            })
             continue
 
-        # 3. Classify non-claim numbers
+        # 3. Classify non-claim numbers (ensure result units like % are never classified as non-claim)
         is_non_claim = False
         reason = ""
-        if val in non_claim_specs:
-            is_non_claim = True
-            reason = "known_hardware_dim_or_param"
-        elif val.is_integer() and 1 <= val <= 100:
-            is_non_claim = True
-            reason = "integer_index_or_count"
-        elif 1960 <= val <= 2030:
-            is_non_claim = True
-            reason = "citation_year"
-        elif re.match(r'^\d+\.\d+$', sval) and float(sval) < 15.0 and int(sval.split('.')[0]) <= 15 and int(sval.split('.')[1]) <= 10:
-            is_non_claim = True
-            reason = "section_or_equation_number"
+        has_result_unit = "%" in tok or any(u in tok.lower() for u in ('tok', 'ms', ' mb', ' gb', '×'))
+        if not has_result_unit:
+            if val in non_claim_specs:
+                is_non_claim = True
+                reason = "known_hardware_dim_or_param"
+            elif val.is_integer() and 1 <= val <= 100:
+                is_non_claim = True
+                reason = "integer_index_or_count"
+            elif 1960 <= val <= 2030:
+                is_non_claim = True
+                reason = "citation_year"
+            elif re.match(r'^\d+\.\d+$', sval) and float(sval) < 15.0 and int(sval.split('.')[0]) <= 15 and int(sval.split('.')[1]) <= 10:
+                is_non_claim = True
+                reason = "section_or_equation_number"
 
         if is_non_claim:
             non_claim_count += 1
-            lineage_records.append([page, tok, "NON_CLAIM", "N/A", "N/A", reason])
+            lineage_records.append({
+                "page": page,
+                "token": tok,
+                "raw_token": tok,
+                "classification": "NON_CLAIM",
+                "status": "NON-CLAIM",
+                "matched_json": "N/A",
+                "matched_key": "N/A",
+                "formula_or_reason": reason,
+                "source_json_path_or_formula": reason
+            })
             continue
 
         # 4. FLAGGED
         flagged_count += 1
         flagged_list.append((page, tok, val))
-        lineage_records.append([page, tok, "FLAGGED", "UNKNOWN", "UNKNOWN", "No match in raw JSONs"])
+        lineage_records.append({
+            "page": page,
+            "token": tok,
+            "raw_token": tok,
+            "classification": "FLAGGED",
+            "status": "FLAGGED",
+            "matched_json": "UNKNOWN",
+            "matched_key": "UNKNOWN",
+            "formula_or_reason": "No match in candidate set",
+            "source_json_path_or_formula": "No match in candidate set"
+        })
 
     csv_path = Path("/tmp/kura_numeric_lineage.csv")
+    fieldnames = [
+        "page", "token", "raw_token", "classification", "status",
+        "matched_json", "matched_key", "formula_or_reason", "source_json_path_or_formula"
+    ]
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["page", "token", "classification", "matched_json", "matched_key", "formula_or_reason"])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
         writer.writerows(lineage_records)
 
     total_nums = len(numeric_tokens)
