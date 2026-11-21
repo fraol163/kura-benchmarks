@@ -28,3 +28,8 @@
 \end{tabular}%
 }
 \end{table}
+
+\section{Data Availability and Open Science Commitment}
+In alignment with the principles of reproducible systems research, all artifacts associated with this work are released under open-source licenses. The complete Rust implementation of the Kura runtime ($>18,000$ lines of code), the Loom offline layout compiler, and the KAEF economic scheduler are publicly available. 
+
+Furthermore, we publish the complete, un-sanitized benchmark telemetry (including the negative results and controller overhead regressions documented in Section 11) as machine-readable JSON manifests. Independent reviewers and researchers can clone the repository, enforce the exact $3.5$\,GB \texttt{cgroups v2} memory ceilings documented in Appendix A, and reproduce the storage-amplification and page-fault isolation metrics on their own commodity hardware. We believe that publishing honest system limitations and hardware ceilings is as critical to the scientific method as publishing optimized throughput gains.
