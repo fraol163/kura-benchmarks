@@ -1,0 +1,15 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper presented an empirical and architectural investigation into storage-native decoupled inference for memory-constrained large language models. By reframing model weight storage from passive OS virtual memory paging to structured user-space streaming, Kura enables reliable execution under strict physical memory ceilings where conventional \texttt{mmap} runtimes collapse into fatal page-thrashing and OOM termination.
+
+Our primary positive systems finding is that \textbf{Loom physical layout compilation} fundamentally alters the storage access profile of sparse MoE models. By solving an offline spectral arrangement on empirical co-activation graphs, Loom clusters routed expert tensors into contiguous physical sectors, collapsing random seeks by $67.13\%$ and reducing storage I/O stall duration by $29.26\%$. This yields sustained throughput improvements of $+12.15\%$ to $+14.38\%$ on real MoE sub-network topologies using standard buffered asynchronous I/O into aligned memory slabs.
+
+Equally critical are our \textbf{negative systems results}:
+\begin{enumerate}
+    \item Complex economic auction frameworks (KAEF) incur non-trivial systems overhead ($\approx 12.35$\,ms per decision), creating performance inversions at intermediate memory capacities. Unless memory pressure is severe ($\ge 10\times$ model-to-RAM ratio), simple static LRU combined with Loom layout compilation provides a faster, more predictable execution path.
+    \item Dynamic runtime SVD sketch construction (Ember Mode B) introduces a prohibitive 3,018\,ms CPU stall, demonstrating that progressive fidelity techniques cannot be generated on-the-fly and must strictly rely on offline precompiled skeletons.
+    \item Dense model architectures stream weights proportionally to model size on every token step, establishing an inescapable physical throughput ceiling governed strictly by the sequential bandwidth of commodity solid-state drives ($0.019$\,tok/s on 70B models over SATA storage).
+\end{enumerate}
+
+By publishing our verified telemetry, corrected claim matrices, layout compilers, and execution harnesses, we establish a transparent, reproducible benchmark baseline for future research into storage-aware language model systems.

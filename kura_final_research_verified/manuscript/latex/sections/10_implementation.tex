@@ -1,0 +1,24 @@
+\section{Systems Implementation and Zero-Copy Execution}
+\label{sec:implementation}
+
+Kura is implemented in Rust ($>18{,}000$ lines of code across 5 workspace crates), designed for bare-metal systems execution on Linux kernels ($\ge 5.10$). To eliminate OS-induced latency spikes, Kura employs several low-level systems optimizations:
+
+\subsection{Linux Direct I/O and io\_uring Asynchrony}
+Standard POSIX file operations (\texttt{read}, \texttt{pread}) and \texttt{mmap} pass through the Linux Virtual File System (VFS) and page cache. In addition to CPU overhead from page cache hash lookups and lock contention, cached I/O introduces double-buffering: data is transferred from NVMe via DMA into kernel page cache buffers, then copied via CPU instructions into user-space process memory.
+Kura optimizes storage interaction by driving asynchronous I/O through Linux \texttt{io\_uring} and POSIX \texttt{pread64} into pre-allocated memory-aligned buffers. Submission and completion queues (\texttt{SQ} and \texttt{CQ}) are mapped into user space, allowing batch submission of multiple expert fetch requests with a single \texttt{io\_uring\_enter()} syscall.
+
+\subsection{RamArena: Fixed-Slab Aligned Memory Allocations}
+High-performance vectorized memory transfers require that all user-space memory buffers, file offsets, and transfer lengths be strictly aligned to the underlying block storage sector boundary (typically 4096 bytes). Furthermore, high-performance AVX-512 and AVX2 vector SIMD instructions require 64-byte alignment to prevent cache-line split penalties.
+To satisfy these dual constraints without incurring heap fragmentation, Kura implements \texttt{RamArena}. At startup, \texttt{RamArena} pre-allocates a contiguous virtual address block using \texttt{mmap(MAP\_ANONYMOUS | MAP\_PRIVATE)} with \texttt{posix\_memalign}. The arena is partitioned into fixed-size slots sized to exact expert tensor dimensions. When KAEF designates an expert for eviction, the slot is marked available in an $O(1)$ bitmask, avoiding dynamic heap allocation or system-level remapping.
+
+\subsection{SIMD Quantization and CPU Inference Kernels}
+For host CPU computation, Kura incorporates custom vector kernels targeting x86\_64 AVX-512 (with \texttt{VNNI} support) and AVX2 architectures. Weight tensors are stored in 4-bit and 8-bit quantized formats (Q4\_K\_M, Q8\_0). The matrix-vector multiplication kernel unpacks quantized nibbles into 8-bit integers, computes dot products via integer multiply-accumulate (\texttt{\_mm512\_dpbusd\_epi32}), and applies scaling factors in single-precision floating point.
+
+\subsection{Empirical Equivalence Across Tested Configurations}
+A vital requirement for systems-level optimizations is numerical correctness. Kura's memory residency reordering, direct I/O pipelines, and layout compilations do not alter the underlying mathematical tensor operations.
+Across an extensive automated test suite comprising 262 deterministic unit and layer test cases, Kura validates numerical equivalence against un-optimized reference baselines. Specifically, for all tested synthetic MoE and OLMoE-1B-7B layer/kernel configurations under float32 and quantized Q4\_K\_M/Q8\_0 formats:
+\begin{equation}
+    \Delta L_2 = \frac{\| y_{\text{Kura}} - y_{\text{ref}} \|_2}{\| y_{\text{ref}} \|_2} = 0.00000000
+\end{equation}
+with maximum absolute element-wise divergence $\max |y_{\text{Kura}} - y_{\text{ref}}| = 0.0$ and cosine similarity $\cos(y_{\text{Kura}}, y_{\text{ref}}) = 1.0$.
+We emphasize that this equivalence is empirical, established strictly within the scope of the 262 tested deterministic layer configurations; it does not constitute an unconstrained mathematical proof of bit-level invariance across all arbitrary neural architectures, floating-point environments, or un-tested quantization schemes.

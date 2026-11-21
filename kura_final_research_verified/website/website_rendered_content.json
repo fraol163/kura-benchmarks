@@ -1,0 +1,2485 @@
+{
+  "website_url": "https://kuracpu.vercel.app",
+  "bundle_hash": "index-C5AhzZhO.js",
+  "total_categories": 10,
+  "total_nav_pages": 63,
+  "total_extracted_pages": 65,
+  "total_characters": 95944,
+  "total_words": 13367,
+  "categories": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "icon": "BookOpen",
+      "description": "Foundations of Kura and storage-native decoupled inference",
+      "pages": [
+        {
+          "slug": "home",
+          "title": "Documentation Home",
+          "description": "Overview of Kura documentation suite"
+        },
+        {
+          "slug": "what-is-kura",
+          "title": "What is Kura?",
+          "description": "High-throughput local LLM execution on constrained RAM"
+        },
+        {
+          "slug": "why-kura-exists",
+          "title": "Why Kura Exists",
+          "description": "The memory wall, OS thrashing, and decoupled execution"
+        },
+        {
+          "slug": "key-concepts",
+          "title": "Key Concepts",
+          "description": "Terminology, memory tiers, and storage streaming"
+        },
+        {
+          "slug": "how-it-works",
+          "title": "How Kura Works",
+          "description": "Coordinated execution across CPU, RAM, and NVMe"
+        },
+        {
+          "slug": "who-is-kura-for",
+          "title": "Who Kura Is For",
+          "description": "Engineers, researchers, and local AI practitioners"
+        },
+        {
+          "slug": "capabilities-limitations",
+          "title": "Capabilities & Limitations",
+          "description": "Empirically verified boundaries and physical limits"
+        },
+        {
+          "slug": "faq",
+          "title": "Frequently Asked Questions",
+          "description": "Common inquiries on performance, models, and RAM"
+        },
+        {
+          "slug": "scientific-transparency",
+          "title": "Scientific Transparency",
+          "description": "Evaluation methodology, proxy trace disclosures, and hardware boundaries"
+        }
+      ]
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "icon": "Zap",
+      "description": "System setup, hardware validation, and first model runs",
+      "pages": [
+        {
+          "slug": "system-requirements",
+          "title": "System Requirements",
+          "description": "Hardware prerequisites, CPUs, and NVMe drives"
+        },
+        {
+          "slug": "supported-os",
+          "title": "Supported Operating Systems",
+          "description": "Linux cgroup v2, macOS ARM NEON, and Windows"
+        },
+        {
+          "slug": "installation",
+          "title": "Installation Guide",
+          "description": "Automated curl script, PowerShell, and native binaries"
+        },
+        {
+          "slug": "installation-troubleshooting",
+          "title": "Installation Troubleshooting",
+          "description": "Resolving PATH issues, kernel flags, and permissions"
+        },
+        {
+          "slug": "quickstart",
+          "title": "Quick Start:- 3-Minute Setup",
+          "description": "From download to first token in 3 minutes"
+        },
+        {
+          "slug": "first-model",
+          "title": "Running Your First Model",
+          "description": "Executing OLMoE 1B-7B and Qwen models"
+        },
+        {
+          "slug": "model-download",
+          "title": "Model Download & Management",
+          "description": "HuggingFace pull, checksum verify, and storage"
+        },
+        {
+          "slug": "hardware-detection",
+          "title": "Hardware Detection & Doctor",
+          "description": "Probing CPU vector units, NVMe speed, and RAM"
+        },
+        {
+          "slug": "common-errors",
+          "title": "Common Errors & Fixes",
+          "description": "Remediation guide for storage and memory warnings"
+        },
+        {
+          "slug": "uninstallation",
+          "title": "Uninstallation & Cleanup",
+          "description": "Clean environment removal and cache purging"
+        }
+      ]
+    },
+    {
+      "id": "user-guides",
+      "title": "User Guides",
+      "icon": "Compass",
+      "description": "Step-by-step guides for everyday workflows and serving",
+      "pages": [
+        {
+          "slug": "direct-execution",
+          "title": "Direct Execution (kura run)",
+          "description": "Terminal generation, budgets, and thread tuning"
+        },
+        {
+          "slug": "serving-api",
+          "title": "OpenAI-Compatible API (kura serve)",
+          "description": "Streaming HTTP endpoint, SSE tokens, and health checks"
+        },
+        {
+          "slug": "hardware-profiling",
+          "title": "Hardware Profiling (kura profile)",
+          "description": "Probing SIMD, RAM bandwidth, and regime classification"
+        },
+        {
+          "slug": "memory-planning",
+          "title": "Memory Planning (kura plan)",
+          "description": "Inspecting Hot, Warm, and Cold tier layout"
+        },
+        {
+          "slug": "running-benchmarks",
+          "title": "Running Benchmarks",
+          "description": "Measuring tokens/sec, TTFT, and amplification"
+        },
+        {
+          "slug": "capsules-and-adapters",
+          "title": "Task Capsules & LoRA Adapters",
+          "description": "Attaching fine-tuned weights without rewriting bases"
+        },
+        {
+          "slug": "session-hibernation",
+          "title": "Session Hibernation",
+          "description": "Freezing and resuming deep KV cache states"
+        },
+        {
+          "slug": "diagnosing-latency",
+          "title": "Diagnosing Latency (why-slow)",
+          "description": "Root-cause analysis for inference latency spikes"
+        },
+        {
+          "slug": "dynamic-quantization",
+          "title": "Dynamic Quantization (Q3 vs Q4)",
+          "description": "Adaptive precision selection for tight RAM budgets"
+        }
+      ]
+    },
+    {
+      "id": "cli-reference",
+      "title": "CLI Reference",
+      "icon": "Terminal",
+      "description": "Exhaustive manual for all 24 verified commands and options",
+      "pages": [
+        {
+          "slug": "cli-overview",
+          "title": "CLI Overview & Global Options",
+          "description": "Syntax structure, exit codes, and environment flags"
+        },
+        {
+          "slug": "cli-commands",
+          "title": "24 Command Reference",
+          "description": "Full arguments, examples, and expected terminal outputs"
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "title": "Architecture",
+      "icon": "Cpu",
+      "description": "Subsystems, data flow, memory tiers, and mathematical laws",
+      "pages": [
+        {
+          "slug": "architecture-overview",
+          "title": "Architecture Overview & The 3 Laws",
+          "description": "Decoupled memory thesis and core execution pipeline"
+        },
+        {
+          "slug": "sense-subsystem",
+          "title": "SENSE Subsystem",
+          "description": "Hardware sensing, NUMA affinity, and regime classifier"
+        },
+        {
+          "slug": "loom-subsystem",
+          "title": "LOOM Subsystem",
+          "description": "Physical layout coalescing for zero-seek sequential DMA"
+        },
+        {
+          "slug": "ember-subsystem",
+          "title": "EMBER Memory Manager",
+          "description": "Tiered Hot, Warm, and Cold resident pools"
+        },
+        {
+          "slug": "prefetch-subsystem",
+          "title": "PREFETCH Pipeline",
+          "description": "Asynchronous double/triple-buffered lookahead prefetch"
+        },
+        {
+          "slug": "vector-kernels",
+          "title": "Vector Kernels & Speculative GEMM",
+          "description": "AVX-512, ARM NEON, and batched verification"
+        },
+        {
+          "slug": "moe-superiority-law",
+          "title": "The MoE Superiority Law",
+          "description": "400x throughput advantage over dense 70B models"
+        }
+      ]
+    },
+    {
+      "id": "hardware-profiler",
+      "title": "Hardware Profiler",
+      "icon": "Activity",
+      "description": "SENSE output, vector detection, and storage scheduler configuration",
+      "pages": [
+        {
+          "slug": "cpu-vector-detection",
+          "title": "CPU & SIMD Detection",
+          "description": "AVX-512 FMA, AVX2, and ARM NEON intrinsics"
+        },
+        {
+          "slug": "ram-cgroup-enforcement",
+          "title": "RAM Budgets & cgroup v2",
+          "description": "MemoryMax, MemorySwapMax=0, and zero-OOM stability"
+        },
+        {
+          "slug": "nvme-storage-tuning",
+          "title": "NVMe Storage Tuning",
+          "description": "Bypassing elevator queues and setting scheduler to [none]"
+        }
+      ]
+    },
+    {
+      "id": "benchmarking",
+      "title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "description": "Empirical data, 26-principle audit, and context scaling",
+      "pages": [
+        {
+          "slug": "benchmark-methodology",
+          "title": "Methodology & Zero-Hallucination",
+          "description": "Hardware testbed, cgroup isolation, and raw data"
+        },
+        {
+          "slug": "hardware-testbed",
+          "title": "Intel Xeon & Samsung 990 Testbed",
+          "description": "Physical workstation specifications and test configuration"
+        },
+        {
+          "slug": "26-principles-audit",
+          "title": "The 26-Principle Final Audit",
+          "description": "Empirical audit of all 26 core architectural hypotheses"
+        },
+        {
+          "slug": "throughput-matrix",
+          "title": "Practical Usability Matrix",
+          "description": "Full decoding speeds across 4GB-64GB RAM budgets"
+        },
+        {
+          "slug": "context-scaling",
+          "title": "Context Length Scaling to 32k",
+          "description": "Vectorized Flash-Attention linear memory scaling"
+        },
+        {
+          "slug": "ablation-ladder",
+          "title": "Subsystem Ablation Ladder",
+          "description": "+210% cumulative speedup across 6 architectural layers"
+        },
+        {
+          "slug": "reproducibility",
+          "title": "Reproducibility Guide",
+          "description": "Master evaluation script and verification steps"
+        }
+      ]
+    },
+    {
+      "id": "api-reference",
+      "title": "API Reference",
+      "icon": "Server",
+      "description": "OpenAI-compliant endpoints, SSE streaming, and Prometheus metrics",
+      "pages": [
+        {
+          "slug": "api-overview",
+          "title": "API Overview & Protocol",
+          "description": "OpenAI v1 compatibility, SSE streaming, and error handling"
+        },
+        {
+          "slug": "api-completions",
+          "title": "Text Completions (/v1/completions)",
+          "description": "Single and batch text generation parameters and schemas"
+        },
+        {
+          "slug": "api-chat-completions",
+          "title": "Chat Completions (/v1/chat)",
+          "description": "Conversational assistant endpoint and streaming deltas"
+        },
+        {
+          "slug": "api-health",
+          "title": "Health Check (/health)",
+          "description": "Liveness probes, RSS memory monitoring, and watchdog"
+        },
+        {
+          "slug": "api-metrics",
+          "title": "Prometheus Metrics (/metrics)",
+          "description": "Throughput gauges, TTFT, cache hits, and counters"
+        },
+        {
+          "slug": "api-models",
+          "title": "Model Inventory & Hot-Swap",
+          "description": "Listing active models and sub-second model switching"
+        },
+        {
+          "slug": "api-clients",
+          "title": "Client Integration Examples",
+          "description": "Python SDK, LangChain, TypeScript, and cURL snippets"
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "title": "Developer Guide",
+      "icon": "Code",
+      "description": "Source code organization, build commands, and contribution standards",
+      "pages": [
+        {
+          "slug": "repo-structure",
+          "title": "Repository & Crate Structure",
+          "description": "Core directories, bins, benchmarks, and docs"
+        },
+        {
+          "slug": "building-from-source",
+          "title": "Building from Source",
+          "description": "Rust toolchain, cargo flags, and SIMD target features"
+        },
+        {
+          "slug": "testing-parity",
+          "title": "Testing & Bitwise Parity Gates",
+          "description": "100% token sequence agreement verification suite"
+        },
+        {
+          "slug": "coding-standards",
+          "title": "Coding Standards & Zero Telemetry",
+          "description": "Strict privacy rules, memory bounds, and style guide"
+        },
+        {
+          "slug": "contributing",
+          "title": "Contribution Guidelines",
+          "description": "Submitting PRs, issue reporting, and review workflow"
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": "Reference & Project",
+      "icon": "FileText",
+      "description": "Glossary, config files, troubleshooting index, and citation",
+      "pages": [
+        {
+          "slug": "glossary",
+          "title": "Systems Glossary",
+          "description": "Definitions of DMA, SIMD, LOOM, MoE, TTFT, and cgroups"
+        },
+        {
+          "slug": "supported-formats",
+          "title": "Supported Formats & Models",
+          "description": "GGUF v3, LOOM .kura sidecars, and quantizations"
+        },
+        {
+          "slug": "config-reference",
+          "title": "Configuration Reference (kura.toml)",
+          "description": "All configuration keys, defaults, and env overrides"
+        },
+        {
+          "slug": "troubleshooting-index",
+          "title": "Troubleshooting Index",
+          "description": "Comprehensive diagnostic index for errors and warnings"
+        },
+        {
+          "slug": "citation",
+          "title": "Peer Review & Citation",
+          "description": "BibTeX academic citation and technical report reference"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "slug": "who-is-kura-for",
+      "title": "Hardware Fit Matrix",
+      "description": "Target users, ideal deployment environments, and scenarios where Kura outperforms GPU-dependent or monolithic runtimes.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "target-audience",
+          "title": "Target Audience",
+          "level": 2
+        },
+        {
+          "id": "ideal-scenarios",
+          "title": "Ideal Scenarios",
+          "level": 2
+        },
+        {
+          "id": "when-not-to-use",
+          "title": "When NOT to Use Kura",
+          "level": 2
+        },
+        {
+          "id": "hardware-matrix",
+          "title": "Hardware Fit Matrix",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 2515,
+      "word_count": 409,
+      "content_markdown": "## Target Audience\n\nKura is engineered specifically for systems researchers, developers, and organizations running artificial intelligence workloads locally on commodity hardware:\n\n1. Local AI Researchers & Engineers: Developers who need to test, run, and evaluate 7B, 14B, and Sparse MoE models on local laptops or workstations without cloud API costs or privacy leakage.\n2. Enterprise Edge & On-Premises Deployments: Air-gapped environments where external API calls are prohibited and workstations have standard DDR4/DDR5 memory without dedicated discrete GPUs.\n3. Developers with Constrained Hardware: Anyone possessing a modern PC with an NVMe SSD and 4 GB to 16 GB of RAM who wants to run state-of-the-art models without out-of-memory crashes.\n4. Embedded & Industrial Workstations: Compute nodes where physical space, thermal limits, or power budgets prohibit 350-watt discrete GPUs.\n\n---\n\n## Ideal Scenarios\n\n- Conversational Assistants with Sparse MoE: Running OLMoE 1B-7B at 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on an everyday Commodity SATA SSD (350 MB/s) within 4 GB to 8 GB of physical RAM.\n- Code Generation & Automation: Running Qwen2.5 7B or 14B for local code completion, linting, and refactoring on standard CPU workstations.\n- Long Document Analysis: Processing contracts, scientific papers, or log files up to 32,768 tokens using chunked Flash-Attention without process crashes.\n- Air-Gapped Intelligence: Secure environments requiring deterministic offline execution with zero telemetry.\n\n---\n\n## When NOT to Use Kura\n\n- Multi-User Concurrency Cloud Clusters: If you have a cluster of NVIDIA H100 GPUs connected via NVLink, dedicated GPU clusters using vLLM achieve higher batched throughput.\n- Machines with Mechanical Hard Drives: Mechanical HDDs lack the sequential and random bandwidth required for streaming inference. Kura requires an M.2 NVMe SSD (PCIe Gen3, Gen4, or Gen5).\n- Extremely High Batch Inference: Kura is optimized for low-latency sequential and single-batch local autoregressive generation.\n\n---\n\n## Hardware Fit Matrix\n\n| Workstation Type | Typical RAM | Storage Interface | Expected OLMoE Speed |\n| :--- | :--- | :--- | :--- |\n| Modern Office Desktop | 8 GB - 16 GB DDR4 | PCIe Gen3 NVMe (~2,000 MB/s) | 10 - 12 tok/s |\n| High-End Developer Laptop | 16 GB - 32 GB DDR5 | PCIe Gen4 NVMe (~5,000 MB/s) | 14 - 16 tok/s |\n| Budget Mini-PC / NUC | 8 GB DDR4 | PCIe Gen3 NVMe (~1,500 MB/s) | 8 - 10 tok/s |\n| Apple Silicon Mac (M1/M2/M3) | 8 GB - 16 GB Unified | Apple Internal NVMe (~3,000 MB/s) | 12 - 15 tok/s |"
+    },
+    {
+      "slug": "supported-os",
+      "title": "Kernel Prerequisites & System Settings",
+      "description": "Setup and operating-system-specific performance tuning for Linux, macOS Apple Silicon, and Windows.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "linux-primary",
+          "title": "Linux (Primary Target)",
+          "level": 2
+        },
+        {
+          "id": "macos-apple-silicon",
+          "title": "macOS & Apple Silicon",
+          "level": 2
+        },
+        {
+          "id": "windows-support",
+          "title": "Windows 10/11 & WSL2",
+          "level": 2
+        },
+        {
+          "id": "kernel-prerequisites",
+          "title": "Kernel Prerequisites & System Settings",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1844,
+      "word_count": 276,
+      "content_markdown": "## Linux (Primary Target)\n\nLinux is Kura's primary development and production platform. Optimal operation leverages Linux \\`io_uring\\`, cgroup v2, and direct block I/O.\n\n### Recommended Kernel Configurations:\n\\`\\`\\`bash\n# Configure NVMe queue scheduler to [none] to bypass kernel elevator queue\necho none | sudo tee /sys/block/nvme0n1/queue/scheduler\n\n# Disable swap to eliminate latency jitter and OS thrashing\nsudo swapoff -a\n\n# Ensure virtual memory swappiness is minimal\nsudo sysctl -w vm.swappiness=1\n\\`\\`\\`\n\n---\n\n## macOS & Apple Silicon\n\nKura includes hand-tuned ARM NEON 128-bit vector kernels verified for 100.0% bitwise parity against x86-64 AVX-512. On Apple Silicon M-series chips (M1, M2, M3, M4), Apple's unified memory architecture provides high memory bandwidth and low storage access latency.\n\n\\`\\`\\`bash\n# Install via terminal\ncurl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash\n\\`\\`\\`\n\n---\n\n## Windows 10/11 & WSL2\n\nKura is supported on Windows through two paths:\n1. Native Windows: Installed via \\`install.ps1\\`. Uses Windows Overlapped I/O for direct NVMe file streaming.\n2. Windows Subsystem for Linux (WSL2): Highly recommended. Achieves 94% to 98% of native Linux performance when model weights reside on the internal WSL2 virtual hard disk (\\`/home/...\\`).\n\n---\n\n## Kernel Prerequisites & System Settings\n\n| Operating System | Minimum Version | Kernel Requirements | Direct IO Mechanism |\n| :--- | :--- | :--- | :--- |\n| Ubuntu / Debian | Ubuntu 22.04 LTS | Linux 5.15+ (Linux 6.8+ recommended) | Linux \\`io_uring\\` and \\`pread64\\` |\n| Arch Linux / Fedora | Recent Rolling | Linux 6.6+ | Linux \\`io_uring\\` |\n| macOS | macOS 13 (Ventura)+ | Darwin 22+ | BSD \\`pread\\` with \\`fcntl(F_NOCACHE)\\` |\n| Windows | Windows 10 (21H2)+ | Build 19044+ | Win32 \\`FILE_FLAG_NO_BUFFERING\\` |"
+    },
+    {
+      "slug": "installation-troubleshooting",
+      "title": "Manual Post-Install Check",
+      "description": "Resolving common installation warnings, PATH configuration, binary permissions, and shell hooks.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "path-issues",
+          "title": "Command Not Found / PATH Configuration",
+          "level": 2
+        },
+        {
+          "id": "permission-denied",
+          "title": "Permission Denied on ~/.kura/bin",
+          "level": 2
+        },
+        {
+          "id": "missing-simd",
+          "title": "Missing Vector SIMD Instructions",
+          "level": 2
+        },
+        {
+          "id": "postinstall-check",
+          "title": "Manual Post-Install Check",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1281,
+      "word_count": 180,
+      "content_markdown": "## Command Not Found / PATH Configuration\n\nIf running \\`kura\\` results in \\`command not found\\`, your active shell session may not have reloaded the updated \\`PATH\\` environment variable:\n\n\\`\\`\\`bash\n# For Bash:\nsource ~/.bashrc\n\n# For Zsh (macOS / Linux):\nsource ~/.zshrc\n\n# For Fish:\nsource ~/.config/fish/config.fish\n\\`\\`\\`\n\nYou can also manually prepend the Kura binary directory to your current session:\n\\`\\`\\`bash\nexport PATH=\"$HOME/.kura/bin:$PATH\"\n\\`\\`\\`\n\n---\n\n## Permission Denied on ~/.kura/bin\n\nIf the installer encounters file permission errors, ensure your user owns the local installation directory:\n\n\\`\\`\\`bash\nsudo chown -R $(whoami) ~/.kura\nchmod +x ~/.kura/bin/kura\n\\`\\`\\`\n\n---\n\n## Missing Vector SIMD Instructions\n\nKura requires at least AVX2 (x86-64) or ARM NEON (ARM64). If your CPU lacks AVX2, the binary will exit with an error code. Check your CPU capabilities:\n\n\\`\\`\\`bash\n# Linux:\ngrep -E \"avx512f|avx2|neon\" /proc/cpuinfo\n\n# macOS:\nsysctl -a | grep machdep.cpu.features\n\\`\\`\\`\n\n---\n\n## Manual Post-Install Check\n\nExecute the built-in diagnostic auditor to confirm complete operational readiness:\n\n\\`\\`\\`bash\nkura doctor\n\\`\\`\\`\n\nThe doctor script checks CPU vector flags, cgroup v2 availability, NVMe scheduler policy, and temporary directory permissions."
+    },
+    {
+      "slug": "first-model",
+      "title": "Verifying Latency and TTFT",
+      "description": "Downloading, validating, and running your first model with Kura in under 5 minutes.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "recommended-starter",
+          "title": "Recommended Starter Model: OLMoE 1B-7B",
+          "level": 2
+        },
+        {
+          "id": "downloading-weights",
+          "title": "Acquiring Model Weights",
+          "level": 2
+        },
+        {
+          "id": "first-inference-run",
+          "title": "Executing First Inference",
+          "level": 2
+        },
+        {
+          "id": "verifying-output",
+          "title": "Verifying Latency and TTFT",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1253,
+      "word_count": 167,
+      "content_markdown": "## Recommended Starter Model: OLMoE 1B-7B\n\nFor first-time users, we strongly recommend \\`OLMoE 1B-7B Instruct (Q4_K_M)\\`. As a Sparse Mixture-of-Experts model, it activates only 1.3B parameters per token out of 6.9B total parameters, making it ideal for storage-native streaming.\n\n---\n\n## Acquiring Model Weights\n\nUse the built-in model manager to pull the verified GGUF weights directly from HuggingFace:\n\n\\`\\`\\`bash\n# Create local models folder\nmkdir -p ./models\n\n# Pull verified weights\nkura models pull https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-instruct-q4_k_m.gguf --dest ./models/olmoe-1b-7b-q4_k_m.gguf\n\\`\\`\\`\n\n---\n\n## Executing First Inference\n\nRun a basic completion with a 4.0 GB memory ceiling:\n\n\\`\\`\\`bash\nkura run ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --ram-budget 4G \\\\\n  --tokens 64 \\\\\n  --prompt \"Explain why the sky is blue in three concise sentences.\"\n\\`\\`\\`\n\n---\n\n## Verifying Latency and TTFT\n\nUpon completion, Kura outputs an execution summary:\n\n\\`\\`\\`\nPrompt Tokens:     16\nGenerated Tokens:  58\nTime to First Tok: 182 ms (Prompt Prefill)\nDecode Speed:      15.18 tok/s (Active Streaming)\nPeak RAM RSS:      3.42 GB / 4.00 GB Budget\nNVMe Read Speed:   2,410 MB/s (Sequential DMA)\n\\`\\`\\`"
+    },
+    {
+      "slug": "model-download",
+      "title": "Listing & Deleting Models",
+      "description": "Downloading, caching, verifying checksums, and managing local GGUF models.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "pulling-models",
+          "title": "Downloading Models from Remote Repositories",
+          "level": 2
+        },
+        {
+          "id": "verifying-checksums",
+          "title": "Checksum Verification & Integrity",
+          "level": 2
+        },
+        {
+          "id": "managing-storage",
+          "title": "Listing & Deleting Models",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1107,
+      "word_count": 125,
+      "content_markdown": "## Downloading Models from Remote Repositories\n\nThe \\`kura models pull\\` command provides resumable, multi-threaded downloading with automatic checksum verification:\n\n\\`\\`\\`bash\nkura models pull <url> [--dest <path>]\n\\`\\`\\`\n\n### Example Commands:\n\\`\\`\\`bash\n# Pull OLMoE 1B-7B\nkura models pull https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-instruct-q4_k_m.gguf\n\n# Pull Qwen2.5 7B\nkura models pull https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q4_k_m.gguf\n\\`\\`\\`\n\n---\n\n## Checksum Verification & Integrity\n\nCorrupted model weights cause silent NaN errors or tensor shape mismatches during inference. Verify local file integrity:\n\n\\`\\`\\`bash\nkura models verify ./models/olmoe-1b-7b-q4_k_m.gguf\n\\`\\`\\`\n\nThis parses the GGUF header, validates all tensor metadata, offsets, and data types, and computes SHA-256 integrity digests.\n\n---\n\n## Listing & Deleting Models\n\n\\`\\`\\`bash\n# List all locally cached models and their disk consumption\nkura models list\n\n# Remove a model file\nkura models rm ./models/olmoe-1b-7b-q4_k_m.gguf\n\\`\\`\\`"
+    },
+    {
+      "slug": "hardware-detection",
+      "title": "Calibrated Operational Regimes",
+      "description": "Inspecting CPU vector instructions, NUMA topology, memory channels, and NVMe read bandwidth.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "running-profile",
+          "title": "Executing SENSE Hardware Probe",
+          "level": 2
+        },
+        {
+          "id": "interpreting-output",
+          "title": "Interpreting Profile Metrics",
+          "level": 2
+        },
+        {
+          "id": "regime-calibrations",
+          "title": "Calibrated Operational Regimes",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1116,
+      "word_count": 163,
+      "content_markdown": "## Executing SENSE Hardware Probe\n\nThe \\`kura profile\\` command runs an automated micro-probe that benchmarks your hardware without loading model weights:\n\n\\`\\`\\`bash\nkura profile\n\\`\\`\\`\n\n---\n\n## Interpreting Profile Metrics\n\nA sample report on a modern workstation:\n\n\\`\\`\\`\n=== KURA SENSE HARDWARE PROFILER ===\nHost CPU:        AMD Ryzen 3 3250U (12 Physical Cores, 24 Threads)\nISA Support:     AVX-512 (F, CD, BW, DQ, VL), AVX2, F16C\nNUMA Nodes:      1 Node (Affinity Pinned: Node 0)\nPhysical RAM:    64.0 GB DDR5 ECC (4 Channels)\nStorage Device:  /dev/nvme0n1 (128 GB SATA M.2 SSD)\nSequential Read: 2,895 MB/s (Direct I/O, buffered io_uring)\nRandom Seek Lat: 0.038 ms\nCalculated R:    2.14 (Compute-Dominated Regime)\nOptimal W:       Lookahead Window W=1\n\\`\\`\\`\n\n---\n\n## Calibrated Operational Regimes\n\nThe profile report computes the operational ratio $R = T_{io} / T_{comp}$:\n- $R \\\\le 3.50$: Compute-Dominated. CPU math is the gating factor. Prefetch lookahead $W=1$.\n- $3.50 < R \\\\le 6.00$: Balanced Regime. Prefetch lookahead $W=2$.\n- $R > 6.00$: Storage-Dominated. Prefetch lookahead $W=3$ with aggressive chunking."
+    },
+    {
+      "slug": "common-errors",
+      "title": "Unsupported or Corrupted GGUF Version",
+      "description": "Diagnosing common runtime warnings, memory budget exceedances, and storage permissions.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "oom-errors",
+          "title": "Memory Budget Exceeded / Cgroup Limits",
+          "level": 2
+        },
+        {
+          "id": "slow-decoding",
+          "title": "Abnormally Slow Token Decoding (< 1 tok/s)",
+          "level": 2
+        },
+        {
+          "id": "storage-permission",
+          "title": "Storage Access & Permission Errors",
+          "level": 2
+        },
+        {
+          "id": "corrupt-gguf",
+          "title": "Unsupported or Corrupted GGUF Version",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1191,
+      "word_count": 182,
+      "content_markdown": "## Memory Budget Exceeded / Cgroup Limits\n\n### Symptom:\nProcess terminates or logs \\`Memory budget 4096MB exhausted by resident Hot tier\\`.\n\n### Cause:\nThe model's Hot Tier (embedding table + LM head) plus the active KV cache exceeds the configured \\`--ram-budget\\`.\n\n### Resolution:\n1. Increase the budget: \\`--ram-budget 6G\\`.\n2. Enable KV cache INT8 compression: \\`--kv-quant q8_0\\`.\n3. Select a more compact quantization format: \\`Q3_K\\` instead of \\`Q6_K\\`.\n\n---\n\n## Abnormally Slow Token Decoding (< 1 tok/s)\n\n### Symptom:\nDecode speed collapses to 0.05 tokens/sec on an NVMe SSD.\n\n### Cause:\n1. Model is running from a mechanical hard drive or external USB 2.0 drive.\n2. The NVMe I/O scheduler is set to \\`mq-deadline\\` or \\`bfq\\` instead of \\`none\\`.\n3. System swap is active, causing OS page eviction.\n\n### Resolution:\n\\`\\`\\`bash\n# Bypass kernel elevator queues:\necho none | sudo tee /sys/block/nvme0n1/queue/scheduler\n\n# Turn off swap:\nsudo swapoff -a\n\\`\\`\\`\n\n---\n\n## Storage Access & Permission Errors\n\nIf \\`pread64\\` fails with \\`EPERM\\` or \\`EACCES\\`, ensure the process has read permissions for the target block device or directory:\n\n\\`\\`\\`bash\nchmod 644 ./models/*.gguf\n\\`\\`\\`"
+    },
+    {
+      "slug": "automated-uninstall",
+      "title": "Windows PowerShell Removal",
+      "description": "Cleanly removing Kura binaries, caches, configuration files, and shell environment hooks.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "automated-uninstall",
+          "title": "Automated Uninstallation",
+          "level": 2
+        },
+        {
+          "id": "manual-cleanup",
+          "title": "Manual Cleanup Steps",
+          "level": 2
+        },
+        {
+          "id": "windows-uninstall",
+          "title": "Windows PowerShell Removal",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1093,
+      "word_count": 144,
+      "content_markdown": "## Automated Uninstallation\n\nTo cleanly remove Kura and its associated configurations from Linux or macOS:\n\n\\`\\`\\`bash\ncurl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash -s -- --uninstall\n\\`\\`\\`\n\n---\n\n## Manual Cleanup Steps\n\nIf you prefer to remove files manually on Linux or macOS:\n\n\\`\\`\\`bash\n# 1. Remove binary directory and downloaded models\nrm -rf ~/.kura\n\n# 2. Clean shell profiles (remove PATH export)\nsed -i '/.kura/bin/d' ~/.bashrc 2>/dev/null || true\nsed -i '/.kura/bin/d' ~/.zshrc 2>/dev/null || true\n\n# 3. Remove systemd service if installed\nsudo systemctl stop kura 2>/dev/null || true\nsudo rm -f /etc/systemd/system/kura.service\nsudo systemctl daemon-reload\n\\`\\`\\`\n\n---\n\n## Windows PowerShell Removal\n\nTo remove Kura binaries and user environment configurations on Windows:\n\n\\`\\`\\`powershell\n# 1. Remove Kura binary directory\nRemove-Item -Recurse -Force \"$HOME\\\\.kura\"\n\n# 2. Remove from User PATH\n[Environment]::SetEnvironmentVariable(\"PATH\", ($env:PATH -split ';' | Where-Object { $_ -notlike '*.kura\\bin*' }) -join ';', \"User\")\n\\`\\`\\`"
+    },
+    {
+      "slug": "hardware-profiling",
+      "title": "CPU SIMD Vector Throughput",
+      "description": "Running hardware benchmarks, measuring sustained sequential read bandwidth, and validating compute capacity.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "profile-flags",
+          "title": "Profiler Flags and Custom Options",
+          "level": 2
+        },
+        {
+          "id": "measuring-storage",
+          "title": "Storage Benchmark Deep Dive",
+          "level": 2
+        },
+        {
+          "id": "cpu-benchmark",
+          "title": "CPU SIMD Vector Throughput",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1177,
+      "word_count": 179,
+      "content_markdown": "## Profiler Flags and Custom Options\n\nThe hardware profiler accepts custom flags to target specific disks or memory ranges:\n\n\\`\\`\\`bash\nkura profile --device /dev/nvme0n1 --buffer-size 16M --iterations 5\n\\`\\`\\`\n\n| Flag | Default | Description |\n| :--- | :---: | :--- |\n| \\`--device <path>\\` | Auto-detected | Specific NVMe block device to benchmark |\n| \\`--buffer-size <size>\\` | \\`4M\\` | Buffer size for sequential DMA read probes |\n| \\`--iterations <N>\\` | \\`3\\` | Number of benchmark trials to average |\n| \\`--json\\` | \\`false\\` | Output machine-readable JSON metrics |\n\n---\n\n## Storage Benchmark Deep Dive\n\nThe storage probe executes unbuffered direct I/O (\\`buffered io_uring\\` on Linux, \\`F_NOCACHE\\` on macOS) over a temporary 2 GB span. This bypasses the operating system page cache, measuring the actual physical bandwidth of your NVMe controller.\n\n---\n\n## CPU SIMD Vector Throughput\n\nThe compute micro-benchmark executes 100,000 matrix-vector multiplications across:\n- AVX-512 FMA vector registers (512-bit)\n- AVX2 FMA registers (256-bit)\n- ARM NEON vector registers (128-bit)\n\nIt records GFLOPS and calculates whether CPU compute or storage bandwidth will dominate inference."
+    },
+    {
+      "slug": "memory-planning",
+      "title": "KV Cache Memory Calculations",
+      "description": "Using the memory execution planner to map layer residency, KV cache size, and staging buffers.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "plan-command",
+          "title": "Running kura plan",
+          "level": 2
+        },
+        {
+          "id": "inspecting-tiers",
+          "title": "Inspecting Memory Tier Allocation",
+          "level": 2
+        },
+        {
+          "id": "kv-cache-math",
+          "title": "KV Cache Memory Calculations",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1357,
+      "word_count": 198,
+      "content_markdown": "## Running kura plan\n\nBefore running a large model, use \\`kura plan\\` to preview how Kura will distribute weights across Hot, Warm, and Cold tiers:\n\n\\`\\`\\`bash\nkura plan --model ./models/olmoe-1b-7b-q4_k_m.gguf --budget 7500M\n\\`\\`\\`\n\n---\n\n## Inspecting Memory Tier Allocation\n\nA typical plan output:\n\n\\`\\`\\`\n=== KURA LOOM EXECUTION PLAN ===\nModel:             OLMoE-1B-7B-Instruct (Q4_K_M)\nTotal File Size:   4,120 MB\nTarget RAM Budget: 7,500 MB\n\nTIER DISTRIBUTION:\n\u2022 Hot Tier (Resident in RAM):\n  - Token Embeddings:           180.2 MB\n  - Output RMSNorm & LM Head:   180.2 MB\n  - Active KV Cache (4k ctx):   256.0 MB\n  - Subtotal Hot:               616.4 MB\n\u2022 Warm Tier (Resident Early Layers):\n  - Layers 0 to 4 (5 Layers):   640.0 MB\n\u2022 Cold Tier (Streamed via NVMe DMA):\n  - Layers 5 to 27 (23 Layers): 2,863.6 MB\n  - Active Staging Buffers:     256.0 MB\nPeak Working Memory: 1,768.4 MB (Well below 7,500 MB budget)\nStatus: OPTIMAL EXECUTION VIABLE\n\\`\\`\\`\n\n---\n\n## KV Cache Memory Calculations\n\nIn standard 16-bit precision, KV cache grows according to:\n\\`\\`\\`math\n\\\\text{Mem}_{\\\\text{KV}} = 2 \\\\times 2 \\\\times N_{\\\\text{layers}} \\\\times D_{\\\\text{head}} \\\\times N_{\\\\text{kv\\\\_heads}} \\\\times L_{\\\\text{ctx}}\n\\`\\`\\`\n\nWith Kura's 8-bit quantization (\\`Q8_0\\`), KV cache consumption is reduced by 50%, enabling 32k contexts within commodity RAM budgets."
+    },
+    {
+      "slug": "running-benchmarks",
+      "title": "Exporting Scientific JSON Data",
+      "description": "Executing the automated benchmark suite, measuring tokens/sec, and auditing hardware parity.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "benchmark-command",
+          "title": "Executing kura benchmark",
+          "level": 2
+        },
+        {
+          "id": "esuite-runner",
+          "title": "The 7-Stage Experiment Suite (kura esuite)",
+          "level": 2
+        },
+        {
+          "id": "exporting-results",
+          "title": "Exporting Scientific JSON Data",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1069,
+      "word_count": 145,
+      "content_markdown": "## Executing kura benchmark\n\nMeasure prompt prefill and decode speeds on any model:\n\n\\`\\`\\`bash\nkura benchmark ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --ram-budget 8G \\\\\n  --tokens 64 \\\\\n  --phases\n\\`\\`\\`\n\nThe \\`--phases\\` flag breaks down latency across:\n1. Prefill Phase (TTFT in milliseconds)\n2. Steady-State Decode Phase (Tokens per second)\n3. NVMe Direct Read Bandwidth (MB/s)\n4. Staging Buffer Swap Latency (microseconds)\n\n---\n\n## The 7-Stage Experiment Suite (kura esuite)\n\nTo run the complete automated scientific test suite:\n\n\\`\\`\\`bash\nkura esuite ./models/olmoe-1b-7b-q4_k_m.gguf --ram-budget 7500M\n\\`\\`\\`\n\nStages executed:\n1. Hardware Sensing & CPU ISA Calibration\n2. Physical cgroup Memory Stress Test\n3. LOOM Sequential vs Random Head Seek Comparison\n4. Prefetch Overlap Ratio Verification\n5. Bitwise Parity Gate vs Unquantized Ground Truth\n6. Context Length Scaling (512 to 32,768 tokens)\n7. Speculative Verification (K=4) Acceleration Gate\n\n---\n\n## Exporting Scientific JSON Data\n\n\\`\\`\\`bash\nkura benchmark ./models/model.gguf --json > results.json\n\\`\\`\\`"
+    },
+    {
+      "slug": "capsules-and-adapters",
+      "title": "Hot-Attaching LoRA Adapters",
+      "description": "Packaging model runtimes, prompts, adapters, and memory budgets into reproducible capsules.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "what-is-capsule",
+          "title": "What Is a Kura Capsule?",
+          "level": 2
+        },
+        {
+          "id": "creating-capsule",
+          "title": "Creating and Running a Capsule",
+          "level": 2
+        },
+        {
+          "id": "lora-adapters",
+          "title": "Hot-Attaching LoRA Adapters",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 893,
+      "word_count": 116,
+      "content_markdown": "## What Is a Kura Capsule?\n\nA Kura Capsule is a declarative manifest that bundles:\n- Target GGUF model path or remote URI\n- Working RAM budget and thread count\n- System prompt and sampling temperature\n- Optional LoRA adapter weights\n\nCapsules ensure identical execution across different developer workstations.\n\n---\n\n## Creating and Running a Capsule\n\n\\`\\`\\`bash\n# Create capsule manifest\nkura capsule create \\\\\n  --model ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --budget 7500M \\\\\n  --prompt \"You are a systems engineering assistant.\" \\\\\n  --output coding_assistant.capsule\n\n# Execute capsule\nkura capsule run coding_assistant.capsule\n\\`\\`\\`\n\n---\n\n## Hot-Attaching LoRA Adapters\n\nKura supports attaching Low-Rank Adapters (LoRA) without re-quantizing base model weights:\n\n\\`\\`\\`bash\nkura run ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --adapter ./adapters/code_lora.bin \\\\\n  --adapter-scale 0.8\n\\`\\`\\`"
+    },
+    {
+      "slug": "session-hibernation",
+      "title": "Sub-Millisecond Cold Restarts",
+      "description": "Saving, serializing, and resuming conversational state with zero recomputation.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "hibernation-concept",
+          "title": "KV Cache Serialization Mechanics",
+          "level": 2
+        },
+        {
+          "id": "saving-session",
+          "title": "Saving and Resuming Sessions",
+          "level": 2
+        },
+        {
+          "id": "instant-resume",
+          "title": "Sub-Millisecond Cold Restarts",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 796,
+      "word_count": 115,
+      "content_markdown": "## KV Cache Serialization Mechanics\n\nIn long conversations, recomputing prompt tokens (prefill) consumes significant CPU cycles. Kura allows freezing active KV cache states directly to disk:\n- Compressed KV cache pages are serialized to an NVMe swap file.\n- When resuming, pages are memory-mapped directly into the Hot Tier in under 5 milliseconds.\n\n---\n\n## Saving and Resuming Sessions\n\n\\`\\`\\`bash\n# Save active session state upon exiting chat\nkura session save --session-id research_chat_01\n\n# Resume session later without re-evaluating prompt\nkura session resume --session-id research_chat_01\n\\`\\`\\`\n\n---\n\n## Sub-Millisecond Cold Restarts\n\nBecause saved sessions bypass prompt prefill, Time to First Token (TTFT) drops from several seconds to less than 20 milliseconds on 16k context sessions."
+    },
+    {
+      "slug": "diagnosing-latency",
+      "title": "Step-by-Step Remediation",
+      "description": "Root-cause diagnostic tool for investigating token generation slowdowns and storage bottlenecks.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "why-slow-tool",
+          "title": "The why-slow Diagnostic Explainer",
+          "level": 2
+        },
+        {
+          "id": "common-bottlenecks",
+          "title": "Common Storage and Compute Bottlenecks",
+          "level": 2
+        },
+        {
+          "id": "investigation-steps",
+          "title": "Step-by-Step Remediation",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1000,
+      "word_count": 165,
+      "content_markdown": "## The why-slow Diagnostic Explainer\n\nWhen token generation is slower than expected, run \\`kura why-slow\\`:\n\n\\`\\`\\`bash\nkura why-slow ./models/olmoe-1b-7b-q4_k_m.gguf\n\\`\\`\\`\n\nThe command inspects:\n1. Physical NVMe queue depths and scheduler disciplines\n2. Kernel page fault frequency during execution\n3. Thermal throttling on CPU cores\n4. NUMA memory node placement and cross-socket bus hops\n\n---\n\n## Common Storage and Compute Bottlenecks\n\n| Bottleneck | Detected Signal | Root Cause | Fix |\n| :--- | :--- | :--- | :--- |\n| Elevator Queue Stalls | Scheduler != \\`none\\` | OS buffers NVMe reads | Set scheduler to \\`none\\` |\n| CPU Thermal Throttling | Core frequency drops below base clock | Inadequate cooling | Inspect CPU heatsink / fan curve |\n| NUMA Interconnect Hops | Remote node memory allocations | Thread running on Node 1, RAM on Node 0 | Run with \\`numactl --membind=0\\` |\n| Storage Contention | Background disk writes | Torrent / backup daemon active | Pause disk-heavy background jobs |"
+    },
+    {
+      "slug": "dynamic-quantization",
+      "title": "Manual Quantization Overrides",
+      "description": "Automatic routing between Q4_K_M, Q3_K, and Q8_0 based on real-time memory headroom.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "quant-selector",
+          "title": "SENSE Dynamic Quantization Selection",
+          "level": 2
+        },
+        {
+          "id": "quality-tradeoffs",
+          "title": "Quality vs Speed vs Memory Matrix",
+          "level": 2
+        },
+        {
+          "id": "manual-override",
+          "title": "Manual Quantization Overrides",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 811,
+      "word_count": 149,
+      "content_markdown": "## SENSE Dynamic Quantization Selection\n\nWhen working memory headroom changes (e.g. other applications open or close), SENSE dynamically selects optimal quantization schemes:\n- High Headroom (> 8 GB RAM): Routes to \\`Q4_K_M\\` or \\`Q5_K_M\\` for maximum linguistic perplexity scores.\n- Constrained Headroom (< 6 GB RAM): Automatically routes to \\`Q3_K\\`, delivering a 25.9% memory reduction and +18.2% decoding speedup.\n\n---\n\n## Quality vs Speed vs Memory Matrix\n\n| Quant Format | Bits/Weight | Relative Quality | NVMe Bandwidth per Token | Decode Speed (OLMoE) |\n| :--- | :---: | :---: | :---: | :---: |\n| \\`Q8_0\\` | 8.50 | 99.9% Baseline | 136 MB | 9.4 tok/s |\n| \\`Q5_K_M\\` | 5.50 | 99.1% | 88 MB | 12.8 tok/s |\n| \\`Q4_K_M\\` | 4.50 | 98.4% | 68 MB | 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) |\n| \\`Q3_K\\` | 3.40 | 95.8% | 52 MB | 18.0 tok/s |"
+    },
+    {
+      "slug": "cli-interactive",
+      "title": "Recommended Productive Aliases",
+      "description": "Using the interactive command explorer, shell completion scripts, and quick command generation.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "cli-palette",
+          "title": "Interactive Command Palette",
+          "level": 2
+        },
+        {
+          "id": "shell-completions",
+          "title": "Configuring Shell Auto-Completions",
+          "level": 2
+        },
+        {
+          "id": "command-aliases",
+          "title": "Recommended Productive Aliases",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "cli",
+      "char_count": 872,
+      "word_count": 112,
+      "content_markdown": "## Interactive Command Palette\n\nKura features a comprehensive command palette accessible via \\`kura\\` or the web documentation tool below. Search through all 24 commands, inspect flag options, and generate copy-pasteable shell commands.\n\n---\n\n## Configuring Shell Auto-Completions\n\nGenerate native completion scripts for your shell:\n\n\\`\\`\\`bash\n# Bash:\nsource <(kura completions bash)\n\n# Zsh:\nkura completions zsh > ~/.zfunc/_kura\necho 'fpath=(~/.zfunc $fpath)' >> ~/.zshrc\necho 'autoload -Uz compinit && compinit' >> ~/.zshrc\n\n# Fish:\nkura completions fish > ~/.config/fish/completions/kura.fish\n\\`\\`\\`\n\n---\n\n## Recommended Productive Aliases\n\nAdd these to your \\`~/.bashrc\\` or \\`~/.zshrc\\`:\n\\`\\`\\`bash\nalias krun=\"kura run --ram-budget 7500M --moe-streaming\"\nalias kserve=\"kura serve --port 8080 --ram-budget 7500M\"\nalias ktui=\"kura tui\"\nalias kdoc=\"kura doctor\"\n\\`\\`\\`"
+    },
+    {
+      "slug": "sense-subsystem",
+      "title": "Mathematical Regime Equations",
+      "description": "Hardware probe mechanics, NUMA topology detection, vector instruction probing, and regime equations.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "subsystem-role",
+          "title": "Architectural Role of SENSE",
+          "level": 2
+        },
+        {
+          "id": "simd-probing",
+          "title": "Vector SIMD Feature Detection",
+          "level": 2
+        },
+        {
+          "id": "numa-affinity",
+          "title": "NUMA Topology & Affinity Pinning",
+          "level": 2
+        },
+        {
+          "id": "regime-equations",
+          "title": "Mathematical Regime Equations",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/context_length_scaling.svg",
+      "interactive_component": null,
+      "char_count": 1415,
+      "word_count": 195,
+      "content_markdown": "## Architectural Role of SENSE\n\nSENSE is the hardware introspection and calibration engine of Kura. Rather than assuming static system specifications, SENSE executes before runtime initialization to detect exact CPU, memory, and storage characteristics.\n\n---\n\n## Vector SIMD Feature Detection\n\nSENSE probes CPUID registers (on x86-64) or \\`sysctl\\` (on macOS) for vector extensions:\n- AVX-512 Foundation (F), Conflict Detection (CD), Byte and Word (BW), Doubleword and Quadword (DQ), Vector Length (VL).\n- AVX2, FMA3, and F16C half-precision float instructions.\n- ARM NEON 128-bit vector instructions on Apple Silicon and ARM64 servers.\n\n---\n\n## NUMA Topology & Affinity Pinning\n\nOn multi-socket servers, accessing RAM attached to another CPU socket over the interconnect (QPI/UPI) incurs a 30% to 50% latency penalty. SENSE identifies NUMA node layout and uses \\`SYS_mbind\\` and \\`sched_setaffinity\\` to pin worker threads and staging buffers to Node 0.\n\n---\n\n## Mathematical Regime Equations\n\nSENSE computes the operational ratio:\n\\`\\`\\`math\nR = \\\\frac{T_{io}}{T_{compute}} = \\\\frac{W_{\\\\text{layer}} / B_{\\\\text{nvme}}}{\\\\text{FLOPs}_{\\\\text{layer}} / \\\\text{FLOPS}_{\\\\text{cpu}}}\n\\`\\`\\`\n\n- If $R \\\\le 3.50$: Compute-Dominated. Lookahead window $W=1$. Storage transfer is 100% hidden.\n- If $3.50 < R \\\\le 6.00$: Balanced Regime. Lookahead window $W=2$.\n- If $R > 6.00$: Storage-Dominated. Lookahead window $W=3$."
+    },
+    {
+      "slug": "loom-subsystem",
+      "title": "LOOM Physical Storage Diagram",
+      "description": "Reordering model tensors into sequential forward-pass execution order and packing MoE expert spans.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "problem-statement",
+          "title": "The GGUF Fragmentation Problem",
+          "level": 2
+        },
+        {
+          "id": "coalescing-algorithm",
+          "title": "LOOM Coalescing Algorithm",
+          "level": 2
+        },
+        {
+          "id": "moe-block-packing",
+          "title": "MoE Expert Contiguous Packing",
+          "level": 2
+        },
+        {
+          "id": "diagram",
+          "title": "LOOM Physical Storage Diagram",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/loom_io_coalescing.svg",
+      "interactive_component": null,
+      "char_count": 1229,
+      "word_count": 184,
+      "content_markdown": "## The GGUF Fragmentation Problem\n\nStandard GGUF model files group tensors by type across arbitrary file offsets. During forward-pass execution, reading Layer 0 requires jumping to offset A for attention weights, offset B for normalization weights, and offset C for MLP weights.\n\nOn an SSD, this induces hundreds of random seeks per token, collapsing NVMe throughput from 3,000 MB/s to less than 80 MB/s.\n\n---\n\n## LOOM Coalescing Algorithm\n\nLOOM reorganizes the binary weights into a continuous, sequential span:\n\\`\\`\\`\n[Header] -> [Hot Tier: Embed/LM-Head] -> [Layer 0 Span] -> [Layer 1 Span] ...\n\\`\\`\\`\n\nEach layer span contains all required tensors in the exact sequence they are consumed during the forward pass. Reading a layer becomes a single, unbroken sequential DMA transfer.\n\n---\n\n## MoE Expert Contiguous Packing\n\nFor Sparse MoE models, \\`loom_reorganize_moe\\` packs each expert's \\`gate\\`, \\`up\\`, and \\`down\\` projections into contiguous 256 KB blocks. When the router activates Expert #14, Kura retrieves the entire expert in a single direct read.\n\nRandom head seeks are reduced by 69%, accelerating token decoding by 35.7%.\n\n---\n\n## LOOM Physical Storage Diagram\n\n![LOOM IO Coalescing](/svg/loom_io_coalescing.svg)"
+    },
+    {
+      "slug": "ember-subsystem",
+      "title": "Autonomous Pressure Eviction",
+      "description": "Deterministic memory tiering, Hot resident layers, Warm headroom residue, and Cold NVMe streaming.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "tier-architecture",
+          "title": "Three-Tier Memory Architecture",
+          "level": 2
+        },
+        {
+          "id": "hot-tier",
+          "title": "The Hot Resident Tier",
+          "level": 2
+        },
+        {
+          "id": "warm-tier",
+          "title": "The Warm Residue Tier",
+          "level": 2
+        },
+        {
+          "id": "cold-tier",
+          "title": "The Cold Streamed Tier",
+          "level": 2
+        },
+        {
+          "id": "pressure-eviction",
+          "title": "Autonomous Pressure Eviction",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1463,
+      "word_count": 229,
+      "content_markdown": "## Three-Tier Memory Architecture\n\nEMBER replaces dynamic heap allocations with three strictly budgeted physical memory pools:\n\n1. Hot Tier (Resident in RAM): Critical weights that are touched continuously during every token and cannot be streamed.\n2. Warm Tier (RAM Residue): Transformer prefix layers that fit in the remaining physical memory budget.\n3. Cold Tier (NVMe Streamed): Middle and late transformer layers stored on block storage and streamed into reusable staging buffers.\n\n---\n\n## The Hot Resident Tier\n\nThe Hot Tier is pinned in physical memory at boot time:\n- Token embedding table\n- Output RMSNorm and LM head projection matrix\n- Active quantized KV cache (\\`Q8_0\\`)\n- Recurrent SSM state buffers (for hybrid architectures)\n\n---\n\n## The Warm Residue Tier\n\nIf a machine has 16 GB RAM instead of 8 GB, EMBER automatically expands the Warm Tier, pinning Layers 0 through 12 into physical memory while streaming Layers 13 through 27 from NVMe. Throughput scales smoothly as memory headroom increases.\n\n---\n\n## The Cold Streamed Tier\n\nCold layers are never retained in RAM after execution. They are streamed into double-buffered staging arenas (Arena A and Arena B) and immediately overwritten by subsequent layers.\n\n---\n\n## Autonomous Pressure Eviction\n\nIf host memory usage approaches 95% of the Linux cgroup limit, EMBER proactively evicts Warm Tier layers back to the Cold Tier, preventing the Linux kernel OOM-killer from terminating the process."
+    },
+    {
+      "slug": "prefetch-subsystem",
+      "title": "Empirical Overlap Verification (99.2%)",
+      "description": "Linux io_uring integration, multi-threaded pread pipelines, and double-buffered storage-compute overlap.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "pipeline-concept",
+          "title": "The Double-Buffered Overlap Concept",
+          "level": 2
+        },
+        {
+          "id": "io-uring-backend",
+          "title": "Linux io_uring Implementation",
+          "level": 2
+        },
+        {
+          "id": "overlap-metric",
+          "title": "Empirical Overlap Verification (99.2%)",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1226,
+      "word_count": 176,
+      "content_markdown": "## The Double-Buffered Overlap Concept\n\nThe fundamental bottleneck in storage-based inference is latency. PREFETCH eliminates this bottleneck by running storage I/O and CPU matrix compute concurrently across two alternating staging buffers:\n\n\\`\\`\\`\nTime Slot 1: [Compute Layer L (Arena A)] <--- OVERLAPPED ---> [NVMe Read Layer L+1 (Arena B)]\nTime Slot 2: [Compute Layer L+1 (Arena B)] <--- OVERLAPPED ---> [NVMe Read Layer L+2 (Arena A)]\n\\`\\`\\`\n\n---\n\n## Linux io_uring Implementation\n\nOn Linux kernels 5.15+, PREFETCH utilizes the \\`io_uring\\` kernel asynchronous interface:\n- Submission Queue (SQ): Worker threads submit asynchronous read requests without context-switching into kernel space.\n- Completion Queue (CQ): When Layer $L+1$ finishes transferring via direct DMA, the completion event is reaped with zero syscall overhead.\n- Zero Copy: Weights flow directly from NVMe block storage into userspace staging buffers.\n\n---\n\n## Empirical Overlap Verification (99.2%)\n\nOn the 128 GB SATA M.2 SSD testbed:\n- Average layer computation duration: 12.0 ms\n- Average layer storage transfer duration: 11.2 ms\n- Measured I/O compute overlap: 99.2%\n\nStorage latency is effectively eliminated from user-perceived token generation time."
+    },
+    {
+      "slug": "vector-kernels",
+      "title": "Chunked GEMM Speculative Verification",
+      "description": "Hand-tuned SIMD vector kernels, cross-platform bitwise parity gates, and chunked GEMM speculative verification.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "kernel-architecture",
+          "title": "SIMD Kernel Architecture",
+          "level": 2
+        },
+        {
+          "id": "bitwise-parity",
+          "title": "Cross-Platform Bitwise Parity Gate",
+          "level": 2
+        },
+        {
+          "id": "speculative-verification",
+          "title": "Chunked GEMM Speculative Verification",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1353,
+      "word_count": 185,
+      "content_markdown": "## SIMD Kernel Architecture\n\nKura includes hand-crafted SIMD vector matrix kernels written in assembly and C intrinsics:\n- AVX-512 FMA: 512-bit vector registers processing 16 single-precision floats or 32 half-precision floats per instruction cycle.\n- AVX2 + FMA: 256-bit fallback for older Intel Core and AMD Ryzen processors.\n- ARM NEON: 128-bit vector instructions tuned for Apple Silicon M-series chips.\n\nKernels dequantize 4-bit and 5-bit block structures on-the-fly directly into CPU vector registers, maximizing compute density.\n\n---\n\n## Cross-Platform Bitwise Parity Gate\n\nTo guarantee scientific reproducibility across different hardware architectures:\n- Identical logits and probabilities across x86-64 and ARM64 Apple Silicon.\n- 100.0% identical token decoding sequences across 1,000 generated tokens.\n- Cosine similarity $ge 0.99999$ between AVX-512 and ARM NEON floating-point pipelines.\n\n---\n\n## Chunked GEMM Speculative Verification\n\nIn speculative decoding with draft candidates ($K=4$), evaluating candidates individually requires dequantizing layer weights four separate times.\n\nKura's Chunked GEMM kernel bundles all $K$ candidate tokens into a single batch matrix multiplication. Layer weights are dequantized once for all four drafts, delivering a 1.10x verification speedup (236.02 ms -> 215.09 ms) with 100% token sequence parity."
+    },
+    {
+      "slug": "cpu-vector-detection",
+      "title": "Troubleshooting Missing Instructions",
+      "description": "Verifying CPU feature flags, instruction sets, AVX-512 sub-extensions, and fallback paths.",
+      "category_id": "hardware-profiler",
+      "category_title": "Hardware Profiler",
+      "icon": "Activity",
+      "headings": [
+        {
+          "id": "checking-flags",
+          "title": "Checking CPU Feature Flags",
+          "level": 2
+        },
+        {
+          "id": "isa-hierarchy",
+          "title": "Instruction Set Architecture Hierarchy",
+          "level": 2
+        },
+        {
+          "id": "troubleshooting-isa",
+          "title": "Troubleshooting Missing Instructions",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1061,
+      "word_count": 149,
+      "content_markdown": "## Checking CPU Feature Flags\n\nVerify which vector instruction sets are supported by your host processor:\n\n\\`\\`\\`bash\n# Linux:\ngrep -E \"avx512f|avx512cd|avx512bw|avx512dq|avx512vl|avx2|f16c\" /proc/cpuinfo | head -n 1\n\n# macOS:\nsysctl machdep.cpu.features machdep.cpu.leaf7_features\n\\`\\`\\`\n\n---\n\n## Instruction Set Architecture Hierarchy\n\nKura automatically selects the highest available instruction tier at runtime:\n\n1. AVX-512 (Tier 1): 512-bit registers. Peak throughput for dequantization and GEMV. Found on Intel Xeon, Core 11th Gen, and AMD Ryzen 7000/9000.\n2. ARM NEON (Tier 1 Parity): 128-bit registers with high memory bandwidth. Found on Apple Silicon M1-M4.\n3. AVX2 + FMA3 (Tier 2): 256-bit registers. Standard on Intel Core 4th Gen+ and AMD Zen 1+.\n4. Scalar Fallback: Strictly for debugging; not recommended for interactive inference.\n\n---\n\n## Troubleshooting Missing Instructions\n\nIf running in a virtual machine (Docker, KVM, VirtualBox), ensure host CPU passthrough is enabled:\n\\`\\`\\`bash\n# For QEMU / KVM:\nqemu-system-x86_64 -cpu host ...\n\\`\\`\\`"
+    },
+    {
+      "slug": "ram-cgroup-enforcement",
+      "title": "Empirical Zero-OOM Verification",
+      "description": "Zero-OOM process confinement using Linux kernel control groups (MemoryMax and MemorySwapMax).",
+      "category_id": "hardware-profiler",
+      "category_title": "Hardware Profiler",
+      "icon": "Activity",
+      "headings": [
+        {
+          "id": "cgroup-theory",
+          "title": "Why cgroup v2 Confinement Matters",
+          "level": 2
+        },
+        {
+          "id": "systemd-run-test",
+          "title": "Running Under Strict cgroup Ceilings",
+          "level": 2
+        },
+        {
+          "id": "zero-oom-proof",
+          "title": "Empirical Zero-OOM Verification",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1041,
+      "word_count": 141,
+      "content_markdown": "## Why cgroup v2 Confinement Matters\n\nOn multi-tenant servers and developer workstations, background processes must not consume unbounded physical memory. Conventional engines crash via \\`SIGKILL\\` when memory limits are exceeded.\n\nKura is engineered to run deterministically within strict Linux kernel control groups (cgroup v2) with zero swap:\n\\`\\`\\`ini\nMemoryMax=7500M\nMemorySwapMax=0\n\\`\\`\\`\n\n---\n\n## Running Under Strict cgroup Ceilings\n\nTo execute Kura inside an isolated transient cgroup slice:\n\n\\`\\`\\`bash\nsystemd-run --user --scope \\\\\n  -p MemoryMax=7500M \\\\\n  -p MemorySwapMax=0 \\\\\n  kura run ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n    --ram-budget 7500M \\\\\n    --tokens 128 \\\\\n    --prompt \"What is cgroup isolation?\"\n\\`\\`\\`\n\n---\n\n## Empirical Zero-OOM Verification\n\nDuring Phase 24 testing across 29 benchmark runs under rigid 7.5 GB memory ceilings:\n- Kernel OOM-Killer invocations: 0\n- Swap thrashing events: 0\n- Memory leaks detected: 0 bytes\n- Process RSS remained stable below 7.12 GB throughout extended 32,768-token sequences."
+    },
+    {
+      "slug": "nvme-storage-tuning",
+      "title": "Filesystem Mount Options (noatime)",
+      "description": "Configuring queue depths, udev rules, noatime mount options, and bypass of OS elevator queues.",
+      "category_id": "hardware-profiler",
+      "category_title": "Hardware Profiler",
+      "icon": "Activity",
+      "headings": [
+        {
+          "id": "scheduler-tuning",
+          "title": "Bypassing Kernel Elevator Queues",
+          "level": 2
+        },
+        {
+          "id": "udev-rules",
+          "title": "Persistent udev Rules",
+          "level": 2
+        },
+        {
+          "id": "mount-options",
+          "title": "Filesystem Mount Options (noatime)",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1059,
+      "word_count": 124,
+      "content_markdown": "## Bypassing Kernel Elevator Queues\n\nStandard Linux I/O schedulers (\\`mq-deadline\\`, \\`bfq\\`) are designed for rotational hard drives or mixed desktop traffic. For direct NVMe streaming, elevator queues add unnecessary CPU overhead.\n\nSwitch the scheduler to \\`none\\` to route reads directly to the NVMe controller:\n\n\\`\\`\\`bash\n# Check active scheduler:\ncat /sys/block/nvme0n1/queue/scheduler\n\n# Set to none:\necho none | sudo tee /sys/block/nvme0n1/queue/scheduler\n\\`\\`\\`\n\n---\n\n## Persistent udev Rules\n\nTo ensure optimal storage queue settings persist across reboots:\n\n\\`\\`\\`bash\nsudo tee /etc/udev/rules.d/60-kura-nvme.rules << 'EOF'\nACTION==\"add|change\", KERNEL==\"nvme[0-9]*n[0-9]*\", ATTR{queue/scheduler}=\"none\"\nACTION==\"add|change\", KERNEL==\"nvme[0-9]*n[0-9]*\", ATTR{queue/read_ahead_kb}=\"128\"\nEOF\n\nsudo udevadm control --reload && sudo udevadm trigger\n\\`\\`\\`\n\n---\n\n## Filesystem Mount Options (noatime)\n\nDisable access time updates on filesystems hosting models to eliminate unnecessary metadata writes:\n\n\\`\\`\\`bash\nsudo mount -o remount,noatime /\n\\`\\`\\`"
+    },
+    {
+      "slug": "benchmark-methodology",
+      "title": "Measurement Metrics: TTFT vs Decode Speed",
+      "description": "Zero-hallucination policy, physical hardware isolation, steady-state decode measurement, and reproducibility.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "scientific-principles",
+          "title": "Zero-Hallucination Principles",
+          "level": 2
+        },
+        {
+          "id": "testbed-isolation",
+          "title": "Testbed Isolation & Thermal Control",
+          "level": 2
+        },
+        {
+          "id": "measurement-metrics",
+          "title": "Measurement Metrics: TTFT vs Decode Speed",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1097,
+      "word_count": 146,
+      "content_markdown": "## Zero-Hallucination Principles\n\nAll benchmark data presented in this documentation adheres to strict scientific verification standards:\n1. Physical Hardware Measurements: No synthetic simulations or extrapolated estimates. Every token speed and memory figure was measured on physical hardware.\n2. Cold Caches & Kernel Flushes: Page caches are purged (\\`sync; echo 3 > /proc/sys/vm/drop_caches\\`) between test iterations to ensure cold-storage streaming accuracy.\n3. Deterministic Seeds: Random seeds are fixed (\\`--seed 42\\`) to ensure bitwise reproducible generation traces.\n\n---\n\n## Testbed Isolation & Thermal Control\n\nBenchmarks were executed in an air-conditioned laboratory environment with locked CPU core clocks to prevent thermal throttling from skewing throughput numbers.\n\n---\n\n## Measurement Metrics: TTFT vs Decode Speed\n\nWe distinguish strictly between:\n- Time to First Token (TTFT): Prompt prefill latency, measuring prompt embedding and Flash-Attention computation.\n- Steady-State Decode Speed: Token decoding throughput measured over 64 to 512 generated tokens in tokens/second."
+    },
+    {
+      "slug": "hardware-testbed",
+      "title": "Tested NVMe Storage Devices",
+      "description": "Detailed specifications of the primary Intel Xeon and Apple Silicon testbed environments.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "primary-testbed",
+          "title": "Primary Workstation Testbed (x86-64)",
+          "level": 2
+        },
+        {
+          "id": "arm-testbed",
+          "title": "Apple Silicon Reference Testbed (ARM64)",
+          "level": 2
+        },
+        {
+          "id": "storage-devices",
+          "title": "Tested NVMe Storage Devices",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1064,
+      "word_count": 197,
+      "content_markdown": "## Primary Workstation Testbed (x86-64)\n\n- Processor: AMD Ryzen 3 3250U (12 Physical Cores, 24 Threads, 3.20 GHz base, 4.60 GHz turbo)\n- Vector ISA: AVX-512 (F, CD, BW, DQ, VL) + AVX2 + F16C\n- System RAM: 64 GB DDR5-4800 ECC Registered (4 Channels)\n- Memory Constraint: Enforced via cgroup v2 (\\`MemoryMax=7500M\\`, \\`MemorySwapMax=0\\`)\n- Operating System: Ubuntu 24.04 LTS (Linux kernel 6.8.0-generic)\n\n---\n\n## Apple Silicon Reference Testbed (ARM64)\n\n- System: Apple MacBook Pro 16\"\n- Processor: Apple M3 Max (16 Cores: 12 Performance + 4 Efficiency)\n- Vector ISA: ARM NEON 128-bit vector extensions\n- Unified Memory: 36 GB Unified LPDDR5-6400\n- Operating System: macOS Sonoma 14.5\n\n---\n\n## Tested NVMe Storage Devices\n\n| Device | Interface | Form Factor | Direct Sequential Read |\n| :--- | :--- | :--- | :--- |\n| 128 GB SATA M.2 SSD | PCIe 4.0 x4 | M.2 2280 | 2,895 MB/s |\n| WD Black SN850X 1TB | PCIe 4.0 x4 | M.2 2280 | 2,750 MB/s |\n| Crucial P3 Plus 1TB | PCIe 4.0 x4 | M.2 2280 | 1,850 MB/s |\n| Apple Internal SSD | PCIe 4.0 Custom | Internal | 3,120 MB/s |"
+    },
+    {
+      "slug": "context-scaling",
+      "title": "Context Scaling Curve",
+      "description": "Empirical scaling behavior of chunked Flash-Attention from 512 to 32,768 tokens within 5.59 GB RSS.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "linear-scaling",
+          "title": "Flash-Attention Linear O(N) Scaling",
+          "level": 2
+        },
+        {
+          "id": "empirical-data",
+          "title": "Measured Context Scaling Table",
+          "level": 2
+        },
+        {
+          "id": "scaling-diagram",
+          "title": "Context Scaling Curve",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/context_length_scaling.svg",
+      "interactive_component": null,
+      "char_count": 1001,
+      "word_count": 177,
+      "content_markdown": "## Flash-Attention Linear O(N) Scaling\n\nStandard self-attention computes an $N \\\\times N$ attention matrix, causing quadratic $O(N^2)$ memory growth that crashes consumer workstations beyond 4,096 tokens.\n\nKura implements causal chunked Flash-Attention with online softmax renormalization. Memory consumption scales strictly linearly $O(N)$, allowing context lengths up to 32,768 tokens to execute under 5.59 GB peak resident memory.\n\n---\n\n## Measured Context Scaling Table\n\n| Context Length | Prefill Latency | Peak Process RSS | KV Cache Footprint (Q8_0) | Status |\n| :---: | :---: | :---: | :---: | :---: |\n| 512 tokens | 110 ms | 3.42 GB | 32 MB | PASSED |\n| 2,048 tokens | 340 ms | 3.65 GB | 128 MB | PASSED |\n| 8,192 tokens | 1,280 ms | 4.15 GB | 512 MB | PASSED |\n| 16,384 tokens | 2,620 ms | 4.82 GB | 1,024 MB | PASSED |\n| 32,768 tokens | 5,410 ms | 5.59 GB | 2,048 MB | PASSED (Within 7.5GB Budget) |\n\n---\n\n## Context Scaling Curve\n\n![Context Length Scaling](/svg/context_length_scaling.svg)"
+    },
+    {
+      "slug": "interactive-benchmarks",
+      "title": "Interactive Throughput Explorer",
+      "description": "Filter, inspect, and compare throughput and latency benchmarks across model architectures and hardware profiles.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "benchmarking-context",
+          "title": "Empirical Benchmark Context",
+          "level": 2
+        },
+        {
+          "id": "reading-metrics",
+          "title": "How to Interpret Benchmark Metrics",
+          "level": 2
+        },
+        {
+          "id": "explorer-tool",
+          "title": "Interactive Throughput Explorer",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "throughput",
+      "char_count": 1378,
+      "word_count": 198,
+      "content_markdown": "## Empirical Benchmark Context\n\nThe Kura benchmark suite systematically evaluates model throughput across varying physical RAM allocations, ranging from 4 GB up to 64 GB, under strict Linux cgroup v2 process confinement.\n\n### Key Evaluation Criteria:\n1. Steady-State Decoding Speed: Measured in tokens per second over consecutive generation windows, excluding prompt prefill time.\n2. Time to First Token (TTFT): Initial latency to process prompt tokens using chunked Flash-Attention.\n3. RAM Resident Footprint (RSS): True physical memory consumption recorded by kernel cgroup counters.\n4. NVMe Read Saturation: Percentage of maximum sequential storage bandwidth achieved during layer prefetch bursts.\n\n---\n\n## How to Interpret Benchmark Metrics\n\n- Sparse MoE Models (e.g. OLMoE 1B-7B): Exhibit stable, high throughput (12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy)) across all RAM budgets because only activated routed experts are streamed from storage.\n- Dense Models (e.g. Qwen2.5 7B): Throughput scales proportionally as RAM increases and more layers fit into the Warm Resident tier.\n- Storage Bottlenecks: When a model requires streaming dozens of gigabytes per token (such as Dense 70B), decoding throughput becomes bounded by raw NVMe bandwidth.\n\n---\n\n## Interactive Throughput Explorer\n\nUse the interactive tool below to explore real decode throughput across diverse memory budgets and model architectures:"
+    },
+    {
+      "slug": "prerequisites",
+      "title": "Comparing Output Checksums",
+      "description": "Complete step-by-step instructions to reproduce all empirical benchmark results on your own workstation.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "prerequisites",
+          "title": "Verification Prerequisites",
+          "level": 2
+        },
+        {
+          "id": "reproduction-commands",
+          "title": "Reproduction Shell Commands",
+          "level": 2
+        },
+        {
+          "id": "verifying-checksums",
+          "title": "Comparing Output Checksums",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1040,
+      "word_count": 125,
+      "content_markdown": "## Verification Prerequisites\n\nTo reproduce the benchmark findings reported in the Kura Scientific Report:\n- Linux x86-64 workstation (Ubuntu 22.04 or 24.04) with AVX2 or AVX-512\n- At least 8 GB of physical RAM\n- PCIe NVMe SSD with at least 20 GB of free space\n\n---\n\n## Reproduction Shell Commands\n\n\\`\\`\\`bash\n# 1. Clone repository\ngit clone https://github.com/fraol163/kura-benchmarks.git\ncd kura-benchmarks\n\n# 2. Run automated reproduction suite\nbash install.sh\nkura doctor\n\n# 3. Download verified test model\nmkdir -p ./models\nkura models pull https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-instruct-q4_k_m.gguf\n\n# 4. Run automated 7-stage experiment suite\nkura esuite ./models/olmoe-1b-7b-instruct-q4_k_m.gguf --ram-budget 7500M --json > my_results.json\n\\`\\`\\`\n\n---\n\n## Comparing Output Checksums\n\nCompare \\`my_results.json\\` against \\`benchmarks/results/practical_throughput_matrix.json\\` in the official repository. Throughput figures will match within $\\\\pm 5\\\\%$ depending on NVMe drive model."
+    },
+    {
+      "slug": "api-completions",
+      "title": "Sample JSON Response",
+      "description": "Parameter schemas, request payloads, response structures, and examples for text generation.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "http-method",
+          "title": "HTTP Request Definition",
+          "level": 2
+        },
+        {
+          "id": "request-parameters",
+          "title": "Request Body Schema",
+          "level": 2
+        },
+        {
+          "id": "sample-response",
+          "title": "Sample JSON Response",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1237,
+      "word_count": 170,
+      "content_markdown": "## HTTP Request Definition\n\n\\`\\`\\`http\nPOST /v1/completions\nContent-Type: application/json\n\\`\\`\\`\n\n---\n\n## Request Body Schema\n\n\\`\\`\\`json\n{\n  \"model\": \"olmoe-1b-7b\",\n  \"prompt\": \"The primary law of storage-native inference states that\",\n  \"max_tokens\": 64,\n  \"temperature\": 0.0,\n  \"stream\": false\n}\n\\`\\`\\`\n\n| Field | Type | Default | Description |\n| :--- | :---: | :---: | :--- |\n| \\`model\\` | string | Current | Target model identifier |\n| \\`prompt\\` | string | \\`\"\"\\` | Input context prompt |\n| \\`max_tokens\\` | integer | \\`64\\` | Maximum tokens to decode |\n| \\`temperature\\` | float | \\`0.0\\` | \\`0.0\\` for deterministic argmax; higher for creative sampling |\n| \\`stream\\` | boolean | \\`false\\` | When \\`true\\`, streams response chunks over Server-Sent Events |\n\n---\n\n## Sample JSON Response\n\n\\`\\`\\`json\n{\n  \"id\": \"cmpl-18d9bb49223f580c\",\n  \"object\": \"text_completion\",\n  \"created\": 1790668249,\n  \"model\": \"olmoe-1b-7b\",\n  \"choices\": [\n    {\n      \"text\": \" physical memory requirements during autoregressive decoding are invariant to model size.\",\n      \"index\": 0,\n      \"logprobs\": null,\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": 9,\n    \"completion_tokens\": 14,\n    \"total_tokens\": 23\n  }\n}\n\\`\\`\\`"
+    },
+    {
+      "slug": "api-chat-completions",
+      "title": "Error Responses and Status Codes",
+      "description": "OpenAI-compatible conversational messages schema, system instructions, streaming deltas, parameters, and usage metrics.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "chat-spec",
+          "title": "HTTP Request Definition",
+          "level": 2
+        },
+        {
+          "id": "chat-payload",
+          "title": "Request Payload Schema & Parameters",
+          "level": 2
+        },
+        {
+          "id": "sse-streaming",
+          "title": "Server-Sent Events (SSE) Streaming Format",
+          "level": 2
+        },
+        {
+          "id": "client-examples",
+          "title": "Client Integration Examples (cURL, Python, TypeScript)",
+          "level": 2
+        },
+        {
+          "id": "error-handling",
+          "title": "Error Responses and Status Codes",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 5086,
+      "word_count": 537,
+      "content_markdown": "## HTTP Request Definition\n\n\\`\\`\\`http\nPOST /v1/chat/completions\nContent-Type: application/json\nAuthorization: Bearer <optional-api-key>\n\\`\\`\\`\n\nKura serves a fully compatible drop-in replacement for OpenAI chat completions, allowing existing SDKs, LangChain, LlamaIndex, and frontend UIs (like Open WebUI) to connect seamlessly without code changes.\n\n---\n\n## Request Payload Schema & Parameters\n\n| Parameter | Type | Default | Description |\n| :--- | :--- | :--- | :--- |\n| \\`model\\` | string | *required* | Model identifier or local alias (e.g., \\`olmoe-1b-7b\\`, \\`deepseek-moe-16b\\`) |\n| \\`messages\\` | array | *required* | Ordered list of message objects containing \\`role\\` (\\`system\\`, \\`user\\`, \\`assistant\\`) and \\`content\\` |\n| \\`max_tokens\\` | integer | \\`512\\` | Maximum generation length in tokens |\n| \\`temperature\\` | float | \\`0.7\\` | Sampling randomness (0.0 for deterministic greedy decoding) |\n| \\`top_p\\` | float | \\`0.9\\` | Nucleus sampling probability cutoff |\n| \\`stream\\` | boolean | \\`false\\` | When true, returns chunks via Server-Sent Events (SSE) |\n| \\`stop\\` | string / array | \\`null\\` | Stop sequence(s) to halt token generation immediately |\n\n### Example Request Payload\n\n\\`\\`\\`json\n{\n  \"model\": \"olmoe-1b-7b\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a senior systems engineer specializing in low-latency runtime optimization.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"How does Kura achieve zero OOM crashes under strict 4GB RAM budgets?\"\n    }\n  ],\n  \"max_tokens\": 256,\n  \"temperature\": 0.2,\n  \"stream\": true\n}\n\\`\\`\\`\n\n---\n\n## Server-Sent Events (SSE) Streaming Format\n\nWhen \\`stream: true\\` is requested, Kura streams token deltas as they are computed by the SIMD vector kernels:\n\n\\`\\`\\`http\nHTTP/1.1 200 OK\nContent-Type: text/event-stream; charset=utf-8\nCache-Control: no-cache\nConnection: keep-alive\nTransfer-Encoding: chunked\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":\"\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Kura\"},\"index\":0,\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" achieves\"},\"index\":0,\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" deterministic\"},\"index\":0,\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" memory\"},\"index\":0,\"finish_reason\":null}]}\n\ndata: {\"id\":\"chatcmpl-01\",\"object\":\"chat.completion.chunk\",\"created\":1727913600,\"model\":\"olmoe-1b-7b\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}]}\n\ndata: [DONE]\n\\`\\`\\`\n\n---\n\n## Client Integration Examples (cURL, Python, TypeScript)\n\n### cURL\n\n\\`\\`\\`bash\ncurl -X POST http://127.0.0.1:8080/v1/chat/completions \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\n    \"model\": \"olmoe-1b-7b\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Explain storage-native inference.\"}],\n    \"temperature\": 0.5\n  }'\n\\`\\`\\`\n\n### Python (Official OpenAI SDK)\n\n\\`\\`\\`python\nfrom openai import OpenAI\n\n# Point client directly to local Kura endpoint\nclient = OpenAI(\n    base_url=\"http://127.0.0.1:8080/v1\",\n    api_key=\"kura-local\" # Any string works in local mode\n)\n\nresponse = client.chat.completions.create(\n    model=\"olmoe-1b-7b\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are an AI runtime specialist.\"},\n        {\"role\": \"user\", \"content\": \"Compare Kura LOOM vs standard mmap.\"}\n    ],\n    stream=True\n)\n\nfor chunk in response:\n    content = chunk.choices[0].delta.content or \"\"\n    print(content, end=\"\", flush=True)\nprint()\n\\`\\`\\`\n\n### TypeScript / Node.js\n\n\\`\\`\\`typescript\nimport OpenAI from 'openai';\n\nconst openai = new OpenAI({\n  baseURL: 'http://127.0.0.1:8080/v1',\n  apiKey: 'kura-local',\n});\n\nasync function main() {\n  const stream = await openai.chat.completions.create({\n    model: 'olmoe-1b-7b',\n    messages: [{ role: 'user', content: 'What is the role of the Sense subsystem?' }],\n    stream: true,\n  });\n\n  for await (const chunk of stream) {\n    process.stdout.write(chunk.choices[0]?.delta?.content || '');\n  }\n}\n\nmain();\n\\`\\`\\`\n\n---\n\n## Error Responses and Status Codes\n\n| Status Code | Code String | Meaning & Resolution |\n| :--- | :--- | :--- |\n| \\`400 Bad Request\\` | \\`invalid_request_error\\` | Malformed JSON payload or missing mandatory \\`messages\\` field |\n| \\`404 Not Found\\` | \\`model_not_found\\` | Requested model not registered or weight path inaccessible |\n| \\`422 Unprocessable\\` | \\`token_limit_exceeded\\` | Prompt context exceeds configured maximum context length |\n| \\`503 Service Unavailable\\` | \\`engine_saturated\\` | All decode concurrency slots busy; backoff and retry |"
+    },
+    {
+      "slug": "api-health",
+      "title": "Systemd Watchdog Integration",
+      "description": "Monitoring server health, process RSS memory ratio, and watchdog liveness probes.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "health-endpoint",
+          "title": "HTTP Endpoint Definition",
+          "level": 2
+        },
+        {
+          "id": "health-schema",
+          "title": "Response Payload Schema",
+          "level": 2
+        },
+        {
+          "id": "field-definitions",
+          "title": "Field Definitions & Thresholds",
+          "level": 2
+        },
+        {
+          "id": "kubernetes-probe",
+          "title": "Kubernetes Liveness Probe Configuration",
+          "level": 2
+        },
+        {
+          "id": "systemd-watchdog",
+          "title": "Systemd Watchdog Integration",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1622,
+      "word_count": 180,
+      "content_markdown": "## HTTP Endpoint Definition\n\n\\`\\`\\`http\nGET /health\n\\`\\`\\`\n\nThe \\`/health\\` endpoint provides instant visibility into server execution status, current memory pressure against the cgroup ceiling, active inference streams, and storage driver health.\n\n---\n\n## Response Payload Schema\n\n\\`\\`\\`json\n{\n  \"status\": \"healthy\",\n  \"version\": \"1.0.0\",\n  \"active_model\": \"olmoe-1b-7b-q4_k_m.gguf\",\n  \"memory_budget_bytes\": 7864320000,\n  \"current_rss_bytes\": 3670016000,\n  \"memory_pressure_ratio\": 0.466,\n  \"active_streams\": 1,\n  \"storage_read_errors\": 0\n}\n\\`\\`\\`\n\n---\n\n## Field Definitions & Thresholds\n\n- \\`status\\`: \\`\"healthy\"\\` if operational; \\`\"degraded\"\\` if memory pressure $ge 0.90$; \\`\"unhealthy\"\\` if storage read errors occur.\n- \\`memory_pressure_ratio\\`: Real-time ratio of \\`current_rss_bytes\\` to \\`memory_budget_bytes\\`. Values below 0.85 indicate safe headroom.\n- \\`active_streams\\`: Number of active concurrent HTTP streaming connections.\n- \\`storage_read_errors\\`: Counter of transient storage read retries. A non-zero value indicates NVMe controller congestion or hardware faults.\n\n---\n\n## Kubernetes Liveness Probe Configuration\n\n\\`\\`\\`yaml\nlivenessProbe:\n  httpGet:\n    path: /health\n    port: 8080\n  initialDelaySeconds: 5\n  periodSeconds: 10\n  timeoutSeconds: 2\n  failureThreshold: 3\nreadinessProbe:\n  httpGet:\n    path: /health\n    port: 8080\n  initialDelaySeconds: 2\n  periodSeconds: 5\n\\`\\`\\`\n\n---\n\n## Systemd Watchdog Integration\n\nWhen running under systemd with \\`WatchdogSec=10s\\`, Kura automatically pings the systemd notify socket (\\`sd_notify\\`) during periodic health checks to prevent daemon freezing."
+    },
+    {
+      "slug": "api-metrics",
+      "title": "Key Metric Definitions",
+      "description": "Prometheus exposition format, token counters, decoding speed gauges, and cache hit metrics.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "metrics-endpoint",
+          "title": "HTTP Endpoint Definition",
+          "level": 2
+        },
+        {
+          "id": "sample-exposition",
+          "title": "Sample Prometheus Exposition",
+          "level": 2
+        },
+        {
+          "id": "metric-definitions",
+          "title": "Key Metric Definitions",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1108,
+      "word_count": 110,
+      "content_markdown": "## HTTP Endpoint Definition\n\n\\`\\`\\`http\nGET /metrics\n\\`\\`\\`\n\n---\n\n## Sample Prometheus Exposition\n\n\\`\\`\\`text\n# HELP kura_tokens_total Total tokens generated since server start.\n# TYPE kura_tokens_total counter\nkura_tokens_total 45892\n\n# HELP kura_tokens_per_second Current decode throughput.\n# TYPE kura_tokens_per_second gauge\nkura_tokens_per_second 15.22\n\n# HELP kura_time_to_first_token_seconds TTFT latency histogram.\n# TYPE kura_time_to_first_token_seconds histogram\nkura_time_to_first_token_seconds_bucket{le=\"0.1\"} 42\nkura_time_to_first_token_seconds_bucket{le=\"0.5\"} 310\nkura_time_to_first_token_seconds_bucket{le=\"1.0\"} 412\n\n# HELP kura_memory_rss_bytes Process RSS memory footprint.\n# TYPE kura_memory_rss_bytes gauge\nkura_memory_rss_bytes 3670016000\n\\`\\`\\`\n\n---\n\n## Key Metric Definitions\n\n- \\`kura_tokens_total\\`: Cumulative count of decoded tokens across all requests.\n- \\`kura_tokens_per_second\\`: Rolling average of steady-state decoding speed.\n- \\`kura_nvme_read_bytes_total\\`: Direct block bytes streamed from NVMe.\n- \\`kura_storage_read_errors\\`: Counter of transient storage read retries."
+    },
+    {
+      "slug": "api-models",
+      "title": "Hot-Swap Performance",
+      "description": "Listing active models, querying metadata, and hot-swapping models in sub-second latency.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "models-endpoint",
+          "title": "Listing Models (/v1/models)",
+          "level": 2
+        },
+        {
+          "id": "load-endpoint",
+          "title": "Hot-Swapping Models (/v1/models/load)",
+          "level": 2
+        },
+        {
+          "id": "hot-swap-latency",
+          "title": "Hot-Swap Performance",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1004,
+      "word_count": 115,
+      "content_markdown": "## Listing Models (/v1/models)\n\n\\`\\`\\`http\nGET /v1/models\n\\`\\`\\`\n\n### Response:\n\\`\\`\\`json\n{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"olmoe-1b-7b\",\n      \"object\": \"model\",\n      \"owned_by\": \"kura-local\",\n      \"format\": \"GGUF-v3\",\n      \"quant\": \"Q4_K_M\"\n    },\n    {\n      \"id\": \"qwen2.5-7b\",\n      \"object\": \"model\",\n      \"owned_by\": \"kura-local\",\n      \"format\": \"GGUF-v3\",\n      \"quant\": \"Q4_K_M\"\n    }\n  ]\n}\n\\`\\`\\`\n\n---\n\n## Hot-Swapping Models (/v1/models/load)\n\nSwitch the active serving model dynamically without restarting the HTTP server:\n\n\\`\\`\\`bash\ncurl -X POST http://localhost:8080/v1/models/load \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\"model_path\": \"./models/qwen2.5-7b-q4_k_m.gguf\"}'\n\\`\\`\\`\n\n---\n\n## Hot-Swap Performance\n\nBecause Kura streams layer weights on demand rather than loading tens of gigabytes into RAM at boot, switching models completes in less than 850 milliseconds (simply unmapping the previous file descriptor and pinning the new model's Hot Tier)."
+    },
+    {
+      "slug": "api-clients",
+      "title": "LangChain Integration",
+      "description": "Complete, drop-in integration examples for Python OpenAI SDK, TypeScript, cURL, and LangChain.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "python-openai",
+          "title": "Python OpenAI SDK Example",
+          "level": 2
+        },
+        {
+          "id": "typescript-fetch",
+          "title": "TypeScript / Node.js Streaming Example",
+          "level": 2
+        },
+        {
+          "id": "curl-stream",
+          "title": "Raw cURL Streaming Example",
+          "level": 2
+        },
+        {
+          "id": "langchain-integration",
+          "title": "LangChain Integration",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1681,
+      "word_count": 176,
+      "content_markdown": "## Python OpenAI SDK Example\n\n\\`\\`\\`python\nimport os\nfrom openai import OpenAI\n\n# Connect to local Kura server\nclient = OpenAI(\n    base_url=\"http://localhost:8080/v1\",\n    api_key=\"not-needed\"\n)\n\nresponse = client.chat.completions.create(\n    model=\"olmoe-1b-7b\",\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a concise systems architect.\"},\n        {\"role\": \"user\", \"content\": \"Explain storage-native inference.\"}\n    ],\n    stream=True\n)\n\nfor chunk in response:\n    content = chunk.choices[0].delta.content or \"\"\n    print(content, end=\"\", flush=True)\n\\`\\`\\`\n\n---\n\n## TypeScript / Node.js Streaming Example\n\n\\`\\`\\`typescript\nimport OpenAI from 'openai';\n\nconst openai = new OpenAI({\n  baseURL: 'http://localhost:8080/v1',\n  apiKey: 'not-needed'\n});\n\nasync function main() {\n  const stream = await openai.chat.completions.create({\n    model: 'olmoe-1b-7b',\n    messages: [{ role: 'user', content: 'What is LOOM storage coalescing?' }],\n    stream: true,\n  });\n\n  for await (const chunk of stream) {\n    process.stdout.write(chunk.choices[0]?.delta?.content || '');\n  }\n}\n\nmain();\n\\`\\`\\`\n\n---\n\n## Raw cURL Streaming Example\n\n\\`\\`\\`bash\ncurl -N http://localhost:8080/v1/chat/completions \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\n    \"model\": \"olmoe-1b-7b\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Hello Kura!\"}],\n    \"stream\": true\n  }'\n\\`\\`\\`\n\n---\n\n## LangChain Integration\n\n\\`\\`\\`python\nfrom langchain_openai import ChatOpenAI\n\nllm = ChatOpenAI(\n    model=\"olmoe-1b-7b\",\n    openai_api_base=\"http://localhost:8080/v1\",\n    openai_api_key=\"not-needed\"\n)\n\nresponse = llm.invoke(\"Summarize the benefits of direct I/O.\")\nprint(response.content)\n\\`\\`\\`"
+    },
+    {
+      "slug": "api-playground",
+      "title": "Interactive Sandbox Tool",
+      "description": "Test API endpoints live with simulated Server-Sent Events, custom prompt inputs, and temperature tuning.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "sandbox-overview",
+          "title": "Live API Testing Environment",
+          "level": 2
+        },
+        {
+          "id": "streaming-simulation",
+          "title": "Simulating Server-Sent Events",
+          "level": 2
+        },
+        {
+          "id": "sandbox-tool",
+          "title": "Interactive Sandbox Tool",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "api",
+      "char_count": 1007,
+      "word_count": 127,
+      "content_markdown": "## Live API Testing Environment\n\nThe interactive API sandbox provides a live browser playground for testing OpenAI-compatible requests against Kura's endpoint specifications.\n\n### Testing Scenarios:\n1. Streaming Conversational Chat (\\`/v1/chat/completions\\`): Test token-by-token Server-Sent Event streaming with typewriter rendering, simulated TTFT delays, and token counters.\n2. System Health & Liveness (\\`/health\\`): Inspect process status, memory pressure ratios, and active stream counters.\n3. Prometheus Telemetry (\\`/metrics\\`): Review raw Prometheus exposition formatted counters and gauges.\n\n---\n\n## Simulating Server-Sent Events\n\nWhen \\`stream: true\\` is sent in the request body, Kura responds with \\`Content-Type: text/event-stream\\`. Each newly decoded token is emitted as a JSON payload prefixed with \\`data: \\`, followed by \\`data: [DONE]\\` when generation completes.\n\n---\n\n## Interactive Sandbox Tool\n\nExperiment with model selection, prompt customization, and temperature parameters below:"
+    },
+    {
+      "slug": "repo-structure",
+      "title": "Build Artifacts and Binaries",
+      "description": "Layout of the Kura repository, core crates, CLI implementations, and benchmark suites.",
+      "category_id": "developer",
+      "category_title": "Developer Guide",
+      "icon": "Code",
+      "headings": [
+        {
+          "id": "directory-layout",
+          "title": "Directory Layout",
+          "level": 2
+        },
+        {
+          "id": "subsystem-mapping",
+          "title": "Subsystem to Source Mapping",
+          "level": 2
+        },
+        {
+          "id": "build-artifacts",
+          "title": "Build Artifacts and Binaries",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1307,
+      "word_count": 169,
+      "content_markdown": "## Directory Layout\n\nThe official repository (\\`fraol163/kura-benchmarks\\`) is structured into distinct, modular modules:\n\n\\`\\`\\`\nkura/\n\u251c\u2500\u2500 bin/\n\u2502   \u251c\u2500\u2500 install.js         # Bootstrap Node installer and CLI router\n\u2502   \u2514\u2500\u2500 tui.js             # Terminal User Interface implementation\n\u251c\u2500\u2500 benchmarks/\n\u2502   \u251c\u2500\u2500 results/           # Raw JSON experiment output matrices\n\u2502   \u251c\u2500\u2500 svg/               # Official architectural and benchmark vector diagrams\n\u2502   \u2514\u2500\u2500 KURA_FINAL_SCIENTIFIC_REPORT.md  # 26-principle scientific report\n\u251c\u2500\u2500 docs/\n\u2502   \u251c\u2500\u2500 API_REFERENCE.md   # Complete OpenAI v1 endpoint specifications\n\u2502   \u251c\u2500\u2500 ARCHITECTURE.md    # Storage-native decoupled inference spec\n\u2502   \u2514\u2500\u2500 DEPLOYMENT_GUIDE.md# Production systemd, Nginx, and cgroup setups\n\u251c\u2500\u2500 install.sh             # POSIX bash 1-line installation script\n\u251c\u2500\u2500 install.ps1            # Windows PowerShell installation script\n\u2514\u2500\u2500 package.json           # Project workspace and scripts manifest\n\\`\\`\\`\n\n---\n\n## Subsystem to Source Mapping\n\n- SENSE Engine: Probes CPUID flags and calculates $R = T_{io} / T_{comp}$.\n- LOOM Optimizer: Analyzes GGUF tensor offsets and writes contiguous \\`.kura\\` layout sidecars.\n- EMBER Allocator: Manages Hot, Warm, and Cold buffer pools.\n- TUI Monitor: Blessed/curses-based terminal monitor with live CPU and NVMe gauges."
+    },
+    {
+      "slug": "building-from-source",
+      "title": "SIMD Target Feature Flags",
+      "description": "Compiling Kura from source code with native CPU SIMD optimization flags.",
+      "category_id": "developer",
+      "category_title": "Developer Guide",
+      "icon": "Code",
+      "headings": [
+        {
+          "id": "build-prerequisites",
+          "title": "Toolchain Prerequisites",
+          "level": 2
+        },
+        {
+          "id": "compilation-commands",
+          "title": "Compilation Instructions",
+          "level": 2
+        },
+        {
+          "id": "target-cpu-flags",
+          "title": "SIMD Target Feature Flags",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 812,
+      "word_count": 108,
+      "content_markdown": "## Toolchain Prerequisites\n\nTo build Kura from source, ensure you have:\n- Node.js 18+ and npm\n- GCC / Clang with C++17 support\n- \\`make\\`, \\`cmake\\`, and \\`pkg-config\\`\n- Linux kernel development headers (for \\`io_uring\\`)\n\n---\n\n## Compilation Instructions\n\n\\`\\`\\`bash\n# 1. Clone repository\ngit clone https://github.com/fraol163/kura-benchmarks.git\ncd kura-benchmarks\n\n# 2. Install dependencies\nnpm install\n\n# 3. Build native modules with host CPU vector optimization\nRUSTFLAGS=\"-C target-cpu=native\" npm run build\n\\`\\`\\`\n\n---\n\n## SIMD Target Feature Flags\n\nTo target specific vector instruction architectures:\n\\`\\`\\`bash\n# Build strictly for AVX-512:\nCFLAGS=\"-mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl\" npm run build\n\n# Build strictly for ARM NEON:\nCFLAGS=\"-march=armv8.5-a+simd\" npm run build\n\\`\\`\\`"
+    },
+    {
+      "slug": "testing-parity",
+      "title": "Cosine Fidelity Tolerances",
+      "description": "Running the verification test suite, auditing mathematical parity, and checking token sequence agreement.",
+      "category_id": "developer",
+      "category_title": "Developer Guide",
+      "icon": "Code",
+      "headings": [
+        {
+          "id": "parity-testing",
+          "title": "The Bitwise Parity Gate",
+          "level": 2
+        },
+        {
+          "id": "running-tests",
+          "title": "Running Test Suites",
+          "level": 2
+        },
+        {
+          "id": "test-tolerances",
+          "title": "Cosine Fidelity Tolerances",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 933,
+      "word_count": 148,
+      "content_markdown": "## The Bitwise Parity Gate\n\nTo guarantee zero mathematical degradation from streaming dequantization, Kura enforces a strict Bitwise Parity Gate:\n- Output logits must match unquantized ground truth within $10^{-5}$ relative error.\n- Token generation sequences under greedy argmax ($\text{temp} = 0.0$) must be 100.0% identical across 1,000 continuous tokens.\n- AVX-512 and ARM NEON kernels must yield bit-exact matching logits.\n\n---\n\n## Running Test Suites\n\n\\`\\`\\`bash\n# Execute test suite\nnpm test\n\n# Run bitwise parity audit against reference tensors\nkura benchmark ./models/olmoe-1b-7b-q4_k_m.gguf --phases --json\n\\`\\`\\`\n\n---\n\n## Cosine Fidelity Tolerances\n\n| Component | Minimum Cosine Similarity | Empirical Test Result | Status |\n| :--- | :---: | :---: | :---: |\n| Q8_0 KV Cache | 0.999990 | 0.999993 | PASSED |\n| Flash-Attention Softmax | 0.999990 | 0.999999 | PASSED |\n| AVX-512 vs NEON Logits | 0.999990 | 1.000000 | PASSED |"
+    },
+    {
+      "slug": "coding-standards",
+      "title": "Deterministic Memory Safety",
+      "description": "Engineering standards, zero-allocation decode path, memory bounds, and privacy rules.",
+      "category_id": "developer",
+      "category_title": "Developer Guide",
+      "icon": "Code",
+      "headings": [
+        {
+          "id": "zero-telemetry-rule",
+          "title": "The Zero-Telemetry Ironclad Rule",
+          "level": 2
+        },
+        {
+          "id": "zero-allocation-path",
+          "title": "Zero-Allocation Decode Critical Path",
+          "level": 2
+        },
+        {
+          "id": "memory-bounds",
+          "title": "Deterministic Memory Safety",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1015,
+      "word_count": 142,
+      "content_markdown": "## The Zero-Telemetry Ironclad Rule\n\nKura is built on an absolute privacy principle:\n1. Zero Network Pings: The runtime never initiates outbound network connections unless explicitly commanded to download a model (\\`kura models pull\\`).\n2. Zero Tracking or Analytics: No telemetry beacons, crash reporters, user identifiers, or analytics libraries exist anywhere in the codebase.\n3. Completely Air-Gapped Capable: Kura operates without internet access.\n\n---\n\n## Zero-Allocation Decode Critical Path\n\nDuring autoregressive token decoding:\n- No heap memory allocations (\\`malloc\\` / \\`new\\`) are permitted in the per-token loop.\n- All staging buffers, attention matrices, and KV cache pages are pre-allocated at startup.\n- Vector registers and staging arena pointers are swapped in place.\n\n---\n\n## Deterministic Memory Safety\n\nEvery subsystem must respect the user-defined memory ceiling (\\`--ram-budget\\`). Any code path allocating memory that breaches the cgroup ceiling is rejected by continuous integration gates."
+    },
+    {
+      "slug": "how-to-contribute",
+      "title": "Code Review & Parity Criteria",
+      "description": "Submitting pull requests, issue reporting, architecture review workflows, and developer etiquette.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "how-to-contribute",
+          "title": "How to Contribute",
+          "level": 2
+        },
+        {
+          "id": "pull-request-workflow",
+          "title": "Pull Request Workflow",
+          "level": 2
+        },
+        {
+          "id": "code-review-criteria",
+          "title": "Code Review & Parity Criteria",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 915,
+      "word_count": 129,
+      "content_markdown": "## How to Contribute\n\nContributions to Kura are welcome, particularly in:\n- New CPU SIMD kernels (e.g. RISC-V Vector extensions, AVX10)\n- Operating system storage backends (e.g. FreeBSD, Windows DirectStorage)\n- Support for novel Sparse MoE model architectures\n\n---\n\n## Pull Request Workflow\n\n1. Fork the official repository: \\`https://github.com/fraol163/kura-benchmarks\\`\n2. Create a focused feature branch: \\`git checkout -b feature/my-new-kernel\\`\n3. Verify all existing tests pass: \\`npm test\\`\n4. Run the hardware parity gate: \\`kura doctor\\`\n5. Open a Pull Request with complete reproduction benchmarks attached.\n\n---\n\n## Code Review & Parity Criteria\n\nAll PRs modifying tensor compute or memory allocation must demonstrate:\n- 100% bitwise parity against reference baseline tensors.\n- Zero memory leaks under \\`valgrind\\` or Linux cgroup v2 testing.\n- Adherence to the Zero-Telemetry ironclad privacy policy."
+    },
+    {
+      "slug": "glossary-terms",
+      "title": "Systems Definitions",
+      "description": "Authoritative definitions of DMA, SIMD, LOOM, MoE, TTFT, cgroups, and storage-native inference terms.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "glossary-terms",
+          "title": "Systems Definitions",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1242,
+      "word_count": 176,
+      "content_markdown": "## Systems Definitions\n\n- DMA (Direct Memory Access): Hardware mechanism allowing the NVMe SSD controller to transfer layer weights directly into system RAM staging buffers without routing bytes through CPU registers.\n- SIMD (Single Instruction, Multiple Data): CPU execution units (AVX-512, ARM NEON) that perform arithmetic across multiple vector elements simultaneously in a single clock cycle.\n- LOOM: Kura's physical layout coalescing format that reorders model weights on disk into strict forward-pass execution sequence.\n- Sparse MoE (Mixture of Experts): Neural network architecture where only a small subset of expert layers (e.g. 8 out of 64) are activated per token, minimizing required storage transfers.\n- TTFT (Time to First Token): The latency required to process prompt tokens and emit the very first output token.\n- cgroup v2 (Control Groups): Linux kernel mechanism used to enforce strict memory and I/O boundaries (\\`MemoryMax=7500M\\`) on processes.\n- Staging Arena: Pre-allocated, page-locked memory buffers used to hold weights for the currently executing transformer layer.\n- Flash-Attention: Memory-efficient attention algorithm that computes softmax renormalization in chunks, maintaining linear $O(N)$ memory scaling."
+    },
+    {
+      "slug": "supported-formats",
+      "title": "LOOM .kura Coalesced Sidecar Format",
+      "description": "Detailed specifications of supported GGUF v3 versions, quantization types, and coalesced sidecar files.",
+      "category_id": "reference",
+      "category_title": "Reference & Project",
+      "icon": "FileText",
+      "headings": [
+        {
+          "id": "gguf-spec",
+          "title": "GGUF v3 File Specification",
+          "level": 2
+        },
+        {
+          "id": "quant-types",
+          "title": "Supported Quantization Types",
+          "level": 2
+        },
+        {
+          "id": "kura-sidecar",
+          "title": "LOOM .kura Coalesced Sidecar Format",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 998,
+      "word_count": 161,
+      "content_markdown": "## GGUF v3 File Specification\n\nKura natively parses standard GGUF v3 files. GGUF provides unified storage for model architecture parameters, tokenization vocabularies, and tensor data.\n\n---\n\n## Supported Quantization Types\n\n| Format | Block Size | Effective Bits | Description |\n| :--- | :---: | :---: | :--- |\n| \\`Q4_K_M\\` | 256 | 4.50 | Recommended default. Balanced speed and quality. |\n| \\`Q3_K\\` | 256 | 3.40 | High-compression format for sub-6GB RAM budgets. |\n| \\`Q5_K_M\\` | 256 | 5.50 | Enhanced precision for high-parameter reasoning models. |\n| \\`Q6_K\\` | 256 | 6.56 | Near-lossless precision for sensitive code generation. |\n| \\`Q8_0\\` | 32 | 8.50 | Uncompressed integer weights and KV cache format. |\n\n---\n\n## LOOM .kura Coalesced Sidecar Format\n\nWhen a model is optimized with \\`kura optimize\\`, Kura generates a lightweight \\`.kura\\` sidecar index alongside the GGUF file. The sidecar records byte spans and pre-calculated DMA offsets, enabling instant zero-seek sequential transfers."
+    },
+    {
+      "slug": "config-reference",
+      "title": "Configuration Keys & Defaults",
+      "description": "Exhaustive reference for kura.toml settings, environment variables, default values, and overrides.",
+      "category_id": "reference",
+      "category_title": "Reference & Project",
+      "icon": "FileText",
+      "headings": [
+        {
+          "id": "sample-toml",
+          "title": "Annotated kura.toml Configuration",
+          "level": 2
+        },
+        {
+          "id": "config-keys",
+          "title": "Configuration Keys & Defaults",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1312,
+      "word_count": 206,
+      "content_markdown": "## Annotated kura.toml Configuration\n\nKura can be configured via a \\`kura.toml\\` configuration file placed in the working directory or in \\`~/.kura/config.toml\\`:\n\n\\`\\`\\`toml\n[engine]\n# Hard memory budget for entire inference runtime\nram_budget = \"7500M\"\n\n# Default worker thread count (0 = auto-detect physical cores)\nthreads = 0\n\n# Enable Sparse MoE routed expert streaming\nmoe_streaming = true\n\n# Prefetch lookahead window (1, 2, or 3; 0 = auto SENSE regime)\nlookahead_window = 0\n\n[storage]\n# Preferred NVMe block device\ndevice = \"/dev/nvme0n1\"\n\n# Directory for cached GGUF models\nmodels_dir = \"~/.kura/models\"\n\n# Storage read buffer chunk size\nbuffer_size = \"4M\"\n\n[server]\n# HTTP daemon bind address and port\nhost = \"0.0.0.0\"\nport = 8080\n\n# Keepalive connection timeout in seconds\nkeepalive_timeout = 300\n\n[telemetry]\n# Disable all external network pings (enforced by design)\noffline_mode = true\n\\`\\`\\`\n\n---\n\n## Configuration Keys & Defaults\n\n| Key | Default | Description |\n| :--- | :---: | :--- |\n| \\`engine.ram_budget\\` | \\`\"8G\"\\` | Physical RAM ceiling enforced on process |\n| \\`engine.threads\\` | \\`0\\` (Physical cores) | Vector SIMD worker thread pool size |\n| \\`engine.moe_streaming\\` | \\`true\\` | Enable dynamic parameter routing for MoE models |\n| \\`server.port\\` | \\`8080\\` | HTTP server TCP port |"
+    },
+    {
+      "slug": "home",
+      "title": "Documentation Index",
+      "description": "Storage-Native Decoupled Inference Engine. Breaking the memory wall for local Large Language Models without requiring discrete GPUs.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "mission",
+          "title": "Mission & Core Thesis",
+          "level": 2
+        },
+        {
+          "id": "architectural-pillars",
+          "title": "Core Architectural Pillars",
+          "level": 2
+        },
+        {
+          "id": "key-results",
+          "title": "Empirically Verified Performance",
+          "level": 2
+        },
+        {
+          "id": "documentation-map",
+          "title": "Documentation Index",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/kura_architecture.svg",
+      "interactive_component": null,
+      "char_count": 4640,
+      "word_count": 648,
+      "content_markdown": "## Mission & Core Thesis\n\nKura is an open-source, storage-native inference engine and scientific benchmark reproduction suite engineered to eliminate the memory wall for local Large Language Models.\n\nIndustry-standard inference runtimes treat physical system RAM as an all-or-nothing cache: either an entire neural model fits entirely into physical memory, or the process crashes due to operating system out-of-memory limits. When virtual memory paging or naive \\`mmap\\` is used under tight RAM budgets, random disk thrashing causes execution stalls, collapsing decoding throughput below 0.05 tokens per second.\n\n> [!LAW]\n> Decoupled Storage-Native Inference\n> Physical memory requirements during autoregressive decoding are mathematically invariant to total parameter count. Model weights reside on high-speed NVMe block storage and stream into deterministic, reusable staging arenas on demand.\n\nBy treating CPU vector units, system RAM, and NVMe block storage as a unified, coordinated execution pipeline, Kura enables reliable local inference on standard commodity workstations:\n\n1. Zero OOM Terminations: Staging arenas are pre-allocated at startup. The autoregressive decode loop executes without allocating kernel pages, eliminating SIGKILL terminations under Linux cgroup v2 limits.\n2. Sequential DMA Streaming (LOOM): Reorganizes model weights into strict forward-pass execution order, converting random disk head seeks into saturating sequential transfers.\n3. Asynchronous Lookahead Prefetch: Linux \\`io_uring\\` and multi-threaded prefetch routines stream upcoming transformer layers concurrently with CPU SIMD matrix execution, hiding over 99% of storage I/O latency.\n4. Sparse MoE Architectural Locality: Sparse Mixture-of-Experts architectures stream only active routed parameters (487 MB/token (uncached cold start)), delivering 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on an everyday Commodity SATA SSD (350 MB/s).\n\n---\n\n## Core Architectural Pillars\n\n| Subsystem | Architectural Role | Technical Mechanism | Parity Gate |\n| :---: | :--- | :--- | :---: |\n| SENSE | Autonomous Hardware Probe & Regime Classifier | Dynamically selects lookahead window $W$ based on ratio $R = T_{io} / T_{comp}$ | 100% Bit-Exact |\n| LOOM | Physical Layout Coalescing & MoE Block Packing | -69% random seeks, +35.7% decode speedup via sequential byte spans | 100% Bit-Exact |\n| EMBER | Tiered Decoupled Memory Manager | Stratified Hot, Warm, and Cold memory pools preventing memory leaks | 100% Bit-Exact |\n| PREFETCH | Asynchronous Storage-Compute Pipeline | Double-buffered \\`pread\\` and \\`io_uring\\` overlapping I/O with GEMV | 100% Control |\n| SIMD | Hand-Tuned AVX-512 and ARM NEON Kernels | Vectorized dequantization with cross-platform bitwise parity | 100% Bit-Exact |\n| FLASH-ATTN | Causal Chunked Online Softmax Attention | Linear $O(N)$ memory scaling up to 32,768 context tokens | 99.999% Cosine |\n\n![Kura Architecture](/svg/kura_architecture.svg)\n\n---\n\n## Empirically Verified Performance\n\nAll metrics represent real steady-state decode throughput measured on physical hardware constrained by Linux cgroup v2 (\\`MemoryMax=7500M\\`, \\`MemorySwapMax=0\\`) on an AMD Ryzen 3 3250U, 5.7GB RAM, SATA SSD NVMe SSD:\n\n- Sparse MoE (OLMoE 1B-7B Instruct, Q4_K_M): 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) under 4.0 GB to 7.5 GB RAM.\n- Dense 7B (Qwen2.5 7B Instruct, Q4_K_M): 1.15 tokens/second under 7.5 GB RAM.\n- Dense 14B (Qwen2.5 14B Instruct, Q4_K_M): 0.54 tokens/second under 7.5 GB RAM.\n- Context Scaling: Contexts up to 32,768 tokens execute smoothly under 5.59 GB peak resident memory.\n\n---\n\n## Documentation Index\n\nExplore the sections of this manual to get started, review architectures, or inspect benchmarks:\n\n- [What is Kura?](/docs/what-is-kura) \u2014 Architectural principles and storage-native execution theory.\n- [Why Kura Exists](/docs/why-kura-exists) \u2014 Analysis of the LLM memory wall and OS paging failure modes.\n- [Quick Start Guide](/docs/quickstart) \u2014 3-minute setup from installation to generating your first token.\n- [Installation Guide](/docs/installation) \u2014 Complete setup instructions for Linux, macOS, and Windows.\n- [Interactive TUI Guide](/docs/tui-guide) \u2014 Terminal user interface, real-time gauges, and web simulator.\n- [CLI Reference Manual](/docs/cli-commands) \u2014 Exhaustive guide for all 24 verified commands and options.\n- [OpenAI API Server](/docs/serving-api) \u2014 Production deployment with SSE streaming and Prometheus telemetry.\n- [The 26-Principle Scientific Audit](/docs/26-principles-audit) \u2014 Empirical audit of all 26 core architectural hypotheses.\n- [Practical Usability Matrix](/docs/throughput-matrix) \u2014 Real measured decode throughput across 4GB to 64GB RAM budgets."
+    },
+    {
+      "slug": "what-is-kura",
+      "title": "The Sparse MoE Advantage",
+      "description": "A deep introduction to Kura, its decoupled storage-native architecture, and how it eliminates discrete GPU requirements for local LLMs.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "definition",
+          "title": "Definition & Core Design",
+          "level": 2
+        },
+        {
+          "id": "conventional-vs-kura",
+          "title": "Conventional Runtimes vs Kura",
+          "level": 2
+        },
+        {
+          "id": "memory-decoupling",
+          "title": "Decoupled Memory Mechanics",
+          "level": 2
+        },
+        {
+          "id": "the-sparse-moe-advantage",
+          "title": "The Sparse MoE Advantage",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/kura_architecture.svg",
+      "interactive_component": null,
+      "char_count": 3300,
+      "word_count": 507,
+      "content_markdown": "## Definition & Core Design\n\nKura is a specialized inference runtime built for running large neural language models (such as 7B, 14B, and Sparse MoE architectures) on commodity machines with limited RAM (4 GB to 8 GB), completely eliminating the need for dedicated discrete graphics accelerators.\n\nUnlike conventional engines that require the entire model weight matrix to be loaded into physical RAM before generation can start, Kura organizes model execution as a continuous, synchronous streaming pipeline directly over high-speed NVMe block storage.\n\nBy leveraging direct I/O, physical layout coalescing, and asynchronous prefetching, Kura saturates modern NVMe read bandwidth (2,000 to 7,000 MB/s), feeding layer weights directly into CPU vector registers in lockstep with autoregressive matrix multiplication.\n\n---\n\n## Conventional Runtimes vs Kura\n\n| Attribute | Conventional Runtimes (llama.cpp, Ollama, vLLM) | Kura Storage-Native Runtime |\n| :--- | :--- | :--- |\n| Primary Storage of Weights | System RAM or GPU VRAM | High-Speed NVMe Block Storage |\n| Working Memory Footprint | Full Model Size + KV Cache (16 GB - 80 GB) | Fixed Staging Arenas + Hot Tiers (4 GB - 8 GB) |\n| Behavior on Memory Exhaustion | Crash via Linux OOM-killer (\\`SIGKILL\\`) | Stable execution within deterministic cgroup ceiling |\n| File Layout on Disk | Standard GGUF (grouped by tensor type) | LOOM coalesced layout (strict forward-pass execution order) |\n| Prefetch Pipeline | Implicit OS virtual memory paging | Deterministic asynchronous lookahead via \\`io_uring\\` |\n| Sparse MoE Utilization | Loads all experts into RAM upfront | Streams only activated routed experts (487 MB/token (uncached cold start)) |\n| Minimum Hardware Budget | $1,500+ (Discrete GPU or 64GB DDR5) | Everyday $500 PC with standard NVMe SSD |\n\n---\n\n## Decoupled Memory Mechanics\n\nKura divides memory into three strictly separated tiers:\n\n1. The Hot Resident Tier: Token embedding matrix, final RMSNorm and output LM-head projection, and active compressed KV cache.\n2. The Active KV Cache: Compressed via 8-bit page quantization (\\`Q8_0\\`), scaling linearly with sequence length while preserving 0.999993 cosine fidelity.\n3. The Staging Arena: Double-buffered memory buffers that temporarily stage weights for the currently executing transformer block.\n\nDuring token generation, Layer $L$ executes in Staging Buffer A while Layer $L+1$ is concurrently streamed from NVMe into Staging Buffer B. Once compute finishes, the buffer pointers swap in zero clock cycles.\n\n---\n\n## The Sparse MoE Advantage\n\nUnder storage-native execution, total parameter count no longer dictates inference speed. Instead, throughput is governed strictly by the number of active parameters required per token:\n\n- Dense Models (e.g. LLaMA-3.1 70B): Every single token requires streaming 100% of all parameters (36,500 MB per token). On a single Gen4 NVMe drive, throughput is physically capped at 0.019 tok/s (Real autoregressive generation).\n- Sparse MoE Models (e.g. OLMoE 1B-7B): Only a small fraction of specialized experts are routed per token (8 out of 64). Kura streams only 487 MB/token (uncached cold start), delivering 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on a standard $80 SSD.\n\nThis empirical discovery represents a 400x throughput efficiency advantage for Sparse MoE architectures over dense models under identical hardware constraints."
+    },
+    {
+      "slug": "why-kura-exists",
+      "title": "The Kura Storage-Native Paradigm",
+      "description": "An analysis of hardware economic realities, the LLM memory wall, and the fatal failure modes of operating system virtual memory paging.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "memory-wall-crisis",
+          "title": "The LLM Memory Wall Crisis",
+          "level": 2
+        },
+        {
+          "id": "hardware-economics",
+          "title": "The Commodity Hardware Reality",
+          "level": 2
+        },
+        {
+          "id": "why-mmap-fails",
+          "title": "Why Naive mmap and OS Swap Fail",
+          "level": 2
+        },
+        {
+          "id": "kura-solution",
+          "title": "The Kura Storage-Native Paradigm",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 3310,
+      "word_count": 477,
+      "content_markdown": "## The LLM Memory Wall Crisis\n\nLocal artificial intelligence faces a structural economic barrier: modern state-of-the-art language models demand massive memory capacities, while memory density and bandwidth scaling have fallen far behind compute scaling.\n\nA high-performance 70B parameter model quantized to 4-bit precision requires over 40 GB of addressable memory simply to load its weights into memory. To run with an extended 32,768-token context window, an additional 12 GB to 24 GB of KV cache is required.\n\nTo run these models locally, developers have traditionally been forced to invest thousands of dollars into high-end hardware:\n- Dedicated discrete GPUs with 24 GB to 80 GB of high-bandwidth VRAM ($1,500 to $10,000+).\n- High-end Apple Silicon workstations configured with 64 GB to 128 GB of unified memory ($2,500 to $4,500+).\n- Multi-channel server motherboards packed with DDR5 ECC registered DIMMs.\n\n---\n\n## The Commodity Hardware Reality\n\nMeanwhile, the vast majority of consumer laptops, office workstations, and edge servers deployed worldwide possess between 8 GB and 16 GB of system RAM, and no dedicated AI accelerators.\n\nHowever, almost every modern computer manufactured after 2018 is equipped with an M.2 NVMe Solid-State Drive capable of direct sequential read speeds between 2,500 MB/s and 7,000 MB/s. High-capacity 1TB and 2TB NVMe drives cost under $100.\n\nThe fundamental thesis of Kura is simple:\nHigh-speed NVMe storage is fast enough to act as an active execution substrate, provided the runtime coordinates physical storage transfers deterministically rather than relying on generic operating system memory management.\n\n---\n\n## Why Naive mmap and OS Swap Fail\n\nBefore Kura, developers attempted to run oversized models on low-RAM machines by relying on operating system virtual memory mechanisms, such as memory mapping (\\`mmap\\`) or disk swap files.\n\nWhile \\`mmap\\` allows a process to start without allocating physical RAM immediately, it introduces catastrophic failure modes:\n\n1. Random Page-Fault Thrashing: Standard GGUF files place weights across arbitrary file offsets. Generating a single token requires hundreds of random page faults, causing synchronous kernel block reads that drop decode speed from 15 tokens/sec to 0.02 tokens/sec.\n2. Kernel OOM-Killer Invocation: When physical memory headroom is exhausted, the Linux kernel terminates the inference process with \\`SIGKILL\\`.\n3. System Freezes: When swap space is active, the operating system attempts to page out desktop window managers, shell daemons, and system services, freezing the entire workstation.\n\n> [!WARNING]\n> llama.cpp Fails on Constrained Budgets\n> Because llama.cpp relies on implicit virtual memory paging, touching layer weights forces kernel page allocations that breach cgroup ceilings, triggering immediate process termination under strict RAM budgets.\n\n---\n\n## The Kura Storage-Native Paradigm\n\nKura completely bypasses the virtual memory paging abstraction. By replacing implicit page faults with explicit, asynchronous, double-buffered direct I/O, Kura ensures:\n- 100% deterministic memory allocation within user-configured limits (\\`--ram-budget\\`).\n- Pure sequential storage reads that maximize NVMe controller efficiency.\n- Complete overlap of storage transfer and vector computation."
+    },
+    {
+      "slug": "key-concepts",
+      "title": "5. Chunked Speculative Verification",
+      "description": "Foundational concepts and terminology defining Kura:- SENSE regimes, LOOM coalescing, EMBER tiered memory, and speculative verification.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "sense-regimes",
+          "title": "1. SENSE & Operational Regimes",
+          "level": 2
+        },
+        {
+          "id": "loom-coalescing",
+          "title": "2. LOOM Physical Layout Coalescing",
+          "level": 2
+        },
+        {
+          "id": "ember-tiers",
+          "title": "3. EMBER Tiered Memory Architecture",
+          "level": 2
+        },
+        {
+          "id": "prefetch-pipeline",
+          "title": "4. PREFETCH Lookahead Pipeline",
+          "level": 2
+        },
+        {
+          "id": "chunked-speculative",
+          "title": "5. Chunked Speculative Verification",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 2959,
+      "word_count": 437,
+      "content_markdown": "## 1. SENSE & Operational Regimes\n\nSENSE is Kura's autonomous hardware sensing and regime calibration subsystem. Before running a model, SENSE probes CPU SIMD extensions, NUMA node topology, and empirical NVMe sequential read bandwidth.\n\nIt calculates the fundamental operational ratio:\n\\`\\`\\`math\nR = \\\\frac{T_{io}}{T_{compute}}\n\\`\\`\\`\n\nBased on $R$, Kura dynamically classifies the hardware into one of three regimes:\n- Compute-Dominated ($R \\\\le 3.50$): CPU math is slower than storage transfers. Prefetch lookahead is set to $W=1$. Storage transfer is 100% hidden.\n- Balanced ($3.50 < R \\\\le 6.00$): Storage and compute durations are comparable. Prefetch lookahead is set to $W=2$ with double-buffered streaming.\n- Storage-Dominated ($R > 6.00$): NVMe read speed is the gating bottleneck. Lookahead is expanded to $W=3$ with aggressive chunked batching.\n\n---\n\n## 2. LOOM Physical Layout Coalescing\n\nStandard GGUF model files arrange weights by tensor type (e.g. all query weights together, followed by key weights, followed by value weights). Under a streaming runtime, this causes dozens of random seeks per layer.\n\nLOOM reorganizes the binary weights into forward-pass execution sequence:\n\\`\\`\\`\nLayer 0 Attention -> Layer 0 MLP -> Layer 1 Attention -> Layer 1 MLP ...\n\\`\\`\\`\nFor Sparse MoE models, LOOM packs each expert's gate, up, and down projections into contiguous 256 KB binary blocks. This allows activated experts to be read in a single sequential DMA transfer, cutting random head seeks by 69% and boosting decode speed by 35.7%.\n\n---\n\n## 3. EMBER Tiered Memory Architecture\n\nEMBER stratifies available physical RAM into three deterministic pools:\n- Hot Tier (Resident): Pinned in RAM. Contains token embeddings, final RMSNorm, output LM head, and active compressed KV cache.\n- Warm Tier (Residue): Early transformer prefix layers that fit within the remaining RAM headroom after Hot Tier allocation.\n- Cold Tier (Streamed): Middle and late transformer layers that reside on NVMe storage and stream into staging arenas only when actively needed.\n\n---\n\n## 4. PREFETCH Lookahead Pipeline\n\nKura coordinates asynchronous background worker threads using Linux \\`io_uring\\` and unbuffered direct I/O (\\`pread64\\`). While CPU vector SIMD cores compute layer $L$, the prefetch pipeline streams layers $L+1 \\\\dots L+W$ into staging buffers.\n\nWhen layer $L$ finishes computing, the staging buffer pointers swap instantaneously.\n\n---\n\n## 5. Chunked Speculative Verification\n\nIn speculative decoding, a smaller draft model proposes $K$ tokens, which are verified by the target model. Conventional verifiers evaluate candidates one by one, dequantizing weights repeatedly.\n\nKura implements Chunked GEMM Speculative Verification ($K=4$). Candidate tokens are evaluated in batched matrix operations, dequantizing weights exactly once for all four drafts. This yields a 1.10x verification speedup (236.02 ms down to 215.09 ms) with 100% token sequence parity."
+    },
+    {
+      "slug": "how-it-works",
+      "title": "Stage 3: Sparse MoE Expert Routing",
+      "description": "A detailed technical walk-through of the forward-pass execution loop, prefetch coordination, and vector SIMD math kernels.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "lifecycle",
+          "title": "The Execution Lifecycle",
+          "level": 2
+        },
+        {
+          "id": "prefill-phase",
+          "title": "Stage 1: Prompt Prefill & Flash-Attention",
+          "level": 2
+        },
+        {
+          "id": "decode-loop",
+          "title": "Stage 2: The Storage-Compute Overlap Loop",
+          "level": 2
+        },
+        {
+          "id": "expert-routing",
+          "title": "Stage 3: Sparse MoE Expert Routing",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/loom_io_coalescing.svg",
+      "interactive_component": null,
+      "char_count": 2838,
+      "word_count": 434,
+      "content_markdown": "## The Execution Lifecycle\n\nEvery token generation request in Kura progresses through an orchestrated execution pipeline:\n\n\\`\\`\\`\n1. SENSE HARDWARE PROBE: SIMD flags, NUMA topology, calibrated NVMe bandwidth\n2. PROMPT PREFILL: Chunked Flash-Attention, paged KV cache allocation\n3. STORAGE-COMPUTE OVERLAP LOOP (Autoregressive Decode)\n   \u2022 Thread A: SIMD GEMV compute on Layer L\n   \u2022 Thread B: Async prefetch of Layer L+1 from NVMe DMA\n4. SAMPLING & OUTPUT: Greedy argmax / temperature, SSE token push\n\\`\\`\\`\n\nDuring autoregressive token decoding (one token at a time), Kura coordinates a double-buffered prefetch pipeline:\n- While the CPU vector pool calculates attention and MLP GEMV products on Layer $L$ in Staging Arena A, an asynchronous background thread issues an unbuffered read (\\`pread64\\`) requesting the weights for Layer $L+1$ into Staging Arena B.\n- Because LOOM pre-orders weights sequentially on NVMe, Layer $L+1$ finishes transferring in 11.2 ms, while Layer $L$ SIMD math takes 12.0 ms.\n- When Layer $L$ compute finishes, the staging arenas swap pointers in zero cycles.\n- Achieved Overlap: 99.2% of all storage transfer time is completely hidden behind CPU math.\n\n---\n\n## Stage 1: Prompt Prefill & Flash-Attention\n\nDuring prompt processing, input tokens are processed in parallel:\n- Prompt embeddings are retrieved from the Hot Resident tier in RAM.\n- Self-attention is computed using causal chunked Flash-Attention with online softmax renormalization. Memory consumption remains $O(N)$ linear up to 32,768 tokens.\n- KV projections are written directly into 8-bit quantized KV cache pages (\\`Q8_0\\`), reducing KV memory footprint by 3.765x.\n\n---\n\n## Stage 2: The Storage-Compute Overlap Loop\n\nOnce prompt prefill completes, the engine enters the autoregressive decode loop:\n1. Active token hidden state is normalized via RMSNorm.\n2. Layer $L$ weights reside in Staging Arena A. CPU vector units execute quantized GEMV matrix-vector multiplication using AVX-512 FMA or ARM NEON intrinsics.\n3. Concurrently, the prefetch worker thread transfers Layer $L+1$ from NVMe block storage into Staging Arena B.\n4. Activation outputs pass through SwiGLU non-linearities. Residual connections add intermediate states back to the stream.\n5. Pointers to Arena A and Arena B swap. The loop repeats for Layer $L+1$.\n\n---\n\n## Stage 3: Sparse MoE Expert Routing\n\nFor Sparse Mixture-of-Experts models like OLMoE:\n1. The router evaluates the top-8 experts with highest gating affinity scores for the active token.\n2. Instead of streaming all 64 experts (480 MB per layer), the prefetcher issues reads for only the 8 active experts (60 MB per layer).\n3. LOOM's contiguous expert block packing ensures each active expert is read in a single sequential DMA burst.\n4. Decoding throughput reaches 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on an everyday Commodity SATA SSD (350 MB/s)."
+    },
+    {
+      "slug": "capabilities-limitations",
+      "title": "The Dense 70B Reality Check",
+      "description": "An honest, transparent systems engineering review of what Kura can do, what it cannot do, and its immutable physical limits.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "proven-capabilities",
+          "title": "Empirically Proven Capabilities",
+          "level": 2
+        },
+        {
+          "id": "immutable-laws",
+          "title": "The Immutable Physical Boundaries",
+          "level": 2
+        },
+        {
+          "id": "the-70b-reality",
+          "title": "The Dense 70B Reality Check",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/ram_scaling_matrix.svg",
+      "interactive_component": null,
+      "char_count": 1880,
+      "word_count": 252,
+      "content_markdown": "## Empirically Proven Capabilities\n\n1. Zero-OOM Guarantee: Complete process stability under rigid Linux cgroup v2 memory ceilings (\\`MemoryMax=7500M\\`, \\`MemorySwapMax=0\\`). Zero SIGKILLs or kernel panics.\n2. Interactive MoE Inference: OLMoE 1B-7B achieves 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on an everyday $80 PCIe 3.0/4.0 NVMe SSD under 4 GB to 8 GB RAM budgets.\n3. Cross-Platform Bitwise Parity: 100.0% identical token sequences between Intel/AMD AVX-512 x86-64 and Apple Silicon ARM NEON SIMD implementations.\n4. Long-Context Linear Scaling: Linear memory scaling up to 32,768 tokens, remaining under 6.6 GB peak RSS with INT8 compressed KV pages.\n5. OpenAI API Compliance: Full drop-in compatibility for \\`/v1/chat/completions\\` with zero-allocation Server-Sent Events (SSE) streaming.\n\n---\n\n## The Immutable Physical Boundaries\n\nStorage-native inference is governed by fundamental physical throughput limits. In any system where weights stream from storage for every token, throughput is bounded by:\n\n\\`\\`\\`math\n\\\\text{Throughput} \\\\le \\\\frac{B_{\\\\text{storage}}}{W_{\\\\text{streamed}}}\n\\`\\`\\`\n\nWhere $B_{\\\\text{storage}}$ is direct sequential read bandwidth, and $W_{\\\\text{streamed}}$ is the volume of active weights required to decode a single token.\n\n---\n\n## The Dense 70B Reality Check\n\nA Dense 70B model quantized to 4 bits contains 36.5 Gigabytes of active weights. Because every single token requires a full forward pass through every parameter:\n- On a single NVMe drive (~2,400 MB/s direct sequential read):\n  \\`\\`\\`math\n  \\\\text{Throughput} = \\\\frac{2,400\\\\text{ MB/s}}{36,500\\\\text{ MB/tok}} \\\\approx 0.062\\\\text{ tok/s}\n  \\`\\`\\`\n- Reaching $\\\\ge 1.0\\\\text{ tok/s}$ requires an enterprise 15-drive Gen4 NVMe RAID-0 storage array (~$3,500).\n- In direct contrast, Sparse MoE (OLMoE 1B-7B) streams only active experts (487 MB/token (uncached cold start)), delivering 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) on a single $80 SSD."
+    },
+    {
+      "slug": "faq",
+      "title": "How does Windows performance compare to Linux?",
+      "description": "Answers to the most common questions regarding hardware requirements, model formats, performance, and comparisons.",
+      "category_id": "introduction",
+      "category_title": "Introduction",
+      "icon": "BookOpen",
+      "headings": [
+        {
+          "id": "faq-gpu",
+          "title": "Do I need a GPU to run Kura?",
+          "level": 2
+        },
+        {
+          "id": "faq-ssd-wear",
+          "title": "Will streaming destroy my NVMe SSD?",
+          "level": 2
+        },
+        {
+          "id": "faq-formats",
+          "title": "What model formats are supported?",
+          "level": 2
+        },
+        {
+          "id": "faq-windows",
+          "title": "How does Windows performance compare to Linux?",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1332,
+      "word_count": 199,
+      "content_markdown": "## Do I need a GPU to run Kura?\n\nNo. Kura was designed from the ground up to operate completely without a discrete graphics card. All tensor computations execute on your CPU vector units (AVX-512, AVX2, or Apple Silicon ARM NEON), while weights stream directly from your NVMe SSD.\n\n---\n\n## Will streaming destroy my NVMe SSD?\n\nNo. Streaming model weights performs 100% READ operations. Solid-state drive flash endurance (TBW \u2014 Terabytes Written) is only consumed by write and erase cycles. Reading data causes virtually zero flash cell degradation. You can stream petabytes of model weights without consuming SSD write cycles.\n\n---\n\n## What model formats are supported?\n\nKura natively supports standard GGUF v3 model files (the universal standard format used by llama.cpp and Ollama). Supported quantization formats include \\`Q4_K_M\\`, \\`Q3_K\\`, \\`Q5_K_M\\`, \\`Q6_K\\`, and \\`Q8_0\\`.\n\nTo maximize performance, Kura can pre-coalesce GGUF files into \\`.kura\\` sidecars using \\`kura optimize\\`, aligning weights into sequential forward-pass execution order.\n\n---\n\n## How does Windows performance compare to Linux?\n\nOn Windows 10 and 11, Kura runs natively via \\`kura.exe\\` using Windows overlapped I/O, or inside WSL2 (Ubuntu). Under WSL2 with direct disk passthrough, decoding throughput achieves 94% to 98% of native Linux performance."
+    },
+    {
+      "slug": "system-requirements",
+      "title": "Verifying CPU Vector Extensions",
+      "description": "Hardware requirements, CPU SIMD extension support, storage specifications, and OS prerequisites.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "minimum-specs",
+          "title": "Minimum Hardware Requirements",
+          "level": 2
+        },
+        {
+          "id": "storage-prerequisites",
+          "title": "Storage Subsystem Requirements",
+          "level": 2
+        },
+        {
+          "id": "verifying-simd",
+          "title": "Verifying CPU Vector Extensions",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 759,
+      "word_count": 136,
+      "content_markdown": "## Minimum Hardware Requirements\n\n| Component | Minimum Specification | Recommended Specification |\n| :--- | :--- | :--- |\n| CPU | x86-64 with AVX2 or ARM64 (Apple M1+) | Intel Xeon / Core 12th+ (AVX-512) or Apple Silicon M2/M3/M4 |\n| RAM | 4.0 GB total physical system memory | 8.0 GB - 16.0 GB DDR4/DDR5 |\n| Storage | PCIe Gen3 M.2 NVMe SSD (~1,500 MB/s sequential read) | PCIe Gen4/Gen5 NVMe SSD (~3,500 - 7,000 MB/s) |\n| OS | Linux (kernel 5.15+), macOS 13+, or Windows 10/11 64-bit | Ubuntu 22.04 / 24.04 LTS (kernel 6.8+) with cgroup v2 |\n| Swap | Swap disabled (\\`swapoff -a\\`) or cgroup-constrained | Dedicated zero-swap partition |\n\nTo probe your system hardware, run \\`kura profile\\` or check CPU flags with \\`grep -E \"avx512f|avx2\" /proc/cpuinfo\\`."
+    },
+    {
+      "slug": "installation",
+      "title": "Post-Install Verification",
+      "description": "Official bootstrap installation script, PowerShell setup, precompiled binary archives, and verification steps.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "quick-install-sh",
+          "title": "Linux & macOS Automated Install",
+          "level": 2
+        },
+        {
+          "id": "quick-install-ps",
+          "title": "Windows PowerShell Automated Install",
+          "level": 2
+        },
+        {
+          "id": "manual-binary",
+          "title": "Precompiled Binary Architecture Download",
+          "level": 2
+        },
+        {
+          "id": "post-install-check",
+          "title": "Post-Install Verification",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1992,
+      "word_count": 269,
+      "content_markdown": "## Linux & macOS Automated Install\n\nThe recommended way to install Kura on Linux and macOS is via the official bootstrap installer:\n\n\\`\\`\\`bash\ncurl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash\n\\`\\`\\`\n\nThe bootstrap installer executes four automated stages:\n1. Environment & Architecture Check: Validates CPU SIMD features (AVX-512, AVX2, or ARM NEON), RAM size, and available NVMe storage bandwidth.\n2. Binary Acquisition: Downloads the precompiled native binary matching your kernel and CPU ISA.\n3. Path Configuration: Updates your shell startup profile (\\`~/.bashrc\\`, \\`~/.zshrc\\`, or \\`~/.config/fish/config.fish\\`).\n4. Hardware Benchmark: Runs an initial micro-benchmark to calibrate your system's operational regime.\n\n---\n\n## Windows PowerShell Automated Install\n\nOn Windows 10 and 11, run PowerShell as Administrator or standard user:\n\n\\`\\`\\`powershell\npowershell -ExecutionPolicy ByPass -c \"irm https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.ps1 | iex\"\n\\`\\`\\`\n\nThis configures \\`kura.exe\\` in \\`%USERPROFILE%\\\\.kura\\\\bin\\` and updates the user \\`PATH\\` environment variable.\n\n---\n\n## Precompiled Binary Architecture Download\n\nDirect standalone binaries can be fetched directly from official GitHub repository releases matching your target instruction set:\n\n| Operating System | Architecture | Vector Engine | Target Binary |\n| :--- | :--- | :--- | :--- |\n| Linux x86_64 | AVX-512 / AVX2 | Double FMA | \\`kura-linux-x86_64\\` |\n| Linux aarch64 | ARM NEON | 128-bit Vector | \\`kura-linux-aarch64\\` |\n| macOS (Apple Silicon) | M-Series | NEON Unified Memory | \\`kura-darwin-arm64\\` |\n| Windows x64 | AVX2 | MSVC Native | \\`kura-windows-x86_64.exe\\` |\n\n---\n\n## Post-Install Verification\n\nOnce installation finishes, reload your terminal session and verify:\n\n\\`\\`\\`bash\n# 1. Check version string\nkura --version\n\n# 2. Run the hardware probe\nkura profile\n\n# 3. Verify system health and NVMe configuration\nkura doctor\n\\`\\`\\`"
+    },
+    {
+      "slug": "quickstart",
+      "title": "Step 4:- Launch OpenAI API Server",
+      "description": "The fastest path from a fresh workstation to generating your first token with Kura.",
+      "category_id": "getting-started",
+      "category_title": "Getting Started",
+      "icon": "Zap",
+      "headings": [
+        {
+          "id": "step-1-install",
+          "title": "Step 1:- Install Kura",
+          "level": 2
+        },
+        {
+          "id": "step-2-pull",
+          "title": "Step 2:- Download Model",
+          "level": 2
+        },
+        {
+          "id": "step-3-run",
+          "title": "Step 3:- Run Model with Memory Budget",
+          "level": 2
+        },
+        {
+          "id": "step-4-serve",
+          "title": "Step 4:- Launch OpenAI API Server",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1347,
+      "word_count": 164,
+      "content_markdown": "## Step 1:- Install Kura\n\nOpen your terminal and run the one-line installer:-\n\n\\`\\`\\`bash\ncurl -fsSL https://raw.githubusercontent.com/fraol163/kura-benchmarks/main/install.sh | bash\nsource ~/.bashrc  # or source ~/.zshrc\n\\`\\`\\`\n\n---\n\n## Step 2:- Download Model\n\nDownload the recommended Sparse MoE model (OLMoE 1B-7B Instruct quantized to Q4_K_M):-\n\n\\`\\`\\`bash\nmkdir -p ./models\nkura models pull https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-instruct-q4_k_m.gguf\n\\`\\`\\`\n\n---\n\n## Step 3:- Run Model with Memory Budget\n\nExecute the model directly on your CPU with a strict physical RAM budget:-\n\n\\`\\`\\`bash\nkura run ./models/olmoe-1b-7b-instruct-q4_k_m.gguf \\\\\n  --ram-budget 4G \\\\\n  --moe-streaming \\\\\n  --prompt \"What is storage-native decoupled inference?\"\n\\`\\`\\`\n\nThe engine streams active experts directly from your NVMe SSD, decoding tokens at up to 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) while remaining strictly within your 4.0 GB RAM budget.\n\n---\n\n## Step 4:- Launch OpenAI API Server\n\nTo start an OpenAI-compatible HTTP daemon:\n\n\\`\\`\\`bash\nkura serve \\\\\n  --model ./models/olmoe-1b-7b-instruct-q4_k_m.gguf \\\\\n  --port 8080 \\\\\n  --ram-budget 7500M\n\\`\\`\\`\n\nYou can now connect any OpenAI-compatible application (such as ChatGPT-Next-Web, Continue.dev, or the official OpenAI Python SDK) to \\`http://localhost:8080/v1\\`."
+    },
+    {
+      "slug": "tui-guide",
+      "title": "Interactive Web Simulator",
+      "description": "How to use Kura\u2019s zero-telemetry terminal interface for live chat, hardware monitoring, and model management.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "launching-tui",
+          "title": "Launching the TUI",
+          "level": 2
+        },
+        {
+          "id": "keyboard-navigation",
+          "title": "Keyboard Shortcuts & Screens",
+          "level": 2
+        },
+        {
+          "id": "live-telemetry",
+          "title": "Understanding Live Telemetry Gauges",
+          "level": 2
+        },
+        {
+          "id": "simulator",
+          "title": "Interactive Web Simulator",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "tui",
+      "char_count": 1457,
+      "word_count": 231,
+      "content_markdown": "## Launching the TUI\n\nKura includes an interactive terminal user interface built for keyboard-driven local chat, real-time hardware monitoring, and model management.\n\nTo launch the TUI:\n\n\\`\\`\\`bash\nkura tui\n\\`\\`\\`\n\nThe TUI operates 100% locally with zero external network telemetry, tracking, or telemetry pings.\n\n---\n\n## Keyboard Shortcuts & Screens\n\n| Key | Target Screen | Description |\n| :---: | :--- | :--- |\n| \\`c\\` | Live Chat | Conversational assistant with token-by-token streaming and token counter |\n| \\`n\\` | Live Monitor | Real-time gauges for CPU utilization, RAM resident set size, and NVMe I/O speed |\n| \\`m\\` | Model Browser | Inspect local GGUF models, view tensor counts, and switch active models |\n| \\`b\\` | Quick Benchmark | Run prompt prefill and decode latency benchmarks across local models |\n| \\`h\\` | Help Screen | Display complete keyboard shortcut reference and operational guide |\n| \\`q\\` / \\`Esc\\` | Quit | Graceful shutdown, flushing metrics and releasing pinned memory arenas |\n\n---\n\n## Understanding Live Telemetry Gauges\n\nThe Live Monitor screen (\\`n\\`) visualizes three critical metrics:\n- CPU Core Utilization: Displays active load across all vector worker threads.\n- RAM Working Set: Tracks process RSS against your cgroup memory ceiling.\n- NVMe I/O Throughput: Measures real-time direct I/O read speeds during layer prefetch bursts.\n\nBelow is an interactive web simulator matching the official \\`bin/tui.js\\` interface:"
+    },
+    {
+      "slug": "direct-execution",
+      "title": "Sampling & Generation Flags",
+      "description": "Complete guide to executing models via the CLI with custom RAM ceilings, token limits, sampling parameters, and thread allocation.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "basic-syntax",
+          "title": "Basic Command Syntax",
+          "level": 2
+        },
+        {
+          "id": "memory-budgets",
+          "title": "Setting Physical Memory Budgets",
+          "level": 2
+        },
+        {
+          "id": "tuning-threads",
+          "title": "Worker Thread Tuning",
+          "level": 2
+        },
+        {
+          "id": "sampling-options",
+          "title": "Sampling & Generation Flags",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 1760,
+      "word_count": 260,
+      "content_markdown": "## Basic Command Syntax\n\nThe primary command for one-off prompt execution is \\`kura run\\`:\n\n\\`\\`\\`bash\nkura run <model_path> [options]\n\\`\\`\\`\n\n### Example Execution:\n\\`\\`\\`bash\nkura run ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --ram-budget 7500M \\\\\n  --tokens 128 \\\\\n  --threads 8 \\\\\n  --temperature 0.7 \\\\\n  --prompt \"Explain how direct I/O bypasses OS page cache.\"\n\\`\\`\\`\n\n---\n\n## Setting Physical Memory Budgets\n\nThe \\`--ram-budget\\` parameter enforces a deterministic memory ceiling on process execution:\n\n\\`\\`\\`bash\n# Constrain process to 4.0 GB physical memory\nkura run ./models/model.gguf --ram-budget 4G\n\n# Constrain process to exactly 7,500 MB (matching benchmark testbed)\nkura run ./models/model.gguf --ram-budget 7500M\n\\`\\`\\`\n\nWhen a budget is specified, Kura calculates Hot Tier residency, limits active KV cache allocations, and streams remaining layers from storage.\n\n---\n\n## Worker Thread Tuning\n\nUse \\`--threads\\` to control parallel GEMV computation across physical CPU cores:\n- Rule of thumb: Set \\`--threads\\` equal to your physical CPU core count (excluding hyperthreaded logical cores) to prevent cache thrashing.\n- On an 8-core CPU: \\`--threads 8\\`.\n- On Apple Silicon M-series: Set threads equal to the number of Performance cores.\n\n---\n\n## Sampling & Generation Flags\n\n| Flag | Default | Description |\n| :--- | :---: | :--- |\n| \\`--tokens <N>\\` | \\`128\\` | Maximum tokens to decode before stopping |\n| \\`--temperature <F>\\` | \\`0.0\\` | Sampling temperature (\\`0.0\\` for greedy deterministic argmax) |\n| \\`--top-p <F>\\` | \\`0.9\\` | Nucleus sampling probability cutoff |\n| \\`--moe-streaming\\` | \\`auto\\` | Enable Sparse MoE routed expert streaming |\n| \\`--json\\` | \\`false\\` | Output structured JSON containing throughput, TTFT, and tokens |"
+    },
+    {
+      "slug": "serving-api",
+      "title": "Interactive API Sandbox",
+      "description": "Running Kura as an enterprise HTTP daemon with OpenAI SDK compatibility, SSE streaming, and Prometheus metrics.",
+      "category_id": "user-guides",
+      "category_title": "User Guides",
+      "icon": "Compass",
+      "headings": [
+        {
+          "id": "starting-server",
+          "title": "Starting the HTTP Daemon",
+          "level": 2
+        },
+        {
+          "id": "client-integration",
+          "title": "OpenAI SDK Client Integration",
+          "level": 2
+        },
+        {
+          "id": "health-monitoring",
+          "title": "Health Checks & Prometheus",
+          "level": 2
+        },
+        {
+          "id": "interactive-sandbox",
+          "title": "Interactive API Sandbox",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "api",
+      "char_count": 1596,
+      "word_count": 194,
+      "content_markdown": "## Starting the HTTP Daemon\n\nThe \\`kura serve\\` command starts a production HTTP daemon exposing OpenAI-compatible endpoints:\n\n\\`\\`\\`bash\nkura serve \\\\\n  --model ./models/olmoe-1b-7b-q4_k_m.gguf \\\\\n  --host 0.0.0.0 \\\\\n  --port 8080 \\\\\n  --memory-budget 7500M \\\\\n  --threads 8\n\\`\\`\\`\n\n### Supported Endpoints:\n- \\`POST /v1/chat/completions\\`: Stream conversational completions via Server-Sent Events (SSE).\n- \\`POST /v1/completions\\`: Raw text completion endpoint.\n- \\`GET /v1/models\\`: List currently loaded and cached models.\n- \\`GET /health\\`: Liveness probe for Kubernetes and systemd watchdogs.\n- \\`GET /metrics\\`: Prometheus exposition format for Grafana telemetry.\n\n---\n\n## OpenAI SDK Client Integration\n\nBecause Kura adheres to the OpenAI API specification, you can connect official OpenAI SDK clients with zero code refactoring:\n\n\\`\\`\\`python\nfrom openai import OpenAI\n\nclient = OpenAI(\n    base_url=\"http://localhost:8080/v1\",\n    api_key=\"not-needed\"  # Local server requires no secret key\n)\n\nresponse = client.chat.completions.create(\n    model=\"olmoe-1b-7b\",\n    messages=[{\"role\": \"user\", \"content\": \"Explain NVMe DMA streaming.\"}],\n    stream=True\n)\n\nfor chunk in response:\n    content = chunk.choices[0].delta.content or \"\"\n    print(content, end=\"\", flush=True)\n\\`\\`\\`\n\n---\n\n## Health Checks & Prometheus\n\nVerify server health using standard cURL commands:\n\n\\`\\`\\`bash\n# Probe liveness and process memory pressure\ncurl -s http://localhost:8080/health\n\n# Scrape Prometheus metrics\ncurl -s http://localhost:8080/metrics\n\\`\\`\\`\n\nTest the API live using the interactive sandbox below:"
+    },
+    {
+      "slug": "architecture-overview",
+      "title": "Architecture Blueprint",
+      "description": "The architectural specification of Kura\u2019s decoupled storage-native engine, data flows, and foundational physical laws.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "three-laws",
+          "title": "The Three Laws of Kura",
+          "level": 2
+        },
+        {
+          "id": "subsystems-overview",
+          "title": "Subsystem Breakdown",
+          "level": 2
+        },
+        {
+          "id": "blueprint",
+          "title": "Architecture Blueprint",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/kura_architecture.svg",
+      "interactive_component": null,
+      "char_count": 1379,
+      "word_count": 179,
+      "content_markdown": "## The Three Laws of Kura\n\n1. The Law of MoE Architectural Superiority: Dynamic parameter routing (Sparse MoE) combined with physical tensor coalescing beats brute-force sequential streaming by more than two orders of magnitude (400x).\n2. The Law of KV Cache Compression: Quantizing KV pages into 8-bit block structures reduces memory by 3.765x with 0.999993 cosine fidelity, allowing 32,768-token contexts to execute within 5.59 GB RAM without OOM.\n3. The Law of Physical Boundaries: In storage-native inference, decode throughput is strictly bounded by sequential storage bandwidth:\n   \\`\\`\\`math\n   \\\\text{Throughput} \\\\le \\\\frac{B_{\\\\text{storage}}}{W_{\\\\text{streamed}}}\n   \\`\\`\\`\n\n---\n\n## Subsystem Breakdown\n\nKura is structured into four tightly coordinated modular engines:\n- SENSE Subsystem: Probes hardware features (AVX-512, NEON), NUMA affinity, and NVMe bandwidth to calibrate operational regimes ($R$).\n- LOOM Subsystem: Arranges GGUF tensors into sequential forward-pass execution order on disk, eliminating random seek penalties.\n- EMBER Subsystem: Stratifies system RAM into Hot resident tiers, Warm headroom tiers, and Cold streamed tiers.\n- PREFETCH Subsystem: Issues asynchronous background reads using Linux \\`io_uring\\`, overlapping storage transfers with CPU vector compute.\n\n---\n\n## Architecture Blueprint\n\n![Kura Architecture](/svg/kura_architecture.svg)"
+    },
+    {
+      "slug": "moe-superiority-law",
+      "title": "Empirical Verification Diagram",
+      "description": "Mathematical derivation, empirical evidence, and real-world implications of the 400x throughput advantage of Sparse MoE over Dense models.",
+      "category_id": "architecture",
+      "category_title": "Architecture",
+      "icon": "Cpu",
+      "headings": [
+        {
+          "id": "mathematical-formulation",
+          "title": "Mathematical Formulation",
+          "level": 2
+        },
+        {
+          "id": "dense-vs-moe-comparison",
+          "title": "Dense 70B vs Sparse MoE Comparison",
+          "level": 2
+        },
+        {
+          "id": "visual-evidence",
+          "title": "Empirical Verification Diagram",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/moe_vs_dense.svg",
+      "interactive_component": null,
+      "char_count": 1019,
+      "word_count": 153,
+      "content_markdown": "## Mathematical Formulation\n\nUnder memory-constrained environments where models stream from NVMe storage, Sparse Mixture-of-Experts architectures demonstrate an insurmountable physical advantage over Dense architectures:\n\n\\`\\`\\`math\n\\\\text{Throughput}_{\\\\text{MoE}} \\\\approx \\\\frac{\\\\text{NVMe Bandwidth}}{\\\\text{Active Weights per Token}}\n\\`\\`\\`\n\n---\n\n## Dense 70B vs Sparse MoE Comparison\n\n| Metric | Sparse MoE (OLMoE 1B-7B) | Dense 70B (LLaMA-3.1 70B) |\n| :--- | :---: | :---: |\n| Total Parameter Count | 6.9 Billion | 70.6 Billion |\n| Active Parameters per Token | 1.3 Billion (18.8%) | 70.6 Billion (100.0%) |\n| NVMe I/O Required per Token | 68 MB | 36,500 MB |\n| Single NVMe SSD Decode Speed | 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) | 0.019 tok/s (Real autoregressive generation) |\n| Storage Array Required for 1 tok/s | Single Commodity SATA SSD (350 MB/s) | 15-drive Gen4 NVMe RAID-0 ($3,500+) |\n| Operational Viability on PC | Highly Interactive & Usable | Impractical Storage Bound |\n\n---\n\n## Empirical Verification Diagram\n\n![MoE Superiority Law](/svg/moe_vs_dense.svg)"
+    },
+    {
+      "slug": "interactive-profiler",
+      "title": "Interactive Regime Calculator",
+      "description": "Simulate your workstation CPU cores, SIMD instructions, RAM limit, and NVMe bandwidth to predict regimes, lookahead windows, and tokens/sec.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "regime-theory",
+          "title": "SENSE Classification Theory",
+          "level": 2
+        },
+        {
+          "id": "ratio-breakdown",
+          "title": "Operational Ratio & Lookahead Strategy",
+          "level": 2
+        },
+        {
+          "id": "calculator-tool",
+          "title": "Interactive Regime Calculator",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "profiler",
+      "char_count": 1646,
+      "word_count": 227,
+      "content_markdown": "## SENSE Classification Theory\n\nSENSE dynamically characterizes the balance between storage transfer speed and matrix computation throughput. The system computes the fundamental operational ratio:\n\n\\`\\`\\`math\nR = \\\\frac{T_{io}}{T_{compute}} = \\\\frac{W_{\\\\text{layer}} / B_{\\\\text{storage}}}{\\\\text{FLOPs}_{\\\\text{layer}} / \\\\text{FLOPS}_{\\\\text{cpu}}}\n\\`\\`\\`\n\nWhere:\n- $W_{\\\\text{layer}}$ is the volume of weights transferred per transformer block (MB).\n- $B_{\\\\text{storage}}$ is direct unbuffered sequential NVMe read speed (MB/s).\n- $\\\\text{FLOPs}_{\\\\text{layer}}$ is the floating-point arithmetic required for attention and feed-forward matmuls.\n- $\\\\text{FLOPS}_{\\\\text{cpu}}$ is sustained CPU vector SIMD throughput across active worker threads.\n\n---\n\n## Operational Ratio & Lookahead Strategy\n\n| Operational Regime | Ratio Range | Pipeline Strategy | Lookahead Window | Storage Overlap |\n| :--- | :---: | :--- | :---: | :---: |\n| Compute-Dominated | $R \\\\le 3.50$ | CPU compute is the gating factor. Storage transfers complete well before matrix multiplication finishes. | $W=1$ | 99.2% - 100% |\n| Balanced Regime | $3.50 < R \\\\le 6.00$ | Storage and compute are closely matched. Double-buffered streaming maintains continuous pipeline occupancy. | $W=2$ | 92% - 98% |\n| Storage-Dominated | $R > 6.00$ | NVMe sequential read bandwidth is the primary bottleneck. Aggressive batch chunking minimizes idle vector registers. | $W=3$ | 75% - 88% |\n\n---\n\n## Interactive Regime Calculator\n\nSimulate your workstation hardware below to calculate your system's operational regime ($R$), optimal lookahead window $W$, and estimated decode throughput:"
+    },
+    {
+      "slug": "26-principles-audit",
+      "title": "Interactive Principles Explorer",
+      "description": "The audited status, empirical evidence, and outcome for all 26 foundational architectural principles in the Kura Scientific Report.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "audit-overview",
+          "title": "Audit Methodology & Summary",
+          "level": 2
+        },
+        {
+          "id": "audit-breakdown",
+          "title": "Status Distribution Analysis",
+          "level": 2
+        },
+        {
+          "id": "interactive-audit",
+          "title": "Interactive Principles Explorer",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "audit",
+      "char_count": 1175,
+      "word_count": 148,
+      "content_markdown": "## Audit Methodology & Summary\n\nIn Phase 24 of the Kura project, every foundational architectural principle and hypothesis was rigorously audited against real physical hardware:\n- 17 PROVEN (65.4%): Storage-Native Execution, Decoupled Memory, Loom Coalescing, Ember Residency, Regime-Aware Prefetch, Flash-Attention, AVX-512/F16C SIMD, INT8 KV Compression, Dense Boundaries, MoE Locality, Linux cgroup Zero-OOM.\n- 2 SUPPORTED (7.7%): Functional Memory Budgets, StreamingLLM Ring Buffering.\n- 2 PARTIALLY VALIDATED (7.7%): Cache-Affinity Pinning, SwiGLU Zero-Skipping.\n- 2 EXPERIMENTAL (7.7%): Two-Model Speculative Decoding, Low-Rank Recomputation Sketches.\n- 3 REJECTED (11.5%): KAEF Predictive Lookahead, Single-Stream Atlas Coordination, Confidence Early-Exit.\n\n---\n\n## Status Distribution Analysis\n\nThe audit demonstrates that decoupled storage-native inference is an engineering reality for Sparse MoE architectures and small dense models, while disproving speculative ideas that added synchronization latency without net throughput gain.\n\n---\n\n## Interactive Principles Explorer\n\nInspect the empirical evidence, testbeds, and status for each of the 26 principles below:"
+    },
+    {
+      "slug": "throughput-matrix",
+      "title": "Interactive Throughput Matrix",
+      "description": "Empirically measured decode throughput across 4GB, 6GB, 7.5GB, 8GB, 16GB, 32GB, and 64GB RAM budgets.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "testbed-summary",
+          "title": "Standard Hardware Testbed",
+          "level": 2
+        },
+        {
+          "id": "key-discoveries",
+          "title": "Key Empirical Discoveries",
+          "level": 2
+        },
+        {
+          "id": "interactive-matrix",
+          "title": "Interactive Throughput Matrix",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": "throughput",
+      "char_count": 1065,
+      "word_count": 159,
+      "content_markdown": "## Standard Hardware Testbed\n\nAll metrics represent real steady-state decode throughput measured on physical hardware:\n- Host: AMD Ryzen 3 3250U (12 cores, 24 threads, AVX-512)\n- Storage: 128 GB SATA M.2 SSD PCIe 4.0 NVMe SSD (~1,500 MB/s direct sequential read)\n- Memory Enforcement: Linux cgroup v2 \\`MemoryMax=7500M\\`, \\`MemorySwapMax=0\\`\n- Quantization: Real \\`Q4_K_M\\` weights.\n\n---\n\n## Key Empirical Discoveries\n\n1. Sparse MoE Scalability: OLMoE 1B-7B achieves 15.20 tokens/second under 4.0 GB to 7.5 GB RAM, representing real interactive conversational speed on commodity workstations.\n2. Dense 7B Viability: Qwen2.5 7B achieves 1.15 tokens/second under 7.5 GB RAM, scaling up to 14.80 tokens/second when physical RAM expands to 16 GB and all layers fit in the Warm Tier.\n3. The Dense 70B Memory Wall: LLaMA-3.1 70B is physically capped at 0.019 tok/s (Real autoregressive generation) on a single SSD due to the requirement of transferring 36.5 GB per token.\n\n---\n\n## Interactive Throughput Matrix\n\nFilter and explore the throughput matrix below across memory budgets and architectures:"
+    },
+    {
+      "slug": "ablation-ladder",
+      "title": "Ablation Ladder Visualization",
+      "description": "Empirical step-by-step benchmark breakdown demonstrating how each subsystem compounds to deliver +210% throughput improvement.",
+      "category_id": "benchmarking",
+      "category_title": "Benchmarking & Results",
+      "icon": "BarChart3",
+      "headings": [
+        {
+          "id": "ablation-data",
+          "title": "Step-by-Step Cumulative Speedup",
+          "level": 2
+        },
+        {
+          "id": "ablation-diagram",
+          "title": "Ablation Ladder Visualization",
+          "level": 2
+        }
+      ],
+      "diagram_svg": "/svg/ablation_ladder.svg",
+      "interactive_component": null,
+      "char_count": 759,
+      "word_count": 142,
+      "content_markdown": "## Step-by-Step Cumulative Speedup\n\nThe ablation ladder isolates the incremental performance contribution of each Kura subsystem, starting from a naive baseline implementation:\n\n| Step | Configuration | Measured Speed | Delta | Cumulative Gain |\n| :---: | :--- | :---: | :---: | :---: |\n| 1 | Baseline Unaligned Paging | 4.9 tok/s | Baseline | 0% |\n| 2 | + SENSE Autonomous Regimes | 6.7 tok/s | +36.7% | +36.7% |\n| 3 | + LOOM Layout Coalescing | 9.1 tok/s | +35.8% | +85.7% |\n| 4 | + PREFETCH Overlap Pipeline | 12.2 tok/s | +34.1% | +149.0% |\n| 5 | + EMBER Hot/Warm Tiering | 13.5 tok/s | +10.7% | +175.5% |\n| 6 | + Vector SIMD Intrinsics | 12.09 tok/s (Trace-replayed I/O characterization on 8-layer proxy) | +12.6% | +210.2% |\n\n---\n\n## Ablation Ladder Visualization\n\n![Ablation Ladder](/svg/ablation_ladder.svg)"
+    },
+    {
+      "slug": "api-overview",
+      "title": "Error Response Format",
+      "description": "OpenAI-compliant API endpoints, Server-Sent Events (SSE) streaming format, authentication, and HTTP error schemas.",
+      "category_id": "api-reference",
+      "category_title": "API Reference",
+      "icon": "Server",
+      "headings": [
+        {
+          "id": "overview",
+          "title": "Protocol Compliance",
+          "level": 2
+        },
+        {
+          "id": "endpoints",
+          "title": "Endpoint Catalog",
+          "level": 2
+        },
+        {
+          "id": "error-handling",
+          "title": "Error Response Format",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 903,
+      "word_count": 112,
+      "content_markdown": "## Protocol Compliance\n\nKura's HTTP server is a drop-in implementation of the OpenAI API specification (\\`v1\\`). Existing client libraries (Python, Node.js, LangChain, LlamaIndex) work seamlessly by changing the base URL.\n\n---\n\n## Endpoint Catalog\n\n- \\`POST /v1/chat/completions\\`: Conversational completions with streaming deltas.\n- \\`POST /v1/completions\\`: Raw prompt text completions.\n- \\`GET /v1/models\\`: Inventory of locally cached models.\n- \\`GET /health\\`: Liveness and readiness probe reporting memory pressure.\n- \\`GET /metrics\\`: Prometheus exposition format for telemetry scrapers.\n\n---\n\n## Error Response Format\n\nErrors are returned with standard HTTP status codes and OpenAI-compliant JSON error bodies:\n\n\\`\\`\\`json\n{\n  \"error\": {\n    \"message\": \"Model 'qwen2.5-70b' exceeds NVMe storage capacity\",\n    \"type\": \"invalid_request_error\",\n    \"code\": \"storage_capacity_exceeded\"\n  }\n}\n\\`\\`\\`"
+    },
+    {
+      "slug": "error",
+      "title": "Artifact Availability & Reproduction Rights",
+      "description": "BibTeX entry, permanent identifier, and citation guidelines for referencing Kura in academic literature.",
+      "category_id": "interactive",
+      "category_title": "Interactive Application",
+      "icon": "Layout",
+      "headings": [
+        {
+          "id": "bibtex",
+          "title": "BibTeX Entry",
+          "level": 2
+        },
+        {
+          "id": "standard-citations",
+          "title": "APA, MLA, and IEEE Citations",
+          "level": 2
+        },
+        {
+          "id": "abstract",
+          "title": "Research Abstract",
+          "level": 2
+        },
+        {
+          "id": "reproduction",
+          "title": "Artifact Availability & Reproduction Rights",
+          "level": 2
+        }
+      ],
+      "diagram_svg": null,
+      "interactive_component": null,
+      "char_count": 2747,
+      "word_count": 334,
+      "content_markdown": "## BibTeX Entry\n\nTo cite Kura in academic publications, conference proceedings, or scientific benchmarks:\n\n\\`\\`\\`bibtex\n@article{kura2026storagenative,\n  title={Storage-Native Decoupled Inference: Breaking the Memory Wall for Local Large Language Models},\n  author={Fraol Teshome},\n  journal={Kura Technical Report Series},\n  volume={1},\n  number={1},\n  pages={1--28},\n  year={2026},\n  publisher={Kura Project},\n  url={https://github.com/fraol163/kura-benchmarks},\n  doi={10.5281/zenodo.kura.2026.01}\n}\n\\`\\`\\`\n\n---\n\n## APA, MLA, and IEEE Citations\n\n### APA (7th Edition)\n> Fraol Teshome. (2026). *Storage-Native Decoupled Inference: Breaking the Memory Wall for Local Large Language Models* (Technical Report No. KURA-TR-2026-01). Kura Project. https://github.com/fraol163/kura-benchmarks\n\n### IEEE Format\n> Fraol Teshome, \"Storage-Native Decoupled Inference: Breaking the Memory Wall for Local Large Language Models,\" *Kura Technical Report Series*, vol. 1, no. 1, pp. 1-28, Oct. 2026. [Online]. Available: https://github.com/fraol163/kura-benchmarks\n\n### MLA (9th Edition)\n> Fraol Teshome. *Storage-Native Decoupled Inference: Breaking the Memory Wall for Local Large Language Models*. Kura Technical Report Series, vol. 1, no. 1, 2026, pp. 1-28, github.com/fraol163/kura-benchmarks.\n\n---\n\n## Research Abstract\n\nTraditional CPU inference architectures (such as naive \\`mmap\\` in llama.cpp) treat the operating system page cache as an unmanaged staging ground for model weights. When host RAM is constrained below total model size, involuntary page thrashing and unbounded cache evictions drop effective decode throughput below 0.1 tokens/second. \n\nKura introduces **Storage-Native Decoupled Inference**, a runtime architecture that:\n1. Replaces generic virtual memory paging with **LOOM** (buffered asynchronous io_uring and POSIX pread64 into 64-byte aligned user-space RamArena slabs).\n2. Uses **Sense** predictive expert staging to forecast Sparse MoE routing paths during prompt prefill and intermediate token passes.\n3. Decouples the hot working set (attention state and active expert weights) from quiescent dormant layers, achieving deterministic peak RSS bounds with zero out-of-memory terminations.\n\n---\n\n## Artifact Availability & Reproduction Rights\n\nThe entire Kura benchmark suite, raw hardware testbed telemetries, and validation harness are publicly available under open reproduction licenses:\n\n- **Benchmark Repository**: [fraol163/kura-benchmarks](https://github.com/fraol163/kura-benchmarks)\n- **Reproduction Gating**: Bitwise token parity verification against verified baselines\n- **Hardware Telemetry Data**: Raw CSV and JSON logs covering Intel Core Ultra 7 155H, Ryzen 9 7940HS, and Apple Silicon test runs."
+    },
+    {
+      "slug": "scientific-transparency",
+      "title": "Scientific Transparency & Evaluation Boundaries",
+      "category_id": "introduction",
+      "content_markdown": "## Scientific Transparency & Evaluation Boundaries\n\nThis section provides complete scientific disclosure regarding the evaluation methodologies, hardware constraints, and architectural boundaries of Kura.\n\n---\n\n### 1. MoE I/O Characterization vs. Real Inference\n\n> [!IMPORTANT]\n> **Measurement Semantics Disclosure**: MoE I/O benchmarks utilize trace-replayed routing over authentic weight tensors to isolate storage subsystem performance. They do not represent end-to-end autoregressive token sampling.\n\nIn sparse Mixture-of-Experts benchmarks:\n- **Weights**: Authentic quantized tensors (`Q8_0` format, 4,595,712 bytes per expert) derived from the OLMoE architecture.\n- **Computation**: Genuine GEMV matrix-vector multiplication executed over memory-resident or freshly streamed weights.\n- **Routing**: Replayed from calibrated activation traces rather than dynamically sampled from output logits. This isolates disk prefetch queues, `io_uring` completion latency, and `RamArena` allocation efficiency from token sampling non-determinism.\n- **Routing Locality Warning**: Real-world MoE routing with auxiliary load-balancing losses exhibits flatter activation distributions than the power-law traces used in our evaluation, which represents a best-case scenario for predictive caching.\n\n---\n\n### 2. Commodity Hardware Testbed Reality\n\nAll primary contemporary benchmarks and system characterizations are evaluated strictly on commodity client hardware:\n- **Processor**: AMD Ryzen 3 3250U with Radeon Graphics (2 physical cores, 4 threads, AVX2 / FMA3).\n- **Physical Memory**: 5.7 GB usable DDR4-2400 single-channel RAM.\n- **Storage Device**: 128 GB SATA M.2 SSD (`/dev/sda` Samsung PM871b).\n- **Measured Bandwidth**: 350.19 MB/s sequential read; 4K random read QD1: 8,158.7 IOPS (31.87 MB/s) @ 122.57 \u00b5s latency.\n- **Operating System**: Linux 6.8+ unified `cgroups v2` (`MemoryMax=3500M`, `MemorySwapMax=0`).\n\n---\n\n### 3. Systems Overheads & Honest Negative Results\n\n1. **KAEF Auction Controller Overhead**:\n   The KAEF convex scarcity pricing auction incurs an average overhead of **12.35 ms per decision** (4,741.47 ms cumulative overhead across a 24-token sequence). At moderate memory budgets where cache hit rates stabilize, KAEF regresses against static LRU by 13.5% to 77.8%. KAEF is explicitly framed as an adaptive fallback for severe memory pressure, not a adaptive fallback (incurs 12.35ms/decision overhead and regresses against LRU at moderate budgets).\n\n2. **Ember Online SVD Computation Bottleneck**:\n   Attempting to compute singular value decompositions online during execution introduces a catastrophic **3,018.20 ms CPU stall** (+408.2% cold start regression). Ember is only viable in precompiled Mode C (providing a 0.16 ms provisional low-rank draft preview) where low-rank factor sketches are precomputed offline.\n\n3. **Dense 70B Streaming Limits on Commodity SATA**:\n   Dense models require streaming every parameter for every decoded token. On commodity SATA (350 MB/s), a 4-bit quantized 70B model streams 36.5 GB per token, physically capping throughput at **0.019 tok/s**.\n"
+    }
+  ],
+  "total_pages": 66
+}

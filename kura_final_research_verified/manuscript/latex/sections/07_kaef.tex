@@ -1,0 +1,46 @@
+\section{KAEF: Kura Adaptive Economics Framework}
+\label{sec:kaef}
+
+\subsection{Economic Resource Markets and Scarcity Pricing}
+Rather than employing heuristic eviction policies such as LRU or LFU, KAEF formulates memory residency as a micro-economic market clearing problem. Host memory $\mathcal{B}_{\text{RAM}}$ is treated as a finite, non-renewable resource auctioned among competing expert tensors.
+
+Let $U(t) \in [0, 1]$ denote the memory utilization ratio at step $t$:
+\begin{equation}
+    U(t) = \frac{\sum_{F_i \in \mathcal{R}_t} \mathcal{S}_{\text{exp}}(F_i)}{\mathcal{B}_{\text{RAM}}}
+\end{equation}
+To prevent catastrophic out-of-memory states while maximizing resident capacity utilization, KAEF defines a convex scarcity price function $P_{\text{scarcity}}(U)$:
+\begin{equation}
+    P_{\text{scarcity}}(U) = P_0 \cdot \exp\left( \frac{\beta}{1 - U} \right)
+    \label{eq:scarcity_price}
+\end{equation}
+where $P_0$ is the base price and $\beta > 0$ controls the steepness of the barrier penalty as utilization approaches unity ($U \to 1$). As host RAM fills, the marginal cost of maintaining an expert resident escalates exponentially, forcing low-utility tensors out of memory.
+
+\subsection{Marginal Execution Contribution (MEC)}
+Each expert tensor $F_i^{(l)}$ submits a bid reflecting its anticipated utility to the forward pass over a planning horizon $H$. We define the Marginal Execution Contribution (MEC) of expert $F_i^{(l)}$ as:
+\begin{equation}
+    \text{MEC}\left(F_i^{(l)}, t\right) = \sum_{\tau=t}^{t+H} \gamma^{\tau - t} \cdot \hat{p}_\tau\left(F_i^{(l)}\right) \cdot \mathbb{E}\left[ \| g(x_\tau)_i \|_2 \right] \cdot \Delta_{\text{latency}}\left(F_i^{(l)}\right)
+    \label{eq:mec}
+\end{equation}
+where:
+\begin{itemize}
+    \item $\gamma \in (0, 1]$ is a temporal discount factor penalizing distant predictions.
+    \item $\hat{p}_\tau(F_i^{(l)})$ is the forecasted activation probability of expert $F_i$ at time $\tau$.
+    \item $\mathbb{E}[\|g(x_\tau)_i\|_2]$ is the expected gating routing weight, representing the magnitude of the expert's mathematical contribution to output logits.
+    \item $\Delta_{\text{latency}}(F_i^{(l)}) = T_{\text{IO}}(F_i^{(l)}) - T_{\text{res}}$ represents the latency penalty avoided by having the tensor already resident in DRAM versus fetching it from NVMe.
+\end{itemize}
+
+\subsection{Router Uncertainty and Quantile Forecasting}
+A critical requirement for computing MEC is accurate estimation of $\hat{p}_\tau(F_i^{(l)})$. In autoregressive inference, router gating decisions depend on the hidden representation $x_\tau$, which is unknown prior to executing layer $l-1$.
+KAEF addresses this through a lightweight Conditional Random Field (CRF) quantile estimator coupled with Shannon entropy tracking. 
+Let $H(g^{(l)}) = -\sum_{i=1}^E g_i^{(l)} \log g_i^{(l)}$ denote the router entropy observed at layer $l$. 
+When router entropy is low ($H < H_{\text{threshold}}$), gating confidence is high, and the router distribution closely follows a power-law rank distribution. KAEF predicts future layer activations by evaluating intermediate router logits computed during the early attention projection. 
+When entropy is high (indicating semantic ambiguity or topic transition), KAEF widens its prefetch quantile window $\mathcal{Q}_\alpha$, allocating budget to the top-$2k$ candidate experts.
+
+\subsection{Counterfactual Execution Search (CES) with $\lambda$-Pruning}
+Given current resident set $\mathcal{R}_t$, incoming candidate experts $\mathcal{C}_t$, and memory budget $\mathcal{B}_{\text{RAM}}$, KAEF solves the optimal admission and eviction schedule using Counterfactual Execution Search (CES).
+CES constructs a search tree of possible memory allocation states across horizon $H$. Because exhaustive search over $\binom{E}{k}^H$ combinations is computationally intractable for interactive inference, CES applies $\lambda$-pruning:
+\begin{equation}
+    \text{Net Benefit}(F_i) = \text{MEC}\left(F_i, t\right) - P_{\text{scarcity}}(U(t)) \cdot \mathcal{S}_{\text{exp}}
+\end{equation}
+Any candidate state whose net benefit falls below threshold $\lambda \cdot \max_{j} \text{Net Benefit}(F_j)$ is immediately pruned. In our implementation, $\lambda$-pruned CES explores fewer than 32 candidate states, completing the mathematical auction in less than $0.54$\,ms ($<0.15\%$ of total step time).
+Tensors whose net benefit is negative are designated for eviction, clearing space for incoming high-MEC blocks.

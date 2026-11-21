@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "run_id": "m4-regime-maps-001",
+    "git_commit": "feb035e3289183b80eed7e058929698f8e4e735c",
+    "timestamp": "2026-09-18T05:33:36Z",
+    "gpu_used": "false",
+    "cgroup_enforced": true
+  },
+  "shared_small_sweep": {
+    "budgets_mb": [
+      16.0,
+      24.0,
+      32.0,
+      48.0,
+      64.0,
+      128.0
+    ],
+    "lru_throughput": [
+      26.02,
+      35.85,
+      42.35,
+      43.35,
+      41.08,
+      54.01
+    ],
+    "kaef_throughput": [
+      4.57,
+      4.6,
+      4.89,
+      5.27,
+      6.48,
+      10.69
+    ],
+    "lru_storage_amp": [
+      15654144.0,
+      5888256.0,
+      5026560.0,
+      3734016.0,
+      3734016.0,
+      3734016.0
+    ],
+    "kaef_storage_amp": [
+      6462720.0,
+      6031872.0,
+      5601024.0,
+      5313792.0,
+      5457408.0,
+      7898880.0
+    ]
+  },
+  "shared_olmoe_sweep": {
+    "budgets_mb": [
+      128.0,
+      256.0,
+      512.0,
+      1024.0,
+      2048.0
+    ],
+    "lru_throughput": [
+      14.31,
+      13.65,
+      14.45,
+      14.07,
+      14.08
+    ],
+    "kaef_throughput": [
+      1.74,
+      1.98,
+      2.02,
+      2.4,
+      2.5
+    ]
+  },
+  "workload_regimes": {
+    "short_chat": {
+      "workload_class": "chat",
+      "working_set_80": 3,
+      "prefetchability": 0.665,
+      "token_to_token": 0.377,
+      "achieved_io_bw": 2614.1,
+      "throughput": 5.52
+    },
+    "long_context": {
+      "workload_class": "rag",
+      "working_set_80": 3,
+      "prefetchability": 0.649,
+      "token_to_token": 0.346,
+      "achieved_io_bw": 2738.1,
+      "throughput": 5.63
+    },
+    "coding": {
+      "workload_class": "code",
+      "working_set_80": 3,
+      "prefetchability": 0.781,
+      "token_to_token": 0.608,
+      "achieved_io_bw": 2323.8,
+      "throughput": 5.49
+    },
+    "translation": {
+      "workload_class": "chat",
+      "working_set_80": 3,
+      "prefetchability": 0.665,
+      "token_to_token": 0.377,
+      "achieved_io_bw": 2499.6,
+      "throughput": 5.63
+    },
+    "structured_json": {
+      "workload_class": "code",
+      "working_set_80": 3,
+      "prefetchability": 0.781,
+      "token_to_token": 0.608,
+      "achieved_io_bw": 2382.9,
+      "throughput": 5.51
+    },
+    "repeated_prompt": {
+      "workload_class": "code",
+      "working_set_80": 3,
+      "prefetchability": 0.781,
+      "token_to_token": 0.608,
+      "achieved_io_bw": 2437.5,
+      "throughput": 5.58
+    },
+    "rag_style": {
+      "workload_class": "rag",
+      "working_set_80": 3,
+      "prefetchability": 0.649,
+      "token_to_token": 0.346,
+      "achieved_io_bw": 2346.8,
+      "throughput": 5.55
+    },
+    "multi_turn": {
+      "workload_class": "chat",
+      "working_set_80": 3,
+      "prefetchability": 0.665,
+      "token_to_token": 0.377,
+      "achieved_io_bw": 2568.3,
+      "throughput": 5.59
+    }
+  },
+  "model_ladder_matrix": {
+    "ram_tiers": [
+      "16M",
+      "24M",
+      "64M",
+      "256M",
+      "1G",
+      "4G",
+      "16G",
+      "60G"
+    ],
+    "models": [
+      "stories260K",
+      "synth-small",
+      "synth-lr",
+      "shared-small",
+      "shared-olmoe",
+      "Qwen3.8-27B"
+    ],
+    "matrix": [
+      [
+        350.0,
+        350.0,
+        350.0,
+        350.0,
+        350.0,
+        350.0,
+        350.0,
+        350.0
+      ],
+      [
+        249.0,
+        249.0,
+        249.0,
+        249.0,
+        249.0,
+        249.0,
+        249.0,
+        249.0
+      ],
+      [
+        -1.0,
+        55.0,
+        72.0,
+        85.0,
+        85.0,
+        85.0,
+        85.0,
+        85.0
+      ],
+      [
+        36.7,
+        22.4,
+        57.4,
+        60.9,
+        62.0,
+        62.0,
+        62.0,
+        62.0
+      ],
+      [
+        -1.0,
+        -1.0,
+        -1.0,
+        12.1,
+        15.4,
+        18.2,
+        18.2,
+        18.2
+      ],
+      [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        2.8,
+        4.5,
+        6.2
+      ]
+    ]
+  }
+}

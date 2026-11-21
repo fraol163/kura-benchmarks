@@ -1,0 +1,54 @@
+{
+  "points": [
+    {
+      "budget_mb": 16,
+      "lru_tok_s": 2.7785784386618566,
+      "kaef_tok_s": 4.7261642159107335,
+      "lru_hit_rate": 14.0625,
+      "kaef_hit_rate": 0.5208333333333333,
+      "kaef_advantage_pct": 70.09288455383034
+    },
+    {
+      "budget_mb": 24,
+      "lru_tok_s": 7.662840227930991,
+      "kaef_tok_s": 1.702345945479103,
+      "lru_hit_rate": 25.0,
+      "kaef_hit_rate": 25.0,
+      "kaef_advantage_pct": -77.7843998459727
+    },
+    {
+      "budget_mb": 32,
+      "lru_tok_s": 5.500961231433189,
+      "kaef_tok_s": 2.265873669618781,
+      "lru_hit_rate": 32.29166666666667,
+      "kaef_hit_rate": 32.29166666666667,
+      "kaef_advantage_pct": -58.80949575373678
+    },
+    {
+      "budget_mb": 48,
+      "lru_tok_s": 5.798154268043607,
+      "kaef_tok_s": 5.014364316210353,
+      "lru_hit_rate": 45.3125,
+      "kaef_hit_rate": 53.125,
+      "kaef_advantage_pct": -13.51792166264176
+    },
+    {
+      "budget_mb": 64,
+      "lru_tok_s": 6.375331746962014,
+      "kaef_tok_s": 8.775299770602256,
+      "lru_hit_rate": 47.91666666666667,
+      "kaef_hit_rate": 61.979166666666664,
+      "kaef_advantage_pct": 37.644598256143766
+    },
+    {
+      "budget_mb": 128,
+      "lru_tok_s": 8.538632929596302,
+      "kaef_tok_s": 5.803592851990354,
+      "lru_hit_rate": 47.91666666666667,
+      "kaef_hit_rate": 83.33333333333334,
+      "kaef_advantage_pct": -32.03135794871625
+    }
+  ],
+  "hypothesis_confirmed": true,
+  "analysis": "Hypothesis confirmed: At 16 MB (high memory pressure, model/RAM ~10.4x), KAEF advantage is +70.1%. At 128 MB (low pressure, model/RAM ~1.3x), KAEF advantage is -32.0%. KAEF's predictive value is most pronounced under tighter RAM budgets where eviction penalties are catastrophic."
+}

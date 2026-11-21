@@ -1,0 +1,17 @@
+{
+  "total_ttft_ms": 8177.662397000001,
+  "ember_init_ms": 496.55096599999996,
+  "resident_skeleton_svd_ms": 32991.260126999994,
+  "embedding_ms": 0.05,
+  "routing_ms": 2.649236,
+  "skeleton_execution_ms": 1368.795567,
+  "verification_ms": 3.264451,
+  "refinement_ms": 0.85,
+  "nvme_read_wait_ms": 330.522607,
+  "sync_waiting_ms": 127.783068,
+  "loom_random_reads": 51,
+  "ember_random_reads": 78,
+  "loom_sequential_mb": 81.08203125,
+  "ember_sequential_mb": 53.32421875,
+  "explanation": "Root cause identified: On-the-fly SVD construction for 64 experts took 32991.3 ms. Furthermore, when sketches were created during generation without precompiled skeletons, full expert weights were freed from the RAM arena. Subsequent tokens encountered miss-reloads, breaking Loom's sequential span access and turning sequential prefetch reads into random reads (51 -> 78 random reads, +52.9%; 81.08 MB -> 53.32 MB sequential traffic). Ember must be compiled ahead-of-time (offline skeleton artifact) and resident in dedicated RAM to eliminate decode stalls and preserve Loom's sequential read layout."
+}

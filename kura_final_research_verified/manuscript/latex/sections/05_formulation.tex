@@ -1,0 +1,48 @@
+\section{Problem Formulation and System Model}
+\label{sec:formulation}
+
+\subsection{Formal Execution Model}
+Consider an $L$-layer autoregressive Mixture-of-Experts language model evaluated over a prompt sequence of length $S$ followed by $N_{\text{gen}}$ autoregressive token generation steps.
+Each layer $l \in \{1, \dots, L\}$ consists of:
+\begin{enumerate}
+    \item A static, dense self-attention module requiring memory $\mathcal{M}_{\text{attn}}^{(l)}$.
+    \item A sparse MoE feed-forward module containing $E$ distinct expert parameter blocks $\{F_i^{(l)}\}_{i=1}^E$, each consuming $\mathcal{S}_{\text{exp}}$ bytes.
+    \item A router gating projection $W_g^{(l)} \in \mathbb{R}^{E \times d}$ selecting $k$ active experts per token.
+\end{enumerate}
+
+Let $\mathcal{A}_t^{(l)} \subset \{1, \dots, E\}$ denote the set of active expert indices selected by the router at layer $l$ for generation step $t$, where $|\mathcal{A}_t^{(l)}| = k$.
+The total parameter footprint of the model is:
+\begin{equation}
+    \mathcal{M}_{\text{total}} = \sum_{l=1}^L \left( \mathcal{M}_{\text{attn}}^{(l)} + E \cdot \mathcal{S}_{\text{exp}} \right)
+\end{equation}
+The system operates under a strict physical host memory budget $\mathcal{B}_{\text{RAM}}$ enforced by the operating system (e.g., through Linux \texttt{cgroups v2}). We focus on the constrained regime:
+\begin{equation}
+    \mathcal{B}_{\text{RAM}} < \mathcal{M}_{\text{total}}
+\end{equation}
+where it is mathematically impossible to retain all model weights resident in host DRAM simultaneously.
+
+\subsection{Latency Decomposition and Storage Amplification}
+At each token generation step $t$, the execution latency $T_{\text{step}}(t)$ decomposes into compute time $T_{\text{compute}}$, memory allocation and layout reordering overhead $T_{\text{overhead}}$, and non-volatile storage I/O stall time $T_{\text{IO}}$:
+\begin{equation}
+    T_{\text{step}}(t) = T_{\text{compute}}(t) + T_{\text{overhead}}(t) + T_{\text{IO}}(t)
+\end{equation}
+Let $\mathcal{R}_t \subseteq \bigcup_{l=1}^L \{F_i^{(l)}\}_{i=1}^E$ denote the set of expert tensors resident in host DRAM at step $t$. If an active expert $F_i^{(l)} \in \mathcal{A}_t^{(l)}$ is not resident ($F_i^{(l)} \notin \mathcal{R}_t$), a cache miss occurs, requiring an NVMe transfer.
+
+Let $N_{\text{miss}}(t)$ denote the total number of non-resident experts required at step $t$:
+\begin{equation}
+    N_{\text{miss}}(t) = \sum_{l=1}^L \sum_{i \in \mathcal{A}_t^{(l)}} \mathbb{I}\left( F_i^{(l)} \notin \mathcal{R}_t \right)
+\end{equation}
+Under traditional I/O subsystems, each cache miss triggers an independent random read of size $\mathcal{S}_{\text{exp}}$ at physical disk offset $\text{offset}(F_i^{(l)})$.
+The total I/O transfer time is governed by:
+\begin{equation}
+    T_{\text{IO}}(t) = \sum_{m=1}^{N_{\text{miss}}(t)} t_{\text{seek}}(m) + \frac{N_{\text{miss}}(t) \cdot \mathcal{S}_{\text{exp}}}{\text{BW}_{\text{NVMe}}}
+    \label{eq:random_io_time}
+\end{equation}
+where $t_{\text{seek}}(m)$ represents the queueing and seek penalty incurred by non-contiguous block accesses.
+
+When $t_{\text{seek}}$ dominates, total step latency is bounded by random read throughput rather than compute capacity.
+Furthermore, if the operating system prefetches surrounding un-activated weights into the kernel page cache, the physical bytes transferred from disk $\mathcal{D}_{\text{read}}(t)$ far exceed the computationally necessary bytes:
+\begin{equation}
+    \alpha_{\text{storage}}(t) = \frac{\mathcal{D}_{\text{read}}(t)}{N_{\text{miss}}(t) \cdot \mathcal{S}_{\text{exp}}} \ge 1.0
+\end{equation}
+The core objective of Kura is to minimize both $\alpha_{\text{storage}}$ and the random seek penalty $\sum t_{\text{seek}}$ by converting disjoint reads into coalesced sequential block transfers, while maximizing the hit rate $|\mathcal{A}_t^{(l)} \cap \mathcal{R}_t| / k$ through predictive economic scheduling.

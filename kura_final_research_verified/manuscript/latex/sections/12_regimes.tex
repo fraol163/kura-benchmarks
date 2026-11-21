@@ -1,0 +1,51 @@
+\section{System Operating Regimes and Systems Overhead Analysis}
+\label{sec:regimes}
+
+\subsection{RAM Sweep and Intermediate Inversion Anomalies}
+To identify the operational boundaries of predictive allocation, we conducted a systematic memory sweep on the 166.08\,MB model from 16\,MB up to 128\,MB RAM limits. Table~\ref{tab:ram_sweep} reveals a non-monotonic performance curve.
+
+\begin{table}[h]
+\caption{System performance across memory budgets on the 166\,MB model. At intermediate budgets (24--48\,MB), KAEF suffers performance regressions due to cache thrashing and controller decision overhead.}
+\label{tab:ram_sweep}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{RAM Limit} & \textbf{Pressure Ratio} & \textbf{LRU (tok/s)} & \textbf{KAEF (tok/s)} & \textbf{LRU Hit \%} & \textbf{KAEF Hit \%} & \textbf{KAEF Advantage} \\
+\midrule
+16\,MB & $\approx 10.4\times$ & 2.78 & \textbf{4.73} & 14.1\% & \textbf{52.1\%} & \textbf{+70.09\%} \\
+24\,MB & $\approx 6.9\times$ & \textbf{7.66} & 1.70 & 25.0\% & 25.0\% & \textbf{-77.78\%} \\
+32\,MB & $\approx 5.2\times$ & \textbf{5.50} & 2.27 & 32.3\% & 32.3\% & \textbf{-58.81\%} \\
+48\,MB & $\approx 3.5\times$ & \textbf{5.80} & 5.01 & 45.3\% & 53.1\% & \textbf{-13.52\%} \\
+64\,MB & $\approx 2.6\times$ & 6.38 & \textbf{8.78} & 47.9\% & \textbf{62.0\%} & \textbf{+37.64\%} \\
+128\,MB & $\approx 1.3\times$ & \textbf{8.54} & 5.80 & 47.9\% & 83.3\% & \textbf{-32.03\%} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+At severe memory pressure (16\,MB), KAEF achieves a $+70.09\%$ speedup by leveraging CRF lookahead prefetching to raise cache hit rates from $14.1\%$ to $52.1\%$. However, at intermediate budgets (24\,MB and 32\,MB), performance regresses sharply: LRU achieves 7.66 tok/s while KAEF delivers only 1.70 tok/s (a \textbf{-77.78\% regression}).
+
+\subsection{Root Cause: The 12.35 ms Decision Overhead}
+Instrumentation of KAEF's internal pipeline in Table~\ref{tab:overhead} explains this inversion:
+
+\begin{table}[h]
+\caption{Cumulative timing breakdown of KAEF planning pipeline across 24 tokens (384 decisions) under a 24\,MB RAM budget.}
+\label{tab:overhead}
+\centering
+\begin{tabular}{lrc}
+\toprule
+\textbf{Pipeline Component} & \textbf{Cumulative Time} & \textbf{Fraction} \\
+\midrule
+CRF Routing Forecasting & 1.98 ms & 0.04\% \\
+MEC Marginal Contribution & 1.44 ms & 0.03\% \\
+Convex Scarcity Pricing & 0.27 ms & 0.01\% \\
+CES Beam Search & 4.19 ms & 0.09\% \\
+\textbf{Arena Allocation \& Decision Apply} & \textbf{4,741.47 ms} & \textbf{99.83\%} \\
+\midrule
+\textbf{Total Controller Overhead} & \textbf{4,749.35 ms} & \textbf{100.00\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+While predictive search executes in under 8\,ms, \texttt{apply\_decision()} incurs \textbf{4,741.47\,ms} across the sequence ($\approx 12.35$\,ms per call). This cost stems from synchronous memory arena slab re-allocations, vector dequantization, and temporary buffer allocations during cache rebalancing. At intermediate budgets, hit rate parity between LRU and KAEF ($25.0\%$) fails to offset this 12.35\,ms controller latency, leading to severe throughput degradation. Consequently, Kura explicitly deactivates KAEF in ample memory regimes, adopting static LRU as the optimal production baseline.

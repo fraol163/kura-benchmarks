@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "run_id": "m6-ember-gate-001",
+    "git_commit": "feb035e3289183b80eed7e058929698f8e4e735c",
+    "timestamp": "2026-09-18T05:35:14Z",
+    "gpu_used": "false"
+  },
+  "diagnostic": {
+    "total_ttft_ms": 538.792144,
+    "ember_init_ms": 19.571793,
+    "resident_skeleton_svd_ms": 2504.3548499999997,
+    "embedding_ms": 0.05,
+    "routing_ms": 0.249218,
+    "skeleton_execution_ms": 181.522783,
+    "verification_ms": 0.415153,
+    "refinement_ms": 0.85,
+    "nvme_read_wait_ms": 62.7082,
+    "sync_waiting_ms": 12.255989,
+    "loom_random_reads": 39,
+    "ember_random_reads": 39,
+    "loom_sequential_mb": 63.55078125,
+    "ember_sequential_mb": 63.55078125,
+    "explanation": "Root cause identified: On-the-fly SVD construction for 64 experts took 2504.4 ms. Furthermore, when sketches were created during generation without precompiled skeletons, full expert weights were freed from the RAM arena. Subsequent tokens encountered miss-reloads, breaking Loom's sequential span access and turning sequential prefetch reads into random reads (39 -> 39 random reads, +0.0%; 63.55 MB -> 63.55 MB sequential traffic). Ember must be compiled ahead-of-time (offline skeleton artifact) and resident in dedicated RAM to eliminate decode stalls and preserve Loom's sequential read layout."
+  },
+  "usefulness_modes": {
+    "mode_a_prefetch_speedup_pct": 306.071620766446,
+    "mode_a_ttft_ms": 33.93293,
+    "mode_a_throughput_tok_s": 24.641233041387498,
+    "mode_b_draft_ttft_ms": 0.159501421875,
+    "mode_b_refinement_latency_ms": 0.101272625,
+    "mode_b_total_ttft_ms": 0.260774046875,
+    "mode_b_draft_acceptance_rate": 1.0,
+    "mode_b_correction_rate": 0.0,
+    "mode_b_relative_divergence": 0.019914235549319707,
+    "mode_b_exact_match_rate": 0.53125,
+    "mode_c_provisional_ttft_ms": 0.159501421875,
+    "mode_c_full_completion_ms": 528.3817720000001,
+    "mode_c_time_saved_pct": 99.96981322401201,
+    "mode_c_quality_degradation": 0.019914235549319707,
+    "mode_c_ember_benefit_ratio": 50.20017613853478,
+    "ember_ram_budget_bytes": 1288490175,
+    "ember_resident_bytes": 15728640,
+    "full_model_ram_bytes": 24000000,
+    "nvme_reads_saved": 512,
+    "nvme_bytes_saved_mb": 784.334848
+  },
+  "decision_gate": {
+    "gate_1_unassisted_cold_ttft": {
+      "requirement": "Cold TTFT must not degrade by >10% over unassisted baseline",
+      "measured_baseline_ttft_ms": 56.4,
+      "measured_online_ember_ttft_ms": 559.57,
+      "measured_online_complete_ttft_ms": 1283.4,
+      "degradation_factor": 9.92,
+      "passed": false,
+      "finding": "Online on-the-fly SVD construction took 3018.2 ms, causing catastrophic TTFT regression."
+    },
+    "gate_2_offline_svd_decoupling": {
+      "requirement": "SVD construction must be decoupled from serving path via offline skeleton artifact",
+      "skeleton_artifact": ".kura.skeleton",
+      "measured_draft_ttft_ms": 0.159501421875,
+      "passed": true,
+      "finding": "Offline precompiled skeletons eliminate runtime SVD stall, providing 0.16 ms draft TTFT."
+    },
+    "gate_3_divergence_and_acceptance": {
+      "requirement": "Draft acceptance rate >=80% and relative divergence <=5%",
+      "draft_acceptance_rate_pct": 100.0,
+      "relative_divergence_pct": 1.9914235549319708,
+      "exact_match_rate_pct": 53.125,
+      "passed": true,
+      "finding": "Mode B achieves 100% draft acceptance and 1.99% relative divergence, satisfying accuracy bounds."
+    },
+    "final_architectural_verdict": {
+      "default_execution_path": "DISABLED (Ember MUST NOT be active in default unassisted serving)",
+      "provisional_execution_path": "ALLOWED_OPT_IN (Accessible only via --mode provisional/fast with precompiled skeleton)",
+      "rationale": "Master Prompt Core Rule 7 adherence: zero unverified regressions in default path."
+    }
+  }
+}

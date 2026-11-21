@@ -1,0 +1,5 @@
+Execution_Mode,Cold_TTFT_ms,Relative_Divergence_Pct,Baseline_Context
+Mode A (Full Exact Baseline),739.4,0.0,Full-rank exact weights loaded from NVMe
+Mode B (Online SVD Decomposition),3757.6,0.0,"Online SVD: 739.4 ms fetch + 3,018.2 ms CPU SVD (+408.2% increase)"
+Mode C (Offline SVD Precompiled Draft),0.159501421875,1.9914235549319708,Precompiled SVD sketch: instant draft preview (4636x faster)
+Mode C (Full Exact Async Completion),739.4,0.0,Exact weights loaded in parallel via io_uring

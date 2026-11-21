@@ -1,0 +1,67 @@
+{
+  "package": "kura_final_research_verified",
+  "timestamp": "2026-11-20T18:06:00Z",
+  "historical_platform": {
+    "cpu": "Intel(R) Xeon(R) w5-3425 (24 cores / 48 threads)",
+    "ram": "64 GB DDR5-4800 ECC",
+    "storage": "Samsung 990 PRO 2TB NVMe M.2 SSD",
+    "os": "Ubuntu 22.04 LTS (Linux 6.5.0-generic)"
+  },
+  "files": {
+    "ablation_cd.json": {
+      "sha256": "63953b9d49e3ad1822dc0b72116f74cad1f3ce9d9a08e8aac57dca06bda75180",
+      "bytes": 4939,
+      "description": "Controlled 4-way system ablation on Synthetic MoE under 24MB RAM budget (Baseline LRU, KAEF alone, Loom+LRU, Loom+KAEF)."
+    },
+    "ember_diagnostic.json": {
+      "sha256": "fc38e243c41815800cbb833b43db7642f1c701fb357d946fcac5912693131554",
+      "bytes": 1095,
+      "description": "Root cause diagnostic of online SVD construction overhead on the host CPU."
+    },
+    "ember_usefulness.json": {
+      "sha256": "144ee555f687bf6dcab22723a1288743a4ce70e97e833da728ae77d2b596dcc6",
+      "bytes": 866,
+      "description": "Measurements of low-rank SVD sketch sizes, RAM residency, and provisional draft speedups."
+    },
+    "m2_correctness_determinism.json": {
+      "sha256": "2165e000e6855041acd2872945dbf515dbfa597859062536538b0225439d84ac",
+      "bytes": 3371,
+      "description": "Verification of deterministic forward equivalence (Delta L2 = 0.0, cosine similarity = 1.0) across tested SIMD kernels and quantization schemes."
+    },
+    "m3_real_moe_benchmarks.json": {
+      "sha256": "abf67253e897566328e9b4fb286eb7ad9499ad4d959b44c5a7998fc105b5492c",
+      "bytes": 15323,
+      "description": "Primary real MoE benchmark measurements (OLMoE-1B-7B and Synthetic MoE) under cgroup memory constraints, documenting TTFT, throughput, and I/O stalls."
+    },
+    "m4_regime_maps.json": {
+      "sha256": "3dfd13ea4a4353ca370383d8d4c8fdf5f266dfb4c461d1faa2934457c3846a49",
+      "bytes": 3917,
+      "description": "Storage traffic (MB/token) and storage amplification sweeps across RAM budgets, verifying Loom and KAEF I/O reductions."
+    },
+    "m5_ablations.json": {
+      "sha256": "d5f5bffbe89076efc49bb0d563286e889a4bdc8428459532d856500b5648d8cb",
+      "bytes": 13646,
+      "description": "Factorial subsystem ablations and microarchitectural overhead decompositions."
+    },
+    "m6_ember_gate.json": {
+      "sha256": "627b1a660260df7538419dffcab887f24bce48c2e85ce5cc63ef08236c53efa2",
+      "bytes": 3828,
+      "description": "Ember decision gate evaluation across Modes A, B, and C, unassisted TTFT degradation, draft preview latency, and relative L2 divergence."
+    },
+    "m7_reliability_security.json": {
+      "sha256": "bfaedb5910e1176078fd63506b97cec5c7b166cff7d12b6e7ca1efaf4a63aaba",
+      "bytes": 2897,
+      "description": "Stress testing, OOM stability, and memory limit adherence over long context sequences."
+    },
+    "overhead_breakdown.json": {
+      "sha256": "7d0fe76ecd1bd9bc3569b2e239cd90cc575891123b1116ec560032ddd10f3f08",
+      "bytes": 485,
+      "description": "Nanosecond-resolution profiling of KAEF planning latency, decomposing synchronous arena re-allocation from algorithmic search."
+    },
+    "ram_sweep.json": {
+      "sha256": "63dbe0e49cc9cadde55de54160b9b3cf809b2541ba0f482c07f62dc2745c395c",
+      "bytes": 1753,
+      "description": "Full capacity sweep across 7 memory allocations (16MB to 256MB), documenting non-monotonic inversion regimes and intermediate regressions."
+    }
+  }
+}

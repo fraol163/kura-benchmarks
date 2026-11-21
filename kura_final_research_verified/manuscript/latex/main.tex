@@ -1,0 +1,66 @@
+\documentclass[sigplan,anonymous]{acmart}
+
+% CAMERA-READY AUTHOR INFO:
+% \author{Fraol Teshome}
+% \affiliation{%
+%   \institution{Independent Researcher}
+%   \country{Ethiopia}
+% }
+% \email{fraolteshome444@gmail.com}
+% \homepage{https://kuracpu.vercel.app}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{microtype}
+\usepackage{cleveref}
+
+\title{Kura: Storage-Native Decoupled Inference for Memory-Constrained Mixture-of-Experts}
+
+\author{Anonymous Author(s)}
+\affiliation{
+  \institution{Anonymous Institution}
+  \country{Anonymous Country}
+}
+
+\acmConference[Preprint]{Under Review}{November 2026}{Anonymous}
+\settopmatter{printacmref=false}
+
+\begin{document}
+
+\begin{abstract}
+\input{sections/01_abstract.tex}
+\end{abstract}
+
+\keywords{Mixture of Experts, Out-of-Memory Inference, Memory Wall, Storage-Native Systems, Spectral Layout Coalescing}
+
+\maketitle
+
+\input{sections/02_intro.tex}
+\input{sections/00_nomenclature.tex}
+\input{sections/03_background.tex}
+\input{sections/04_related_work.tex}
+\input{sections/05_formulation.tex}
+\input{sections/06_architecture.tex}
+\input{sections/07_kaef.tex}
+\input{sections/08_loom.tex}
+\input{sections/09_ember.tex}
+\input{sections/10_implementation.tex}
+\input{sections/11_evaluation.tex}
+\input{sections/12_regimes.tex}
+\input{sections/13_threats.tex}
+\input{sections/14_conclusion.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\appendix
+\input{appendix/appendix_artifact.tex}
+\input{appendix/math_proofs.tex}
+\input{appendix/tables.tex}
+
+\end{document}

@@ -1,0 +1,3 @@
+Model,Baseline_Traffic_MB_per_tok,Kura_Traffic_MB_per_tok,Traffic_Reduction_Pct
+"Synthetic MoE (166MB, 16MB RAM)",14.928955078125,6.163330078125,-58.71559633027523
+"OLMoE-1B-7B (1.21GB, 256MB RAM)",48.6,21.3,-56.17283950617284

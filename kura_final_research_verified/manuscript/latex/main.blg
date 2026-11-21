@@ -1,0 +1,90 @@
+This is BibTeX, Version 0.99e (TeX Live 2026/Arch Linux)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
+Database file #1: references.bib
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 9000 items from 6000.
+Reallocated glb_str_ptr (elt_size=8) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=8) to 20 items from 10.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Warning--no number and no volume in chen2023pruning
+Warning--page numbers missing in both pages and numpages fields in chen2023pruning
+Warning--no number and no volume in eliseev2023fast
+Warning--page numbers missing in both pages and numpages fields in eliseev2023fast
+Warning--no number and no volume in gao2024moeinfinity
+Warning--page numbers missing in both pages and numpages fields in gao2024moeinfinity
+Warning--empty publisher in hwang2023tutel
+Warning--empty address in hwang2023tutel
+Warning--page numbers missing in both pages and numpages fields in hwang2023tutel
+Warning--empty publisher in hwang2024pregated
+Warning--empty address in hwang2024pregated
+Warning--no number and no volume in jiang2024mixtral
+Warning--page numbers missing in both pages and numpages fields in jiang2024mixtral
+Warning--empty publisher in kamahori2025fiddler
+Warning--empty address in kamahori2025fiddler
+Warning--page numbers missing in both pages and numpages fields in kamahori2025fiddler
+Warning--no number and no volume in kundu2023edgemoe
+Warning--page numbers missing in both pages and numpages fields in kundu2023edgemoe
+Warning--empty publisher in kwon2023vllm
+Warning--empty address in kwon2023vllm
+Warning--no number and no volume in muennighoff2024olmoe
+Warning--page numbers missing in both pages and numpages fields in muennighoff2024olmoe
+Warning--no journal in rajbhandari2022deepspeed
+Warning--no number and no volume in rajbhandari2022deepspeed
+Warning--empty publisher in sheng2023flexgen
+Warning--empty address in sheng2023flexgen
+Warning--no number and no volume in song2024moelightning
+Warning--page numbers missing in both pages and numpages fields in song2024moelightning
+Warning--no number and no volume in song2020learning
+Warning--page numbers missing in both pages and numpages fields in song2020learning
+Warning--no number and no volume in tang2024hobbit
+Warning--page numbers missing in both pages and numpages fields in tang2024hobbit
+Warning--no number and no volume in wang2024svdllm
+Warning--page numbers missing in both pages and numpages fields in wang2024svdllm
+You've used 19 entries,
+            6335 wiz_defined-function locations,
+            1616 strings with 22443 characters,
+and the built_in function-call counts, 22512 in all, are:
+= -- 2993
+> -- 923
+< -- 0
++ -- 320
+- -- 321
+* -- 1653
+:= -- 2232
+add.period$ -- 93
+call.type$ -- 19
+change.case$ -- 163
+chr.to.int$ -- 19
+cite$ -- 53
+duplicate$ -- 1839
+empty$ -- 1325
+format.name$ -- 377
+if$ -- 5618
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 77
+newline$ -- 190
+num.names$ -- 133
+pop$ -- 824
+preamble$ -- 1
+purify$ -- 315
+quote$ -- 0
+skip$ -- 604
+stack$ -- 0
+substring$ -- 1377
+swap$ -- 134
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 388
+warning$ -- 34
+while$ -- 99
+width$ -- 0
+write$ -- 385
+(There were 34 warnings)

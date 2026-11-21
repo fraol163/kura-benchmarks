@@ -1,0 +1,17 @@
+\section{Threats to Validity and Limitations}
+\label{sec:threats}
+
+\subsection{Internal Validity}
+\textbf{Cold Storage Latency Variance}: As documented in Section~\ref{sec:evaluation}, independent historical repetitions on OLMoE-1B-7B yielded a $26.00\%$ cold TTFT reduction in Run A versus a $20.03\%$ reduction in Run B. Physical cold read latencies fluctuate across independent benchmark runs following OS page cache drops due to system-level device and block-layer initialization variance. Importantly, our experimental telemetry records macroscopic block read times and queue latencies but does \emph{not} capture internal NVMe controller firmware states or PCIe physical link transitions; we therefore refrain from attributing run-to-run variance to unmeasured microarchitectural mechanisms. Steady-state token throughput after cold start converged identically to $12.09$\,tok/s across runs.
+
+\textbf{Synchronous Memory Mutation}: Micro-profiling proves that synchronous memory arena unmapping and remapping consumes over $99.8\%$ of KAEF planning time. Systems that do not batch arena mutations or utilize lockless circular ring buffers will observe throughput regressions at intermediate memory capacities.
+
+\subsection{Construct Validity}
+\textbf{Scope of Numerical Equivalence}: The bit-level equivalence ($\Delta L_2 = 0.0$, cosine similarity $= 1.0$) reported in Section~\ref{sec:implementation} was verified across 262 deterministic test assertions covering tested synthetic MoE and OLMoE-1B-7B kernel and layer implementations under float32 and quantized Q4\_K\_M/Q8\_0 formats. This empirical validation confirms that Kura's memory scheduling and Direct I/O pipelines preserve mathematical correctness for the tested configurations; it does not constitute a formal mathematical proof of bit-level invariance across un-tested architectures, floating-point rounding modes, or multi-threaded schedules.
+
+\textbf{Ember Tiered-Fidelity Characterization}: Ember Mode C delivers a provisional speculative draft preview in 0.16\,ms with $1.99\%$ quality divergence, while full exact completion requires 739.40\,ms. Provisional draft tokens are speculative approximations designed to hide cold I/O latency and are not equivalent to full exact inference.
+
+\subsection{External and Environmental Validity}
+\textbf{Target Workload Focus}: Our evaluation targets interactive, single-user generation ($\text{batch\_size} = 1$). High-concurrency datacenter serving ($B \ge 64$) increases expert reuse across concurrent requests within the same layer, reducing cache miss rates for all systems. Kura is explicitly targeted at edge and workstation deployments where host memory is constrained.
+
+\textbf{Hardware Testbed Decommissioning}: Primary benchmarks were conducted on a 24-core Intel Xeon w5-3425 workstation with Samsung 990 PRO NVMe storage. Because this specific physical machine was subsequently decommissioned, full benchmark re-execution cannot be repeated on our current lightweight validation environment (AMD Ryzen 3 3250U, 5.7\,GB RAM). All historical benchmark logs, raw telemetry dumps, and SHA-256 manifests have been cryptographically preserved and validated without modification.

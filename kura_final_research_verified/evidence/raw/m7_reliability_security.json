@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "run_id": "m7-reliability-001",
+    "git_commit": "feb035e3289183b80eed7e058929698f8e4e735c",
+    "timestamp": "2026-09-18T05:32:12Z",
+    "gpu_used": "false"
+  },
+  "parser_hardening_tests": [
+    {
+      "test": "corrupt_magic_bytes",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: bad magic: expected 'GGUF', got [66, 65, 68, 77]"
+    },
+    {
+      "test": "truncated_header",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: tensor data section truncated: need 4 bytes at offset 4, have 6"
+    },
+    {
+      "test": "oob_tensor_dims",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: tensor \"bad\" has unsupported/unknown type code"
+    },
+    {
+      "test": "truncated_payload_offset",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: tensor data section truncated: need 1004064 bytes at offset 64, have 60"
+    }
+  ],
+  "path_traversal_tests": [
+    {
+      "attempt": "../../../../../../etc/shadow",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: io: Permission denied (os error 13)"
+    },
+    {
+      "attempt": "../../../../../../etc/passwd",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: bad magic: expected 'GGUF', got [114, 111, 111, 116]"
+    },
+    {
+      "attempt": "/etc/shadow",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: io: Permission denied (os error 13)"
+    },
+    {
+      "attempt": "out/bench/models/../../../../etc/passwd",
+      "passed": true,
+      "returncode": 1,
+      "stderr": "cannot open model: io: No such file or directory (os error 2)"
+    }
+  ],
+  "sustained_stability": {
+    "rounds": 5,
+    "tokens_per_round": 32,
+    "total_tokens": 160,
+    "total_duration_s": 19.76,
+    "ram_budget_mb": 24.0,
+    "peak_ram_used_mb": 23.0,
+    "budget_respected": true,
+    "zero_panic": true,
+    "initial_fds": 9,
+    "final_fds": 9,
+    "fd_leaks_detected": 0,
+    "latency_drift_pct": 0.44,
+    "time_series": [
+      {
+        "round": 1,
+        "elapsed_min": 0.066,
+        "ram_used_mb": 23.0,
+        "latency_ms_per_tok": 123.28,
+        "open_fds": 9
+      },
+      {
+        "round": 2,
+        "elapsed_min": 0.132,
+        "ram_used_mb": 23.0,
+        "latency_ms_per_tok": 123.81,
+        "open_fds": 9
+      },
+      {
+        "round": 3,
+        "elapsed_min": 0.196,
+        "ram_used_mb": 23.0,
+        "latency_ms_per_tok": 120.46,
+        "open_fds": 9
+      },
+      {
+        "round": 4,
+        "elapsed_min": 0.263,
+        "ram_used_mb": 23.0,
+        "latency_ms_per_tok": 126.09,
+        "open_fds": 9
+      },
+      {
+        "round": 5,
+        "elapsed_min": 0.329,
+        "ram_used_mb": 23.0,
+        "latency_ms_per_tok": 123.82,
+        "open_fds": 9
+      }
+    ]
+  }
+}

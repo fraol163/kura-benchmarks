@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-11-20T18:10:00Z",
+  "gates": [
+    {
+      "gate_id": "GATE-01",
+      "name": "Archive Completeness",
+      "status": "PASS",
+      "evidence": "All required directories and publication files exist in package.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-02",
+      "name": "Raw Evidence Availability",
+      "status": "PASS",
+      "evidence": "All 11 raw telemetry JSON files exist and match SHA-256 hashes.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-03",
+      "name": "Figure Regeneration",
+      "status": "PASS",
+      "evidence": "Verified 18 figure assets (PDF+PNG) and 8 data CSVs.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-04",
+      "name": "Numerical Consistency",
+      "status": "PASS",
+      "evidence": "Programmatic CSV values match raw JSON measurements (OLMoE 71 reads, Ember 408.2%).",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-05",
+      "name": "Website Extraction Coverage",
+      "status": "PASS",
+      "evidence": "Extracted all 65 pages across 10 categories: 95,944 characters, 13,367 words.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-06",
+      "name": "Manuscript Traceability",
+      "status": "PASS",
+      "evidence": "Manuscript sections cite traced telemetry (Ember 408.2%, OLMoE 20.03% to 26.00%).",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-07",
+      "name": "Citation & Reference Integrity",
+      "status": "PASS",
+      "evidence": "Audited 23 pages: 0 broken citations '(?)', 0 undefined references '??'.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-08",
+      "name": "PDF Compilation & Visual Integrity",
+      "status": "PASS",
+      "evidence": "Document compiled cleanly: 23 pages, 527,906 bytes.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-09",
+      "name": "Privacy & Author Metadata",
+      "status": "PASS",
+      "evidence": "Author is Fraol Teshome; header is Preprint; telephone excluded; no placeholder labs.",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-10",
+      "name": "Portable Reproduction",
+      "status": "PASS",
+      "evidence": "generate_all_figures.py contains 0 machine-specific '/home/renan' paths; resolves via Path(__file__).",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-11",
+      "name": "Package SHA-256 Integrity",
+      "status": "PASS",
+      "evidence": "Manifest SHA256SUMS.txt generated (12,871 bytes).",
+      "details": {}
+    },
+    {
+      "gate_id": "GATE-12",
+      "name": "Google Drive Upload",
+      "status": "BLOCKED",
+      "evidence": "No Google Drive CLI client (rclone/gdrive) or filesystem mount configured on host machine. Package bundled into portable ZIP for manual upload.",
+      "details": {
+        "blocked_reason": "Missing cloud credentials / CLI tools in host OS",
+        "mitigation": "kura_final_research_verified.zip provided for direct upload."
+      }
+    }
+  ]
+}

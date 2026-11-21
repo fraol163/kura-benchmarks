@@ -1,0 +1,22 @@
+{
+  "mode_a_prefetch_speedup_pct": 2616.4270625770137,
+  "mode_a_ttft_ms": 685.654117,
+  "mode_a_throughput_tok_s": 14.06552102392328,
+  "mode_b_draft_ttft_ms": 0.17722042708333333,
+  "mode_b_refinement_latency_ms": 0.13933795833333334,
+  "mode_b_total_ttft_ms": 0.3165583854166667,
+  "mode_b_draft_acceptance_rate": 1.0,
+  "mode_b_correction_rate": 0.0,
+  "mode_b_relative_divergence": 0.04423979640732348,
+  "mode_b_exact_match_rate": 0.65625,
+  "mode_c_provisional_ttft_ms": 0.17722042708333333,
+  "mode_c_full_completion_ms": 10360.566077,
+  "mode_c_time_saved_pct": 99.99828947158132,
+  "mode_c_quality_degradation": 0.04423979640732348,
+  "mode_c_ember_benefit_ratio": 22.60369567501616,
+  "ember_ram_budget_bytes": 3600000,
+  "ember_resident_bytes": 3440640,
+  "full_model_ram_bytes": 24000000,
+  "nvme_reads_saved": 168,
+  "nvme_bytes_saved_mb": 257.359872
+}

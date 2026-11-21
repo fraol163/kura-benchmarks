@@ -1,0 +1,14 @@
+{
+  "total_inference_time_ms": 9324.489675,
+  "model_compute_ms": 2557.27715,
+  "nvme_io_ms": 1541.860058,
+  "cache_operations_ms": 184.235841,
+  "kaef_forecasting_ms": 1.073617,
+  "kaef_mec_calculation_ms": 1.393927,
+  "kaef_resource_pricing_ms": 0.258226,
+  "kaef_counterfactual_search_ms": 3.88026,
+  "kaef_decision_application_ms": 4772.543797,
+  "total_planning_overhead_ms": 4779.149827,
+  "ms_per_token": 199.13124279166666,
+  "percentage_of_execution_time": 51.25374142258353
+}

@@ -1,0 +1,6 @@
+Component,Latency_ms,Share_Pct
+Decision Application & Arena Mutation,4772.543797,99.8617739506161
+Counterfactual Beam Search (CES),3.88026,0.0811914281924855
+Marginal Execution Contribution (MEC),1.393927,0.029166840347313507
+CRF Router Forecasting,1.073617,0.022464602259057824
+Convex Scarcity Pricing,0.258226,0.0054031785850517135

@@ -1,0 +1,41 @@
+\section{Background and Motivation}
+\label{sec:background}
+
+\subsection{Mixture-of-Experts Architecture}
+An autoregressive Transformer layer with a Mixture-of-Experts (MoE) feed-forward network replaces the standard dense multi-layer perceptron (MLP) with a set of $E$ independent expert networks $\{F_i\}_{i=1}^E$ and a gating router $G(x)$. For an input hidden representation $x \in \mathbb{R}^d$, the router computes a normalized routing probability vector $g(x) = \text{Softmax}(\text{TopK}(W_g x, k))$, where $W_g \in \mathbb{R}^{E \times d}$ denotes the learnable router weight matrix, and $\text{TopK}(\cdot, k)$ zeroes out all entries except the $k$ largest values (typically $k \in \{1, 2, 8\}$).
+
+The final output of the MoE layer is computed as the weighted linear combination of the selected expert outputs:
+\begin{equation}
+    y = x + \sum_{i \in \text{TopK}} g(x)_i \cdot F_i(x)
+    \label{eq:moe_forward}
+\end{equation}
+In modern MoE models, non-MoE components (such as multi-head self-attention, layer normalization, and router gating projections) represent a small fraction of total parameters (typically $5\%$--$15\%$), while expert weight matrices account for the remaining $85\%$--$95\%$. In OLMoE-1B-7B~\citep{muennighoff2024olmoe}, 64 experts per layer are configured, with $k=8$ active experts per token; in Mixtral-8x7B~\citep{jiang2024mixtral}, each layer contains 8 experts with $k=2$ active.
+
+\subsection{The Out-of-RAM Dilemma and Storage Amplification}
+When the aggregate model parameters $\mathcal{M}$ exceed the physical system memory $\mathcal{B}_{\text{RAM}}$, weights must reside on secondary non-volatile storage (such as NVMe flash SSDs) and be transferred to RAM on demand.
+Let $\mathcal{S}_{\text{exp}}$ denote the byte size of an individual expert tensor. When an expert $F_i$ is required but not resident in host RAM, the runtime must issue an I/O read request to storage:
+\begin{equation}
+    T_{\text{load}}(F_i) = t_{\text{latency}} + \frac{\mathcal{S}_{\text{exp}}}{\text{BW}_{\text{NVMe}}}
+    \label{eq:io_latency}
+\end{equation}
+where $t_{\text{latency}}$ encompasses controller overhead, command submission, and queue dispatch, and $\text{BW}_{\text{NVMe}}$ is the effective storage transfer bandwidth.
+
+Crucially, modern NVMe SSDs exhibit profound asymmetry between sequential streaming bandwidth and small-block random access:
+\begin{itemize}
+    \item \textbf{Sequential Transfers}: Modern PCIe Gen4/Gen5 NVMe SSDs achieve sequential read bandwidths exceeding $7{,}000$\,MB/s by saturating multiple parallel flash channels and internal die planes using large block sizes ($128$\,KB to $1$\,MB).
+    \item \textbf{Random Access}: Fine-grained random reads ($4$\,KB to $64$\,KB) suffer from Flash Translation Layer (FTL) address translation table lookups, internal read disturb mitigations, and controller command queue serialization, often yielding effective throughputs below $150$\,MB/s ($>40\times$ bandwidth degradation).
+\end{itemize}
+
+Under standard GGUF layouts, experts are stored sequentially in index order ($F_0, F_1, F_2, \dots$). If a token activates experts $F_3$ and $F_{58}$, the runtime issues two disconnected non-contiguous reads. If the operating system's page cache fetches contiguous 4\,KB pages reactively, it incurs severe \emph{storage read amplification}:
+\begin{equation}
+    \alpha_{\text{storage}} = \frac{\text{Bytes Read from NVMe}}{\text{Bytes Computationally Utilized}} \gg 1.0
+\end{equation}
+In historical evaluations with Linux \texttt{mmap}, storage amplification routinely exceeds $2.5\times$ to $4.0\times$, as the OS kernel speculatively prefetches adjacent, non-activated experts into page cache, evicting actively needed data and saturating the PCIe bus.
+
+\subsection{Limitations of Reactive LRU Caching}
+A common mitigation is to implement an application-level Least Recently Used (LRU) software cache in user space. However, as demonstrated in our experiments, LRU suffers from structural misalignment with MoE routing:
+\begin{enumerate}
+    \item \textbf{Burstiness and Spatial Locality}: Router activations across natural language sequences are not uniformly random; certain domain-specific tokens activate clusters of specialized experts over several consecutive tokens, followed by abrupt topic transitions that render previous experts cold.
+    \item \textbf{Capacity Thrashing}: When the available cache capacity can hold only a subset of active experts (e.g., room for 4 out of 8 active experts per layer), an LRU policy evicts weights that were activated at layer $l-1$ but will be urgently needed again at layer $l$ or at the subsequent token, resulting in constant thrashing.
+\end{enumerate}
+This motivates an integrated approach combining predictive token-level economics with physical disk layout compilation.

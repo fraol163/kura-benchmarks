@@ -1,0 +1,270 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{19}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Belady(1966)]%
+        {belady1966study}
+\bibfield{author}{\bibinfo{person}{Laszlo~A. Belady}.}
+  \bibinfo{year}{1966}\natexlab{}.
+\newblock \showarticletitle{A study of replacement algorithms for a
+  virtual-storage computer}.
+\newblock \bibinfo{journal}{\emph{IBM Systems Journal}} \bibinfo{volume}{5},
+  \bibinfo{number}{2} (\bibinfo{year}{1966}), \bibinfo{pages}{78--101}.
+\newblock
+
+
+\bibitem[Chen et~al\mbox{.}(2023)]%
+        {chen2023pruning}
+\bibfield{author}{\bibinfo{person}{Tianlong Chen}, \bibinfo{person}{Yu Cheng},
+  \bibinfo{person}{Xuesu Zhang}, {et~al\mbox{.}}}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Task-Specific Expert Pruning for Sparse
+  Mixture-of-Experts}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2306.00989}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Eliseev and Mazur(2023)]%
+        {eliseev2023fast}
+\bibfield{author}{\bibinfo{person}{Artyom Eliseev} {and} \bibinfo{person}{Denis
+  Mazur}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Fast Inference of Mixture-of-Experts Language
+  Models with Offloading}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2312.17238}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Gao et~al\mbox{.}(2024)]%
+        {gao2024moeinfinity}
+\bibfield{author}{\bibinfo{person}{Leyang Gao}, \bibinfo{person}{Zhen Dong},
+  \bibinfo{person}{Haiquan Shen}, \bibinfo{person}{Beidi Chen},
+  \bibinfo{person}{Joseph~E Gonzalez}, {and} \bibinfo{person}{Kurt Keutzer}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{MoE-Infinity: Activation-Aware Expert Offloading
+  for Efficient MoE Serving}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2401.14361}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Gerganov(2023)]%
+        {gerganov2023llama}
+\bibfield{author}{\bibinfo{person}{Georgi Gerganov}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \bibinfo{title}{llama.cpp: Port of Facebook's LLaMA model in C/C++}.
+\newblock \bibinfo{howpublished}{\url{https://github.com/ggerganov/llama.cpp}}.
+\newblock
+
+
+\bibitem[Hwang et~al\mbox{.}(2023)]%
+        {hwang2023tutel}
+\bibfield{author}{\bibinfo{person}{Changho Hwang}, \bibinfo{person}{Wei Wei},
+  \bibinfo{person}{Yuxiong Min}, \bibinfo{person}{Minjia Zheng},
+  \bibinfo{person}{Samyam Rajbhandari}, {and} \bibinfo{person}{Yuxiong He}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Tutel: Adaptive Mixture-of-Experts at Scale}. In
+  \bibinfo{booktitle}{\emph{arXiv preprint arXiv:2206.03382}}.
+\newblock
+
+
+\bibitem[Hwang et~al\mbox{.}(2024)]%
+        {hwang2024pregated}
+\bibfield{author}{\bibinfo{person}{Ranggi Hwang}, \bibinfo{person}{Jianyu Wei},
+  \bibinfo{person}{Shijie Cao}, \bibinfo{person}{Changho Hwang},
+  \bibinfo{person}{Xiaohu Tang}, \bibinfo{person}{Ting Cao}, {and}
+  \bibinfo{person}{Mao Yang}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Pre-gated {MoE}: An Algorithm-System Co-Design for
+  Fast and Scalable Mixture-of-Expert Inference}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 51st Annual International
+  Symposium on Computer Architecture (ISCA)}}. \bibinfo{pages}{629--643}.
+\newblock
+
+
+\bibitem[Jiang et~al\mbox{.}(2024)]%
+        {jiang2024mixtral}
+\bibfield{author}{\bibinfo{person}{Albert~Q Jiang}, \bibinfo{person}{Alexandre
+  Sablayrolles}, \bibinfo{person}{Antoine Roux}, \bibinfo{person}{Arthur
+  Mensch}, \bibinfo{person}{Blanche Savary}, \bibinfo{person}{Chris Bamford},
+  \bibinfo{person}{Devendra~Singh Chaplot}, \bibinfo{person}{Diego de~las
+  Casas}, \bibinfo{person}{Emma~Bou Hanna}, \bibinfo{person}{Florian Bressand},
+  {et~al\mbox{.}}} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Mixtral of Experts}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2401.04088}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Kamahori et~al\mbox{.}(2025)]%
+        {kamahori2025fiddler}
+\bibfield{author}{\bibinfo{person}{Keisuke Kamahori}, \bibinfo{person}{Yile
+  Gu}, {and} \bibinfo{person}{Baris Kasikci}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Fiddler: {CPU-GPU} Orchestration for Fast Inference
+  of Mixture-of-Experts Models}. In \bibinfo{booktitle}{\emph{The Thirteenth
+  International Conference on Learning Representations (ICLR)}}.
+\newblock
+
+
+\bibitem[Kundu et~al\mbox{.}(2023)]%
+        {kundu2023edgemoe}
+\bibfield{author}{\bibinfo{person}{Souvik Kundu} {et~al\mbox{.}}}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{EdgeMoE}: Fast On-Device Inference of {MoE}-based
+  Large Language Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2308.14352}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Kwon et~al\mbox{.}(2023)]%
+        {kwon2023vllm}
+\bibfield{author}{\bibinfo{person}{Woosuk Kwon}, \bibinfo{person}{Zhuohan Li},
+  \bibinfo{person}{Siyuan Zhuang}, \bibinfo{person}{Ying Sheng},
+  \bibinfo{person}{Lianmin Zheng}, \bibinfo{person}{Cody~Hao Yu},
+  \bibinfo{person}{Joseph~E Gonzalez}, \bibinfo{person}{Hao Zhang}, {and}
+  \bibinfo{person}{Ion Stoica}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Efficient Memory Management for Large Language
+  Model Serving with PagedAttention}. In \bibinfo{booktitle}{\emph{ACM
+  Symposium on Operating Systems Principles (SOSP)}}.
+  \bibinfo{pages}{611--626}.
+\newblock
+
+
+\bibitem[Muennighoff et~al\mbox{.}(2024)]%
+        {muennighoff2024olmoe}
+\bibfield{author}{\bibinfo{person}{Niklas Muennighoff}, \bibinfo{person}{Luca
+  Soldaini}, \bibinfo{person}{Dirk Groeneveld}, \bibinfo{person}{Kyle
+  Richardson}, \bibinfo{person}{Nathan Lambert}, \bibinfo{person}{Abhilasha
+  Ravichander}, \bibinfo{person}{Yuling Gu}, \bibinfo{person}{Binyuan Liu},
+  \bibinfo{person}{Noah Hall}, \bibinfo{person}{Shengyi Jiang},
+  {et~al\mbox{.}}} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{OLMoE: Open Mixture-of-Experts Language Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2409.02060}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Rajbhandari et~al\mbox{.}(2022)]%
+        {rajbhandari2022deepspeed}
+\bibfield{author}{\bibinfo{person}{Samyam Rajbhandari},
+  \bibinfo{person}{Conglong Li}, \bibinfo{person}{Zhewei Yao},
+  \bibinfo{person}{Minjia Zhang}, \bibinfo{person}{Reza~Yazdani Aminabadi},
+  \bibinfo{person}{Ammar~Ahmad Awan}, \bibinfo{person}{Jeff Rasley}, {and}
+  \bibinfo{person}{Yuxiong He}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{DeepSpeed-MoE: Advancing Mixture-of-Experts
+  Inference and Training to Power Next-Generation AI Models}.
+\newblock  (\bibinfo{year}{2022}), \bibinfo{pages}{18332--18346}.
+\newblock
+
+
+\bibitem[Sheng et~al\mbox{.}(2023)]%
+        {sheng2023flexgen}
+\bibfield{author}{\bibinfo{person}{Ying Sheng}, \bibinfo{person}{Lianmin
+  Zheng}, \bibinfo{person}{Binhang Yuan}, \bibinfo{person}{Zhuohan Li},
+  \bibinfo{person}{Max Ryabinin}, \bibinfo{person}{Beidi Chen},
+  \bibinfo{person}{Percy Liang}, \bibinfo{person}{Christopher Re},
+  \bibinfo{person}{Ion Stoica}, {and} \bibinfo{person}{Ce Zhang}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{FlexGen: High-Throughput Generative Inference of
+  Large Language Models with a Single GPU}. In
+  \bibinfo{booktitle}{\emph{International Conference on Machine Learning
+  (ICML)}}. \bibinfo{pages}{31094--31116}.
+\newblock
+
+
+\bibitem[Song et~al\mbox{.}(2024)]%
+        {song2024moelightning}
+\bibfield{author}{\bibinfo{person}{Shwai Song} {et~al\mbox{.}}}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{MoE-Lightning}: High-Throughput {MoE} Inference on
+  Memory-constrained {GPUs}}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2411.11217}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Song et~al\mbox{.}(2020)]%
+        {song2020learning}
+\bibfield{author}{\bibinfo{person}{Zhenyu Song}, \bibinfo{person}{Daniel
+  Giles}, {et~al\mbox{.}}} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Learning Relaxed Belady for Content Distribution
+  Network Caching}.
+\newblock \bibinfo{journal}{\emph{USENIX NSDI}} (\bibinfo{year}{2020}).
+\newblock
+
+
+\bibitem[Tang et~al\mbox{.}(2024)]%
+        {tang2024hobbit}
+\bibfield{author}{\bibinfo{person}{Peng Tang}, \bibinfo{person}{Jiacheng Liu},
+  \bibinfo{person}{Xiaofeng Hou}, {et~al\mbox{.}}}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{HOBBIT}: A Mixed Precision Expert Offloading
+  System for Fast {MoE} Inference}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2411.01433}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\bibitem[Von~Luxburg(2007)]%
+        {von2007tutorial}
+\bibfield{author}{\bibinfo{person}{Ulrike Von~Luxburg}.}
+  \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{A tutorial on spectral clustering}.
+\newblock \bibinfo{journal}{\emph{Statistics and Computing}}
+  \bibinfo{volume}{17}, \bibinfo{number}{4} (\bibinfo{year}{2007}),
+  \bibinfo{pages}{395--416}.
+\newblock
+
+
+\bibitem[Wang et~al\mbox{.}(2024)]%
+        {wang2024svdllm}
+\bibfield{author}{\bibinfo{person}{Xin Wang}, \bibinfo{person}{Yu Hu},
+  \bibinfo{person}{Zhangyang Tan}, {et~al\mbox{.}}}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{SVD-LLM: Truncation-aware Singular Value
+  Decomposition for Large Language Model Compression}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2403.07378}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\end{thebibliography}

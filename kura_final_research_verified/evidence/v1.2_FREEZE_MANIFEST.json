@@ -1,0 +1,31 @@
+{
+  "tag": "v1.2-benchmark",
+  "commit": "966dc519fb720cdecd5ef5f7e4a031b22ff95aec",
+  "timestamp": "2026-09-18T22:57:36Z",
+  "environment": {
+    "kernel": "6.8.0-139-generic",
+    "cpu_model": "Intel(R) Xeon(R) w5-3425",
+    "logical_cores": "24",
+    "affinity_mask": "0-23",
+    "governor": "powersave",
+    "thermal_celsius": 71.0,
+    "cgroup_memory_swap_max": "0",
+    "cgroup_memory_max": "max (cgroup v2 default)"
+  },
+  "models": {
+    "real-lr.gguf": "1d366d626911001e903542e27145504f61b9d95bca69d2796e4b8a8c961479cb",
+    "stories260K.gguf": "270cba1bd5109f42d03350f60406024560464db173c0e387d91f0426d3bd256d",
+    "synth-lr.gguf": "5a90623bdb609ffa3198c9f2c41803a7635b160103f10ae7600a3930054acbe5",
+    "synth-q4.gguf": "b28f2ff363f2b118e838dcb09c4d5faab1e31362009593b621281bae46e57cd0",
+    "synth-small.gguf": "460b781abd125dbce2ac8297e8fc1aa6048829ae77e780500be674099ec9b3f4",
+    "olmoe-real-sparse.gguf": "fba207c91eb259b163880b56e14573ec85096b018819e0d5c5937413bf090c7f"
+  },
+  "compiler": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "kernel": "6.8.0-139-generic",
+  "cpu": "Intel(R) Xeon(R) w5-3425",
+  "storage": "NAME        MODEL                    ROTA   SIZE\nnvme0n1     PM9F1 SED Samsung 2048GB    0   1.9T\n\u251c\u2500nvme0n1p1                             0     1G\n\u2514\u2500nvme0n1p2                             0   1.9T",
+  "cgroup": {
+    "MemoryMax": "8589934592 (8 GB)",
+    "MemorySwapMax": "0"
+  }
+}

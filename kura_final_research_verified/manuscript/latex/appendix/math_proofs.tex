@@ -1,0 +1,36 @@
+\section{Mathematical Formulations and Proofs}
+\label{sec:appendix_math}
+
+\subsection{Convex Scarcity Pricing Equilibrium}
+\begin{theorem}[Memory Market Stability]
+Let the scarcity pricing function $P_{\text{scarcity}}(U) = P_0 \exp\left(\frac{\beta}{1-U}\right)$ be defined on $U \in [0, 1)$, with $\beta > 0, P_0 > 0$. Under bounded expert utility $\text{MEC}(F_i) \le M_{\max} < \infty$, the memory utilization ratio $U(t)$ strictly satisfies $U(t) < 1$ for all steps $t$.
+\end{theorem}
+
+\begin{proof}
+An expert $F_i$ is admitted or retained in memory if and only if its net economic surplus is non-negative:
+\begin{equation}
+    \text{Net Benefit}(F_i) = \text{MEC}(F_i) - P_{\text{scarcity}}(U) \cdot \mathcal{S}_{\text{exp}} \ge 0
+\end{equation}
+Rearranging gives the condition for retention:
+\begin{equation}
+    P_{\text{scarcity}}(U) \le \frac{\text{MEC}(F_i)}{\mathcal{S}_{\text{exp}}} \le \frac{M_{\max}}{\mathcal{S}_{\text{exp}}}
+\end{equation}
+Substituting the definition of $P_{\text{scarcity}}(U)$:
+\begin{equation}
+    P_0 \exp\left( \frac{\beta}{1 - U} \right) \le \frac{M_{\max}}{\mathcal{S}_{\text{exp}}} \implies \frac{\beta}{1 - U} \le \ln\left( \frac{M_{\max}}{P_0 \cdot \mathcal{S}_{\text{exp}}} \right)
+\end{equation}
+Let $\kappa = \frac{1}{\beta} \ln\left( \frac{M_{\max}}{P_0 \cdot \mathcal{S}_{\text{exp}}} \right)$. If $\frac{M_{\max}}{P_0 \cdot \mathcal{S}_{\text{exp}}} > 1$, then:
+\begin{equation}
+    1 - U \ge \frac{1}{\kappa} \implies U \le 1 - \frac{1}{\kappa} < 1
+\end{equation}
+Thus, memory utilization is bounded strictly away from unity by a positive margin $\delta = 1/\kappa > 0$. Hence, the memory auction guarantees that physical memory capacity is never exceeded, preventing out-of-memory faults.
+\end{proof}
+
+\subsection{Singular Value Decomposition Truncation Error Bounds}
+\begin{theorem}[Eckart-Young-Mirsky Theorem]
+Let $W \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$ have singular values $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r \ge 0$. The truncated rank-$r_k$ approximation $\tilde{W}_{r_k} = \sum_{j=1}^{r_k} \sigma_j u_j v_j^T$ satisfies:
+\begin{equation}
+    \min_{\text{rank}(B) \le r_k} \| W - B \|_F = \| W - \tilde{W}_{r_k} \|_F = \sqrt{\sum_{j=r_k+1}^r \sigma_j^2}
+\end{equation}
+\end{theorem}
+In trained Transformer MoE layers, the singular value spectrum of feed-forward projection matrices exhibits rapid power-law decay ($\sigma_j \propto j^{-\alpha}$ with $\alpha \approx 1.2$--$1.8$). Consequently, setting $r_k = 16$ preserves over $94\%$ of the spectral energy while reducing parameter storage by over $98\%$.

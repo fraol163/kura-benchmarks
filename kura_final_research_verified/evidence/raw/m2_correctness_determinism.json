@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "run_id": "m2-correctness-det-001",
+    "git_commit": "c96b1cc505ba31088e5abd05a58249839071a664",
+    "timestamp": "2026-09-22T09:20:32Z",
+    "config_hash": "35c9c3ad8b4a2b6c",
+    "model_hash": "f5ccd9622e61d4d85606f4a1accbb430bfcccd27aa37607b13d040815be838aa",
+    "gpu_used": "false"
+  },
+  "plan_hash_determinism": {
+    "stories260K": {
+      "reps": [
+        "0bee279a8fa593e1",
+        "0bee279a8fa593e1",
+        "0bee279a8fa593e1"
+      ],
+      "deterministic": true
+    },
+    "shared_small": {
+      "reps": [
+        "35c9c3ad8b4a2b6c",
+        "35c9c3ad8b4a2b6c",
+        "35c9c3ad8b4a2b6c"
+      ],
+      "deterministic": true
+    }
+  },
+  "loom_layout_determinism": {
+    "passed": true,
+    "stdout": "\nrunning 1 test\ntest graph_tests::loom_payload_serves_identical_expert_bytes ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.01s\n\n"
+  },
+  "independent_decode_test": {
+    "passed": true,
+    "rel_err": 0.0,
+    "sparse_model": "/home/Renan/Desktop/Kura/out/real/olmoe-real-sparse.gguf",
+    "stdout": "\nrunning 1 test\ntest real_weights_tests::real_olmoe_weights_serve_swiglu ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.28s\n\n"
+  },
+  "configurations": [
+    {
+      "config": "B0 (kura-lru)",
+      "mode": "Exact (LRU)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 100.0,
+      "rel_err_str": "0.0e+00",
+      "verdict": "PASS"
+    },
+    {
+      "config": "C1 (kura-kaef)",
+      "mode": "Exact (KAEF)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 100.0,
+      "rel_err_str": "0.0e+00",
+      "verdict": "PASS"
+    },
+    {
+      "config": "C2 (kura-lru-loom)",
+      "mode": "Exact (LRU+Loom)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 100.0,
+      "rel_err_str": "0.0e+00",
+      "verdict": "PASS"
+    },
+    {
+      "config": "C3 (kura-kaef-loom)",
+      "mode": "Exact (KAEF+Loom)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 100.0,
+      "rel_err_str": "0.0e+00",
+      "verdict": "PASS"
+    },
+    {
+      "config": "C4 (kura-ember)",
+      "mode": "Approx (Ember)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 53.125,
+      "rel_err_str": "1.99e-02",
+      "verdict": "PROV"
+    },
+    {
+      "config": "C5 (kura-kaef-emb)",
+      "mode": "Approx (K+E)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 53.125,
+      "rel_err_str": "1.99e-02",
+      "verdict": "PROV"
+    },
+    {
+      "config": "C6 (kura-loom-emb)",
+      "mode": "Approx (L+E)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 53.125,
+      "rel_err_str": "1.99e-02",
+      "verdict": "PROV"
+    },
+    {
+      "config": "C7 (kura-complete)",
+      "mode": "Approx (K+L+E)",
+      "plan_hash_match": "35c9c3ad8b4a2b6c (3/3)",
+      "layout_det": "PASS (0 var)",
+      "exact_match_pct": 53.125,
+      "rel_err_str": "1.99e-02",
+      "verdict": "PROV"
+    }
+  ]
+}

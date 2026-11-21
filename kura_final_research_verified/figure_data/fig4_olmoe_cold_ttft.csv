@@ -1,0 +1,3 @@
+Run,Baseline_Cold_TTFT_ms,Kura_Cold_TTFT_ms,TTFT_Reduction_Pct
+Run A (Checkpoint Report),338.9,250.8,-25.99586898790203
+Run B (JSON Telemetry),330.442386,264.25061,-20.031260759629063

@@ -1,0 +1,66 @@
+\section{Artifact Appendix: Reproducibility and Hardware Setup}
+\label{sec:appendix_artifact}
+
+\subsection{Evaluation Hardware Specification}
+All contemporary benchmarks and experimental evaluations in this paper were conducted on a commodity consumer client platform:
+\begin{itemize}
+    \item \textbf{Processor}: AMD Ryzen 3 3250U with Radeon Graphics (2 physical cores, 4 threads, base 2.60\,GHz, boost 3.50\,GHz, 4\,MB shared L3 cache, x86-64-v3 with AVX2 and FMA3 instruction support).
+    \item \textbf{Host Memory}: 5.7\,GB usable physical DDR4-2400 single-channel RAM.
+    \item \textbf{Storage Device}: 128\,GB SATA M.2 SSD (\texttt{/dev/sda}, Samsung PM871b MZNTY128HDHP-000L7). Measured sequential read bandwidth: $350.19$\,MB/s; 4\,KB random read QD1: $8,158.7$\,IOPS ($31.87$\,MB/s) at $122.57\,\mu$s latency.
+    \item \textbf{Operating System}: Linux kernel 6.8+ (x86\_64) with \texttt{cgroups v2} unified hierarchy enabled.
+    \item \textbf{Toolchain}: Rust 1.80+ (\texttt{cargo 1.99.1}, \texttt{rustc 1.99.1}), Python 3.10+ with \texttt{numpy}, \texttt{pandas}, and \texttt{matplotlib}.
+\end{itemize}
+
+\subsection{Memory Isolation and cgroup v2 Configuration}
+To rigorously evaluate out-of-memory behavior without interference from available physical host memory, memory ceilings are strictly enforced using Linux Control Groups v2 with swap explicitly disabled (\texttt{memory.swap.max = 0}).
+
+Reviewers can enforce the exact $3.5$\,GB ceiling using either user-space systemd scopes or root cgroup controllers:
+
+\paragraph{Option A: User-Space Scope (Recommended, No Root Required)}
+\begin{verbatim}
+systemd-run --user --scope \
+    -p MemoryMax=3500M \
+    -p MemorySwapMax=0 \
+    bash
+\end{verbatim}
+
+\paragraph{Option B: Root Control Group}
+\begin{verbatim}
+sudo mkdir -p /sys/fs/cgroup/kura_bench
+echo "3670016000" | sudo tee /sys/fs/cgroup/kura_bench/memory.max
+echo "0" | sudo tee /sys/fs/cgroup/kura_bench/memory.swap.max
+sudo cgexec -g memory:kura_bench bash
+\end{verbatim}
+
+\subsection{Model Weights and Proxy Artifacts}
+The reproduction suite requires the following weight artifacts placed in \texttt{models/}:
+\begin{enumerate}
+    \item \textbf{Qwen2.5-1.5B-Instruct-Q4\_K\_M} ($0.99$\,GB GGUF): Fits comfortably within the $3.5$\,GB memory ceiling; serves as the in-memory compute baseline.
+    \item \textbf{Qwen2.5-7B-Instruct-Q4\_K\_M} ($4.68$\,GB GGUF): Strictly exceeds the $3.5$\,GB RAM ceiling; demonstrates real dense model streaming limits from commodity SATA.
+    \item \textbf{OLMoE Sub-Network Proxy} (\path{shared-olmoe.gguf.kura}, $1.21$\,GB): An 8-layer, 32-expert Q8\_0 sub-network ($4,595,712$ bytes per expert) derived from OLMoE-1B-7B, utilized for high-fidelity I/O access and cache policy characterization.
+\end{enumerate}
+
+\subsection{Reproducing Benchmark Telemetry}
+
+\paragraph{1. Dense Model SATA Reality Suite}
+To execute the N=3 benchmark comparison across baseline \texttt{mmap}, Kura Buffered, and Kura + Loom under the $3.5$\,GB memory limit:
+\begin{verbatim}
+# From repository root
+chmod +x scripts/run_phase2_sata_reality.sh
+./scripts/run_phase2_sata_reality.sh
+\end{verbatim}
+This emits telemetry to \path{benchmarks/results/phase2_sata_reality.json}, capturing wall-clock time, time-to-first-token (TTFT), tokens per second, and major/minor page faults.
+
+\paragraph{2. MoE Trace and Layout Evaluation}
+To execute the MoE routing access trace with Loom layout coalescing:
+\begin{verbatim}
+cargo run --release --bin kura_bench -- \
+  --config benchmarks/configs/olmoe_real_trace.json
+\end{verbatim}
+
+\paragraph{3. Regenerating Publication Figures}
+All figures in the manuscript can be regenerated directly from telemetry JSONs:
+\begin{verbatim}
+python3 generate_all_figures.py
+\end{verbatim}
+The resulting PDF and PNG assets are deposited directly into \texttt{figures/} and \texttt{manuscript/latex/figures/}.

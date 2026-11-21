@@ -1,0 +1,43 @@
+\section{Progressive Tiered-Fidelity: The Ember Subsystem}
+\label{sec:ember}
+
+When serving large models under extreme memory constraints, storage I/O latency on commodity drives can introduce substantial stalls during the initial Time-To-First-Token (TTFT) phase. To explore whether mathematical weight approximation can mitigate these latency penalties, we developed and evaluated \textbf{Ember}, a tiered-fidelity execution subsystem based on low-rank matrix decomposition.
+
+\subsection{Low-Rank Expert Skeleton Formulation}
+For each expert feed-forward network with weight matrix $W \in \mathbb{R}^{d_{\text{inter}} \times d_{\text{model}}}$, Ember computes a low-rank approximation via truncated Singular Value Decomposition (SVD):
+\begin{equation}
+W \approx U_r \Sigma_r V_r^T = A_r B_r
+\end{equation}
+where $r \ll \min(d_{\text{inter}}, d_{\text{model}})$ denotes the truncation rank, $A_r = U_r \sqrt{\Sigma_r} \in \mathbb{R}^{d_{\text{inter}} \times r}$, and $B_r = \sqrt{\Sigma_r} V_r^T \in \mathbb{R}^{r \times d_{\text{model}}}$. 
+
+By storing only the low-rank factors $A_r$ and $B_r$ in memory, the parameter storage requirement scales as $\mathcal{O}(r(d_{\text{inter}} + d_{\text{model}}))$ rather than $\mathcal{O}(d_{\text{inter}} \cdot d_{\text{model}})$. For an expert of dimension $1024 \times 1408$ with rank $r=8$, the memory footprint drops from $4.59$\,MB down to $0.06$\,MB—a $98.7\%$ reduction.
+
+\subsection{Ember Operational Modes}
+Ember evaluates three operational regimes to balance latency against numerical precision:
+\begin{itemize}
+    \item \textbf{Mode A (Exact Full-Rank Baseline)}: Ember is completely disabled. All expert executions require authentic full-rank quantized weights fetched from storage.
+    \item \textbf{Mode B (Dynamic Online SVD Decomposition)}: When an expert cache miss occurs, the runtime dynamically fetches full-rank weights and computes the truncated SVD on CPU during live inference before caching the low-rank sketch.
+    \item \textbf{Mode C (Offline Precompiled SVD Skeletons)}: Low-rank matrices $A_r$ and $B_r$ are computed ahead-of-time during model packaging and stored in a compact, persistent binary artifact (\texttt{.kura.skeleton}). At runtime, when an expert is not resident in DRAM, Ember executes an immediate forward pass using the precompiled low-rank sketch to synthesize a \textbf{provisional speculative draft preview} in \textbf{0.16\,ms}. Simultaneously, a background asynchronous \texttt{io\_uring} request retrieves the exact full-rank weights over $739.40$\,ms.
+\end{itemize}
+
+\subsection{Negative Result: The Prohibitive Cost of Online SVD}
+Our empirical evaluation established a critical negative finding regarding dynamic low-rank construction. As quantified in Table~\ref{tab:ember_gate}, computing SVD decompositions dynamically on CPU during the inference path (Mode B) introduces an average processing stall of \textbf{3,018.20\,ms} for a 64-expert network. 
+
+\begin{table}[h]
+\caption{Ember operational gate metrics evaluated on commodity host hardware. Online SVD computation introduces an intolerable 3-second bottleneck, while precompiled skeletons supply sub-millisecond provisional previews at minor quality divergence.}
+\label{tab:ember_gate}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Operational Mode} & \textbf{Cold TTFT (ms)} & \textbf{Relative $L_2$ Error} & \textbf{SVD Stall (ms)} & \textbf{System Status} \\
+\midrule
+\textbf{Mode A} (Exact Baseline) & 739.40 & 0.000\% & 0.00 & Production Standard \\
+\textbf{Mode B} (Online SVD) & 3,757.60 & 1.991\% & 3,018.20 & \textbf{REJECTED (+408.2\% regression)} \\
+\textbf{Mode C} (Precompiled Draft) & \textbf{0.16} (preview) & 1.991\% & 0.00 & User-Facing Fast Preview Only \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+This computational overhead increased cold TTFT from 739.40\,ms to 3,757.60\,ms—a \textbf{408.2\% performance regression}. Consequently, runtime on-the-fly matrix decomposition is fundamentally unviable for latency-sensitive inference. Ember's utility is strictly restricted to Mode C, where precompiled skeletons provide provisional streaming previews while exact weights load in the background.

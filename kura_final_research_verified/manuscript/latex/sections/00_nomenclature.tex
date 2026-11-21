@@ -1,0 +1,44 @@
+\subsection*{Nomenclature}
+\begin{table}[t]
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{0.88}
+\begin{tabular}{lp{0.68\columnwidth}}
+\toprule
+\textbf{Term} & \textbf{Definition} \\
+\midrule
+Kura & Storage-native decoupled inference runtime for memory-constrained LLMs \\
+Loom & Offline physical layout compiler; clusters expert tensors via spectral co-activation graphs to convert random seeks into sequential reads \\
+RamArena & User-space memory manager; utilizes pre-allocated, 64-byte aligned slabs to eliminate hot-path OS page allocations \\
+KAEF & Kura Adaptive Economics Framework; online auction scheduler that prices memory residency via convex scarcity curves \\
+Ember & Progressive tiered-fidelity engine; utilizes offline precompiled truncated SVD skeletons for sub-millisecond provisional draft previews \\
+Sense & Autonomous hardware probe; benchmarks host memory, storage, and CPU topology to classify execution regimes \\
+MEC & Marginal Execution Contribution; the economic utility metric used by KAEF to bid for memory residency \\
+CES & Counterfactual Execution Search; the search algorithm used by KAEF to solve optimal admission and eviction schedules \\
+$\lambda$-pruning & Thresholding mechanism in CES that drops low-utility memory states to maintain interactive latency \\
+\midrule
+LLM & Large Language Model \\
+MoE & Mixture-of-Experts \\
+OOM & Out-of-Memory \\
+NVMe & Non-Volatile Memory Express \\
+SSD & Solid State Drive \\
+SATA & Serial Advanced Technology Attachment \\
+PCIe & Peripheral Component Interconnect Express \\
+TTFT & Time-To-First-Token \\
+SVD & Singular Value Decomposition \\
+CRF & Conditional Random Field \\
+RSS & Resident Set Size \\
+DMA & Direct Memory Access \\
+VFS & Virtual File System \\
+FTL & Flash Translation Layer \\
+GGUF & GPT-Generated Unified Format \\
+SIMD & Single Instruction, Multiple Data \\
+AVX/AVX2 & Advanced Vector Extensions \\
+VNNI & Vector Neural Network Instructions \\
+FMA & Fused Multiply-Add \\
+IOPS & Input/Output Operations Per Second \\
+LRU/LFU & Least Recently/Frequently Used \\
+\bottomrule
+\end{tabular}
+\caption{Key acronyms, proprietary subsystems, and systems terminology used in this work.}
+\end{table}
