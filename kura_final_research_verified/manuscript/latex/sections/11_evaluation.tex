@@ -4,7 +4,7 @@
 We evaluate Kura against baseline runtime architectures under strictly controlled memory ceilings.
 
 \subsection{Experimental Methodology and Testbed Hardware}
-All empirical benchmarks were conducted on a dedicated Linux workstation running kernel 6.8.0-48 with \texttt{cgroups v2} unified hierarchy enabled. Memory limits were strictly enforced via \texttt{memory.max} with swap disabled (\texttt{memory.swap.max=0}). Prior to every cold benchmark execution, the host page cache was systematically cleared via \texttt{echo 3 > /proc/sys/vm/drop\_caches}. Storage telemetry and page-fault counts were captured directly via Linux \texttt{getrusage} and \texttt{/proc/<pid>/io}.
+All empirical benchmarks were conducted on a dedicated Linux workstation running kernel 6.8.0-48 with \texttt{cgroups v2} unified hierarchy enabled. Memory limits were strictly enforced via \texttt{memory.max} with swap disabled (\texttt{memory.swap.max=0}). Prior to every cold benchmark execution, the host page cache was systematically cleared via \texttt{echo 3 > /proc/sys/vm/drop\_caches}. Storage telemetry and page-fault counts were captured directly via Linux \cw{getrusage} and \cw{/proc/<pid>/io}.
 
 \subsection{Model Ladder and Benchmark Datasets}
 We evaluate three model configurations:

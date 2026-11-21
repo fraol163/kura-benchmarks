@@ -18,7 +18,9 @@ where $P_0$ is the base price and $\beta > 0$ controls the steepness of the barr
 \subsection{Marginal Execution Contribution (MEC)}
 Each expert tensor $F_i^{(l)}$ submits a bid reflecting its anticipated utility to the forward pass over a planning horizon $H$. We define the Marginal Execution Contribution (MEC) of expert $F_i^{(l)}$ as:
 \begin{equation}
+\resizebox{0.98\columnwidth}{!}{$
     \text{MEC}\left(F_i^{(l)}, t\right) = \sum_{\tau=t}^{t+H} \gamma^{\tau - t} \cdot \hat{p}_\tau\left(F_i^{(l)}\right) \cdot \mathbb{E}\left[ \| g(x_\tau)_i \|_2 \right] \cdot \Delta_{\text{latency}}\left(F_i^{(l)}\right)
+$}
     \label{eq:mec}
 \end{equation}
 where:

@@ -33,6 +33,7 @@ Instrumentation of KAEF's internal pipeline in Table~\ref{tab:overhead} explains
 \caption{Cumulative timing breakdown of KAEF planning pipeline across 24 tokens (384 decisions) under a 24\,MB RAM budget.}
 \label{tab:overhead}
 \centering
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrc}
 \toprule
 \textbf{Pipeline Component} & \textbf{Cumulative Time} & \textbf{Fraction} \\
@@ -45,7 +46,8 @@ CES Beam Search & 4.19 ms & 0.09\% \\
 \midrule
 \textbf{Total Controller Overhead} & \textbf{4,749.35 ms} & \textbf{100.00\%} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 While predictive search executes in under 8\,ms, \texttt{apply\_decision()} incurs \textbf{4,741.47\,ms} across the sequence ($\approx 12.35$\,ms per call). This cost stems from synchronous memory arena slab re-allocations, vector dequantization, and temporary buffer allocations during cache rebalancing. At intermediate budgets, hit rate parity between LRU and KAEF ($25.0\%$) fails to offset this 12.35\,ms controller latency, leading to severe throughput degradation. Consequently, Kura explicitly deactivates KAEF in ample memory regimes, adopting static LRU as the optimal production baseline.

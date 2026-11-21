@@ -11,18 +11,29 @@
 \usepackage{microtype}
 \usepackage{cleveref}
 \usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage{seqsplit}
+\newcommand{\cw}[1]{\texttt{\seqsplit{#1}}}
+
+\sloppy
+\setlength{\emergencystretch}{3em}
+\hyphenpenalty=50
+\exhyphenpenalty=50
+\tolerance=1000
 
 \title{Kura: Storage-Native Decoupled Inference for Memory-Constrained Mixture-of-Experts}
 
 \author{Fraol Teshome}
-\affiliation{\institution{Independent Researcher}\country{Ethiopia}}
-  \country{Anonymous Country}
+\affiliation{%
+  \institution{Independent Researcher}
+  \country{Ethiopia}
 }
+\email{fraolteshome444@gmail.com}
 
 \settopmatter{printacmref=false}
 
 \begin{document}
-\pagestyle{plain}
 
 \begin{abstract}
 \input{sections/01_abstract.tex}

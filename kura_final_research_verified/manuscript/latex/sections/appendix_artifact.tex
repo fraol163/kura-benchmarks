@@ -12,31 +12,37 @@ All contemporary benchmarks and experimental evaluations in this paper were cond
 \end{itemize}
 
 \subsection{Memory Isolation and cgroup v2 Configuration}
-To rigorously evaluate out-of-memory behavior without interference from available physical host memory, memory ceilings are strictly enforced using Linux Control Groups v2 with swap explicitly disabled (\texttt{memory.swap.max = 0}).
+To rigorously evaluate out-of-memory behavior without interference from available physical host memory, memory ceilings are strictly enforced using Linux Control Groups v2 with swap explicitly disabled (\cw{memory.swap.max} \texttt{= 0}).
 
 Reviewers can enforce the exact $3.5$\,GB ceiling using either user-space systemd scopes or root cgroup controllers:
 
 \paragraph{Option A: User-Space Scope (Recommended, No Root Required)}
+\begin{small}
 \begin{verbatim}
 systemd-run --user --scope \
     -p MemoryMax=3500M \
     -p MemorySwapMax=0 \
     bash
 \end{verbatim}
+\end{small}
 
 \paragraph{Option B: Root Control Group}
+\begin{small}
 \begin{verbatim}
 sudo mkdir -p /sys/fs/cgroup/kura_bench
-echo "3670016000" | sudo tee /sys/fs/cgroup/kura_bench/memory.max
-echo "0" | sudo tee /sys/fs/cgroup/kura_bench/memory.swap.max
+echo "3670016000" | sudo tee \
+  /sys/fs/cgroup/kura_bench/memory.max
+echo "0" | sudo tee \
+  /sys/fs/cgroup/kura_bench/memory.swap.max
 sudo cgexec -g memory:kura_bench bash
 \end{verbatim}
+\end{small}
 
 \subsection{Model Weights and Proxy Artifacts}
 The reproduction suite requires the following weight artifacts placed in \texttt{models/}:
 \begin{enumerate}
-    \item \textbf{Qwen2.5-1.5B-Instruct-Q4\_K\_M} ($0.99$\,GB GGUF): Fits comfortably within the $3.5$\,GB memory ceiling; serves as the in-memory compute baseline.
-    \item \textbf{Qwen2.5-7B-Instruct-Q4\_K\_M} ($4.68$\,GB GGUF): Strictly exceeds the $3.5$\,GB RAM ceiling; demonstrates real dense model streaming limits from commodity SATA.
+    \item \textbf{Qwen2.5-1.5B-Instruct-\allowbreak Q4\_K\_M} ($0.99$\,GB GGUF): Fits comfortably within the $3.5$\,GB memory ceiling; serves as the in-memory compute baseline.
+    \item \textbf{Qwen2.5-7B-Instruct-\allowbreak Q4\_K\_M} ($4.68$\,GB GGUF): Strictly exceeds the $3.5$\,GB RAM ceiling; demonstrates real dense model streaming limits from commodity SATA.
     \item \textbf{OLMoE Sub-Network Proxy} (\path{shared-olmoe.gguf.kura}, $1.21$\,GB): An 8-layer, 32-expert Q8\_0 sub-network ($4,595,712$ bytes per expert) derived from OLMoE-1B-7B, utilized for high-fidelity I/O access and cache policy characterization.
 \end{enumerate}
 
@@ -44,23 +50,29 @@ The reproduction suite requires the following weight artifacts placed in \texttt
 
 \paragraph{1. Dense Model SATA Reality Suite}
 To execute the N=3 benchmark comparison across baseline \texttt{mmap}, Kura Buffered, and Kura + Loom under the $3.5$\,GB memory limit:
+\begin{small}
 \begin{verbatim}
 # From repository root
 chmod +x scripts/run_phase2_sata_reality.sh
 ./scripts/run_phase2_sata_reality.sh
 \end{verbatim}
+\end{small}
 This emits telemetry to \path{benchmarks/results/phase2_sata_reality.json}, capturing wall-clock time, time-to-first-token (TTFT), tokens per second, and major/minor page faults.
 
 \paragraph{2. MoE Trace and Layout Evaluation}
 To execute the MoE routing access trace with Loom layout coalescing:
+\begin{small}
 \begin{verbatim}
 cargo run --release --bin kura_bench -- \
   --config benchmarks/configs/olmoe_real_trace.json
 \end{verbatim}
+\end{small}
 
 \paragraph{3. Regenerating Publication Figures}
 All figures in the manuscript can be regenerated directly from telemetry JSONs:
+\begin{small}
 \begin{verbatim}
 python3 generate_all_figures.py
 \end{verbatim}
+\end{small}
 The resulting PDF and PNG assets are deposited directly into \texttt{figures/} and \texttt{manuscript/latex/figures/}.

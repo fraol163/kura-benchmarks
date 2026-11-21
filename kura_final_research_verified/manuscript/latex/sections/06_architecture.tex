@@ -3,10 +3,45 @@
 
 Kura decouples model execution into two operational phases: an \textbf{Offline Physical Compilation Phase} that structures model artifacts for sequential storage streaming, and an \textbf{Online Storage-Native Serving Phase} that schedules asynchronous transfers into pre-allocated memory arenas.
 
+\tikzset{
+  grp/.style={draw=black!35, fill=gray!6, rounded corners=2pt, inner sep=8pt, font=\footnotesize\bfseries},
+  node/.style={draw=black!30, fill=white, rounded corners=1.5pt, inner sep=4pt, font=\scriptsize, text width=2.5cm, align=center},
+  flow/.style={-{Stealth[length=2mm]}, draw=black!55, line width=0.7pt},
+  tag/.style={font=\scriptsize\itshape, text=black!60}
+}
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/fig1_kura_architecture.pdf}
-\caption{End-to-end Kura architecture. (1) The offline layout compiler (\textsc{Loom}) ingests model tensors and calibration traces, constructs an expert co-activation Markov graph, and writes physically clustered expert blocks to solid-state storage alongside a \texttt{.kura} layout sidecar. (2) At runtime, the hardware probe (\textsc{Sense}) benchmarks memory bandwidth, storage read rates, and core topology. (3) The execution engine schedules tensor loads using buffered asynchronous Linux \texttt{io\_uring} queues and POSIX \texttt{pread64} routines into 64-byte aligned user-space \texttt{RamArena} slabs, eliminating hot-path OS page allocations. (4) For high memory pressure, \textsc{KAEF} provides convex scarcity pricing, while precompiled \textsc{Ember} low-rank skeletons supply optional provisional draft previews.}
+\begin{tikzpicture}[node distance=6mm and 9mm]
+  % OFFLINE (Loom)
+  \node[node] (w) {Model Weights\\(GGUF / SafeTensors)};
+  \node[node, below=of w] (g) {Co-Activation Markov Graph\\Laplacian $L=D-W$};
+  \node[node, below=of g] (f) {Fiedler Spectral Ordering\\Clustered Extents (\texttt{.sidecar})};
+  \begin{pgfonlayer}{background}
+    \node[grp, fit=(w)(g)(f), label=above:{\footnotesize OFFLINE COMPILATION (Loom)}] (LO) {};
+  \end{pgfonlayer}
+  % STORAGE
+  \node[node, right=14mm of g] (blk) {Contiguous Blocks\\(Clustered Experts)};
+  \node[node, below=of blk] (io) {Linux Buffered I/O\\\texttt{io\_uring} / \texttt{pread64}};
+  \begin{pgfonlayer}{background}
+    \node[grp, fit=(blk)(io), label=above:{\footnotesize COMMODITY STORAGE}] (ST) {};
+  \end{pgfonlayer}
+  % ONLINE (KAEF / Runtime)
+  \node[node, right=14mm of blk] (sense) {SENSE Hardware Probe\\$R=\mathcal{B}_{\text{model}}/\mathcal{B}_{\text{RAM}}$};
+  \node[node, below=of sense] (kaef) {Economic Scarcity Auction\\MEC + Exponential Pricing};
+  \node[node, below=of kaef] (arena) {RamArena Slab Allocator\\64-byte Aligned DMA Buffers};
+  \node[node, below=of arena] (simd) {SIMD Kernels (AVX-512 VNNI / AVX2)};
+  \begin{pgfonlayer}{background}
+    \node[grp, fit=(sense)(kaef)(arena)(simd), label=above:{\footnotesize ONLINE RUNTIME ENGINE (KAEF)}] (RT) {};
+  \end{pgfonlayer}
+  % arrows
+  \draw[flow] (f) -- (blk);
+  \draw[flow] (io) -- (sense);
+  \draw[flow] (arena) -- ++(0,-0.4) node[tag,below]{provisional drafts} -| (io);
+\end{tikzpicture}
+\caption{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout;
+the runtime streams it through buffered \texttt{io\_uring}/\texttt{pread64} into aligned
+RamArena slabs; KAEF prices residency under memory pressure.}
+\label{fig:arch}
 \label{fig:arch_overview}
 \end{figure*}
 
@@ -14,18 +49,19 @@ Kura decouples model execution into two operational phases: an \textbf{Offline P
 The runtime architecture consists of five modular subsystems:
 
 \begin{enumerate}
-    \item \textbf{Offline Layout Compiler (\texttt{kura-loom})}: Analyzes expert routing traces, solves the spectral arrangement heuristic, and reorders tensor byte offsets within an independent payload file without mutating original GGUF model headers.
-    \item \textbf{Storage and Asynchronous I/O Layer (\texttt{kura-storage})}: Manages asynchronous kernel interactions. It implements high-concurrency \texttt{io\_uring} submission and completion ring queues, falling back to a threadpool of POSIX \texttt{pread64} workers when running on older Linux kernels.
-    \item \textbf{Aligned Slab Memory Manager (\texttt{kura-memory})}: Manages physical RAM allocation via pre-allocated \texttt{RamArena} slabs. RamArena acquires a contiguous virtual memory mapping at engine initialization and sub-allocates fixed 64-byte aligned chunks for resident tensors, ensuring SIMD vector instruction alignment and preventing heap fragmentation.
-    \item \textbf{Adaptive Execution Fabric (\texttt{kura-core} / \texttt{kura-econ})}: Contains the KAEF state machine. It computes marginal execution contributions, forecasts future expert routing using a Conditional Random Field (CRF), and prices memory residency using convex shadow curves. When available memory is sufficient to hold the model, KAEF is explicitly deactivated by the system classifier to eliminate scheduling overhead.
-    \item \textbf{Progressive Tiered-Fidelity Engine (\texttt{kura-ember})}: Stores precompiled low-rank SVD expert sketches in a compact, permanently pinned DRAM tier, serving provisional draft representations when full weights reside on storage.
+    \item \textbf{Offline Layout Compiler (\cw{kura-loom})}: Analyzes expert routing traces, solves the spectral arrangement heuristic, and reorders tensor byte offsets within an independent payload file without mutating original GGUF model headers.
+    \item \textbf{Storage and Asynchronous I/O Layer (\cw{kura-storage})}: Manages asynchronous kernel interactions. It implements high-concurrency \texttt{io\_uring} submission and completion ring queues, falling back to a threadpool of POSIX \texttt{pread64} workers when running on older Linux kernels.
+    \item \textbf{Aligned Slab Memory Manager (\cw{kura-memory})}: Manages physical RAM allocation via pre-allocated \texttt{RamArena} slabs. RamArena acquires a contiguous virtual memory mapping at engine initialization and sub-allocates fixed 64-byte aligned chunks for resident tensors, ensuring SIMD vector instruction alignment and preventing heap fragmentation.
+    \item \textbf{Adaptive Execution Fabric (\cw{kura-core} / \cw{kura-econ})}: Contains the KAEF state machine. It computes marginal execution contributions, forecasts future expert routing using a Conditional Random Field (CRF), and prices memory residency using convex shadow curves. When available memory is sufficient to hold the model, KAEF is explicitly deactivated by the system classifier to eliminate scheduling overhead.
+    \item \textbf{Progressive Tiered-Fidelity Engine (\cw{kura-ember})}: Stores precompiled low-rank SVD expert sketches in a compact, permanently pinned DRAM tier, serving provisional draft representations when full weights reside on storage.
 \end{enumerate}
 
 \subsection{Memory Isolation and User-Space Buffering}
 A foundational design principle of Kura is the separation of user-space memory management from the operating system's virtual memory subsystem. Standard \texttt{mmap} runtimes delegate memory management entirely to the Linux kernel, which lacks domain-specific knowledge of transformer layer sequences. Consequently, the OS kernel evicts recently loaded weights unpredictably under memory pressure.
 
 In Kura, the memory footprint is strictly bounded by the size of the pre-allocated \texttt{RamArena}. Rather than bypassing the kernel page cache via raw buffered I/O, Kura utilizes standard buffered POSIX read calls directed into memory-pinned slab buffers. By pre-allocating the entire arena slab at initialization and managing tensor lifetimes explicitly within user-space ring buffers, Kura ensures that:
-\begin{equation}
-\text{RSS}_{\text{process}} \le \mathcal{B}_{\text{arena}} + \mathcal{B}_{\text{runtime\_static}}
+\begin{equation}\small
+  \mathrm{RSS}_{\text{process}} \le \mathcal{B}_{\text{arena}} + \mathcal{B}_{\text{runtime\_static}}
 \end{equation}
+\par\vspace{2pt}
 where $\mathcal{B}_{\text{arena}}$ is the user-configured RAM budget and $\mathcal{B}_{\text{runtime\_static}}$ represents the fixed overhead of token embeddings, normalization weights, and engine metadata.

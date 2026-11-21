@@ -34,6 +34,8 @@
 \citation{tang2024hobbit}
 \citation{wang2024svdllm}
 \citation{chen2023pruning}
+\citation{belady1966study}
+\citation{song2020learning}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Related Work}{4}{section.3}\protected@file@percent }
 \newlabel{sec:related_work}{{3}{4}{Related Work}{section.3}{}}
 \newlabel{sec:related_work@cref}{{[section][3][]3}{[1][4][]4}{}{}{}}
@@ -41,8 +43,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Mixture-of-Experts Serving Systems}{4}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Storage-Aware and Edge MoE Inference}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Weight Approximation and Low-Rank Compression}{4}{subsection.3.4}\protected@file@percent }
-\citation{belady1966study}
-\citation{song2020learning}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Optimal Caching and Predictive Economics}{5}{subsection.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Problem Formulation and System Model}{5}{section.4}\protected@file@percent }
 \newlabel{sec:formulation}{{4}{5}{Problem Formulation and System Model}{section.4}{}}
@@ -55,9 +55,11 @@
 \newlabel{sec:architecture}{{5}{5}{System Architecture}{section.5}{}}
 \newlabel{sec:architecture@cref}{{[section][5][]5}{[1][5][]5}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Subsystem Decomposition}{5}{subsection.5.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces End-to-end Kura architecture. (1) The offline layout compiler (\textsc  {Loom}) ingests model tensors and calibration traces, constructs an expert co-activation Markov graph, and writes physically clustered expert blocks to solid-state storage alongside a \texttt  {.kura} layout sidecar. (2) At runtime, the hardware probe (\textsc  {Sense}) benchmarks memory bandwidth, storage read rates, and core topology. (3) The execution engine schedules tensor loads using buffered asynchronous Linux \texttt  {io\_uring} queues and POSIX \texttt  {pread64} routines into 64-byte aligned user-space \texttt  {RamArena} slabs, eliminating hot-path OS page allocations. (4) For high memory pressure, \textsc  {KAEF} provides convex scarcity pricing, while precompiled \textsc  {Ember} low-rank skeletons supply optional provisional draft previews.}}{6}{figure.caption.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt  {io\_uring}/\texttt  {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure.}}{6}{figure.caption.6}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:arch_overview}{{1}{6}{End-to-end Kura architecture. (1) The offline layout compiler (\textsc {Loom}) ingests model tensors and calibration traces, constructs an expert co-activation Markov graph, and writes physically clustered expert blocks to solid-state storage alongside a \texttt {.kura} layout sidecar. (2) At runtime, the hardware probe (\textsc {Sense}) benchmarks memory bandwidth, storage read rates, and core topology. (3) The execution engine schedules tensor loads using buffered asynchronous Linux \texttt {io\_uring} queues and POSIX \texttt {pread64} routines into 64-byte aligned user-space \texttt {RamArena} slabs, eliminating hot-path OS page allocations. (4) For high memory pressure, \textsc {KAEF} provides convex scarcity pricing, while precompiled \textsc {Ember} low-rank skeletons supply optional provisional draft previews}{figure.caption.6}{}}
+\newlabel{fig:arch}{{1}{6}{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt {io\_uring}/\texttt {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure}{figure.caption.6}{}}
+\newlabel{fig:arch@cref}{{[figure][1][]1}{[1][5][]6}{}{}{}}
+\newlabel{fig:arch_overview}{{1}{6}{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt {io\_uring}/\texttt {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure}{figure.caption.6}{}}
 \newlabel{fig:arch_overview@cref}{{[figure][1][]1}{[1][5][]6}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Memory Isolation and User-Space Buffering}{6}{subsection.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}KAEF: Kura Adaptive Economics Framework}{7}{section.6}\protected@file@percent }
@@ -74,6 +76,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {7}Loom: Physical Storage Layout Compilation}{7}{section.7}\protected@file@percent }
 \newlabel{sec:loom}{{7}{7}{Loom: Physical Storage Layout Compilation}{section.7}{}}
 \newlabel{sec:loom@cref}{{[section][7][]7}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{7}{subsection.7.1}\protected@file@percent }
 \citation{von2007tutorial}
 \newlabel{fig:io_trace}{{2a}{8}{Random NVMe reads under GGUF vs.\ Loom}{figure.caption.7}{}}
 \newlabel{fig:io_trace@cref}{{[subfigure][1][2]2a}{[1][7][]8}{}{}{}}
@@ -86,7 +89,6 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure).}}{8}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:loom_eval}{{2}{8}{Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure)}{figure.caption.7}{}}
 \newlabel{fig:loom_eval@cref}{{[figure][2][]2}{[1][7][]8}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{8}{subsection.7.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Spectral Partitioning and Block Coalescing}{8}{subsection.7.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Contiguous NVMe Sidecar File Layout}{8}{subsection.7.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {8}Progressive Tiered-Fidelity: The Ember Subsystem}{9}{section.8}\protected@file@percent }
@@ -111,9 +113,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Experimental Methodology and Testbed Hardware}{10}{subsection.10.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Model Ladder and Benchmark Datasets}{10}{subsection.10.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {10.3}I/O Reduction and Throughput on Real MoE Architecture}{10}{subsection.10.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Performance on the OLMoE-1B-7B 8-layer proxy (1.21\,GB, Q8\_0) under a 256\,MB cgroup limit. Loom spectral coalescing collapses random storage seeks and reduces I/O stalls, improving sustained token throughput.}}{10}{table.caption.9}\protected@file@percent }
-\newlabel{tab:olmoe_real}{{3}{10}{Performance on the OLMoE-1B-7B 8-layer proxy (1.21\,GB, Q8\_0) under a 256\,MB cgroup limit. Loom spectral coalescing collapses random storage seeks and reduces I/O stalls, improving sustained token throughput}{table.caption.9}{}}
-\newlabel{tab:olmoe_real@cref}{{[table][3][]3}{[1][10][]10}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Performance on the OLMoE-1B-7B 8-layer proxy (1.21\,GB, Q8\_0) under a 256\,MB cgroup limit. Loom spectral coalescing collapses random storage seeks and reduces I/O stalls, improving sustained token throughput.}}{11}{table.caption.9}\protected@file@percent }
+\newlabel{tab:olmoe_real}{{3}{11}{Performance on the OLMoE-1B-7B 8-layer proxy (1.21\,GB, Q8\_0) under a 256\,MB cgroup limit. Loom spectral coalescing collapses random storage seeks and reduces I/O stalls, improving sustained token throughput}{table.caption.9}{}}
+\newlabel{tab:olmoe_real@cref}{{[table][3][]3}{[1][10][]11}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {10.4}Dense Model Streaming Limits: Llama-3.1-70B}{11}{subsection.10.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {10.5}Deterministic Memory Allocation vs. OS Demand Paging}{11}{subsection.10.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {11}System Operating Regimes and Systems Overhead Analysis}{11}{section.11}\protected@file@percent }
@@ -157,19 +159,20 @@
 \bibcite{tang2024hobbit}{{17}{2024}{{Tang et~al\mbox  {.}}}{{}}}
 \bibcite{von2007tutorial}{{18}{2007}{{Von~Luxburg}}{{}}}
 \bibcite{wang2024svdllm}{{19}{2024}{{Wang et~al\mbox  {.}}}{{}}}
-\@writefile{toc}{\contentsline {section}{References}{13}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Acknowledgments}{13}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{13}{section*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {A}Artifact Appendix: Reproducibility and Hardware Setup}{13}{appendix.A}\protected@file@percent }
 \newlabel{sec:appendix_artifact}{{A}{13}{Artifact Appendix: Reproducibility and Hardware Setup}{appendix.A}{}}
 \newlabel{sec:appendix_artifact@cref}{{[section][1][]A}{[1][13][]13}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Evaluation Hardware Specification}{13}{subsection.A.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Memory Isolation and cgroup v2 Configuration}{13}{subsection.A.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Option A: User-Space Scope (Recommended, No Root Required)}{13}{section*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Option B: Root Control Group}{14}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Memory Isolation and cgroup v2 Configuration}{14}{subsection.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Option A: User-Space Scope (Recommended, No Root Required)}{14}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Option B: Root Control Group}{14}{section*.17}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Model Weights and Proxy Artifacts}{14}{subsection.A.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Reproducing Benchmark Telemetry}{14}{subsection.A.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{1. Dense Model SATA Reality Suite}{14}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{2. MoE Trace and Layout Evaluation}{14}{section*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{3. Regenerating Publication Figures}{14}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{1. Dense Model SATA Reality Suite}{14}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. MoE Trace and Layout Evaluation}{14}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{3. Regenerating Publication Figures}{14}{section*.20}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {B}Mathematical Formulations and Proofs}{14}{appendix.B}\protected@file@percent }
 \newlabel{sec:appendix_math}{{B}{14}{Mathematical Formulations and Proofs}{appendix.B}{}}
 \newlabel{sec:appendix_math@cref}{{[section][2][]B}{[1][14][]14}{}{}{}}
@@ -184,9 +187,10 @@
 \newlabel{tocindent5}{0pt}
 \@writefile{toc}{\contentsline {section}{\numberline {C}Extended Experimental Tables}{15}{appendix.C}\protected@file@percent }
 \newlabel{sec:appendix_tables}{{C}{15}{Extended Experimental Tables}{appendix.C}{}}
-\newlabel{sec:appendix_tables@cref}{{[section][3][]C}{[1][14][]15}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence.}}{15}{table.caption.19}\protected@file@percent }
-\newlabel{tab:extended_ladder}{{6}{15}{Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence}{table.caption.19}{}}
-\newlabel{tab:extended_ladder@cref}{{[table][6][]6}{[1][14][]15}{}{}{}}
+\newlabel{sec:appendix_tables@cref}{{[section][3][]C}{[1][15][]15}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence.}}{15}{table.caption.21}\protected@file@percent }
+\newlabel{tab:extended_ladder}{{6}{15}{Comprehensive performance breakdown across the evaluated model configurations under tested host RAM limits. Throughput is measured in tokens/second; storage I/O stall time is cumulative per sequence}{table.caption.21}{}}
+\newlabel{tab:extended_ladder@cref}{{[table][6][]6}{[1][15][]15}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}Data Availability and Open Science Commitment}{15}{appendix.D}\protected@file@percent }
 \newlabel{TotPages}{{15}{15}{}{page.15}{}}
 \gdef \@abspage@last{15}

@@ -477,7 +477,7 @@ def generate_fig9():
     save_fig(fig, "fig9_ember_latency_fidelity")
 
 if __name__ == "__main__":
-    generate_fig1()
+    # generate_fig1() # Replaced by native LaTeX TikZ diagram
     generate_fig2_and_fig3()
     generate_fig4_and_fig5()
     generate_fig6()
