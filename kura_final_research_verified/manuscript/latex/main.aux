@@ -34,8 +34,6 @@
 \citation{tang2024hobbit}
 \citation{wang2024svdllm}
 \citation{chen2023pruning}
-\citation{belady1966study}
-\citation{song2020learning}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Related Work}{4}{section.3}\protected@file@percent }
 \newlabel{sec:related_work}{{3}{4}{Related Work}{section.3}{}}
 \newlabel{sec:related_work@cref}{{[section][3][]3}{[1][4][]4}{}{}{}}
@@ -43,6 +41,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Mixture-of-Experts Serving Systems}{4}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Storage-Aware and Edge MoE Inference}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Weight Approximation and Low-Rank Compression}{4}{subsection.3.4}\protected@file@percent }
+\citation{belady1966study}
+\citation{song2020learning}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Optimal Caching and Predictive Economics}{5}{subsection.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Problem Formulation and System Model}{5}{section.4}\protected@file@percent }
 \newlabel{sec:formulation}{{4}{5}{Problem Formulation and System Model}{section.4}{}}
@@ -57,14 +57,14 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Subsystem Decomposition}{5}{subsection.5.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt  {io\_uring}/\texttt  {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure.}}{6}{figure.caption.6}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:arch}{{1}{6}{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt {io\_uring}/\texttt {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure}{figure.caption.6}{}}
-\newlabel{fig:arch@cref}{{[figure][1][]1}{[1][5][]6}{}{}{}}
+\newlabel{fig:architecture}{{1}{6}{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt {io\_uring}/\texttt {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure}{figure.caption.6}{}}
+\newlabel{fig:architecture@cref}{{[figure][1][]1}{[1][5][]6}{}{}{}}
 \newlabel{fig:arch_overview}{{1}{6}{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout; the runtime streams it through buffered \texttt {io\_uring}/\texttt {pread64} into aligned RamArena slabs; KAEF prices residency under memory pressure}{figure.caption.6}{}}
 \newlabel{fig:arch_overview@cref}{{[figure][1][]1}{[1][5][]6}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Memory Isolation and User-Space Buffering}{6}{subsection.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}KAEF: Kura Adaptive Economics Framework}{7}{section.6}\protected@file@percent }
 \newlabel{sec:kaef}{{6}{7}{KAEF: Kura Adaptive Economics Framework}{section.6}{}}
-\newlabel{sec:kaef@cref}{{[section][6][]6}{[1][6][]7}{}{}{}}
+\newlabel{sec:kaef@cref}{{[section][6][]6}{[1][7][]7}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Economic Resource Markets and Scarcity Pricing}{7}{subsection.6.1}\protected@file@percent }
 \newlabel{eq:scarcity_price}{{12}{7}{Economic Resource Markets and Scarcity Pricing}{equation.12}{}}
 \newlabel{eq:scarcity_price@cref}{{[equation][12][]12}{[1][7][]7}{}{}{}}
@@ -76,7 +76,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {7}Loom: Physical Storage Layout Compilation}{7}{section.7}\protected@file@percent }
 \newlabel{sec:loom}{{7}{7}{Loom: Physical Storage Layout Compilation}{section.7}{}}
 \newlabel{sec:loom@cref}{{[section][7][]7}{[1][7][]7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{7}{subsection.7.1}\protected@file@percent }
 \citation{von2007tutorial}
 \newlabel{fig:io_trace}{{2a}{8}{Random NVMe reads under GGUF vs.\ Loom}{figure.caption.7}{}}
 \newlabel{fig:io_trace@cref}{{[subfigure][1][2]2a}{[1][7][]8}{}{}{}}
@@ -89,6 +88,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure).}}{8}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:loom_eval}{{2}{8}{Storage and I/O efficiency under Loom and KAEF. (a) Standard GGUF serial ordering forces scattered random 4\,KB reads across disk offsets, while Loom coalesces co-activated experts into contiguous physical extents, reducing random reads by $67.1\%$ to $69.4\%$. (b) Under severe memory scarcity, KAEF reduces storage traffic by $58.7\%$ under a 16\,MB RAM budget on Synthetic MoE ($10.4\times $ pressure) and by $56.2\%$ on OLMoE-1B-7B under a 256\,MB RAM budget ($4.8\times $ pressure)}{figure.caption.7}{}}
 \newlabel{fig:loom_eval@cref}{{[figure][2][]2}{[1][7][]8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Co-Activation Markov Graph Construction}{8}{subsection.7.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Spectral Partitioning and Block Coalescing}{8}{subsection.7.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Contiguous NVMe Sidecar File Layout}{8}{subsection.7.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {8}Progressive Tiered-Fidelity: The Ember Subsystem}{9}{section.8}\protected@file@percent }

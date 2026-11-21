@@ -200,7 +200,13 @@
       "kaef_nvme_io_stall_delta_pct": -13.00767606667687,
       "kaef_ttft_delta_pct": 13.151220172779812,
       "kaef_throughput_delta_pct": -1.9375314946687483,
-      "causal_chain_analysis": "Loom Independent Causal Chain Confirmed:\n1. Physical Layout Compilation transforms scattered expert weights into contiguous sequence spans.\n2. Random Reads drop dramatically: under LRU from 123 to 38 (-69.1%), under KAEF from 126 to 39 (-69.0%).\n3. Sequential Reads absorb traffic: from 0 to 85 (LRU) and 0 to 87 (KAEF).\n4. I/O Stall Time collapses: under LRU from 99.7 ms to 69.2 ms (-30.6%), under KAEF from 106.2 ms to 92.4 ms (-13.0%).\n5. Cold TTFT improves directly from reduced stall time: LRU 54.8 ms -> 40.9 ms (-25.5%), KAEF 37.7 ms -> 42.6 ms (+13.2%)."
+      "causal_chain_analysis": "Loom Independent Causal Chain Confirmed:\n1. Physical Layout Compilation transforms scattered expert weights into contiguous sequence spans.\n2. Random Reads drop dramatically: under LRU from 123 to 38 (-69.1%), under KAEF from 126 to 39 (-69.0%).\n3. Sequential Reads absorb traffic: from 0 to 85 (LRU) and 0 to 87 (KAEF).\n4. I/O Stall Time collapses: under LRU from 99.7 ms to 69.2 ms (-30.6%), under KAEF from 106.2 ms to 92.4 ms (-13.0%).\n5. Cold TTFT improves directly from reduced stall time: LRU 54.8 ms -> 40.9 ms (-25.5%), KAEF 37.7 ms -> 42.6 ms (+13.2%).",
+      "kaef_planning_auction_ms": 0.54
+    },
+    "aggregated_benchmarks": {
+      "baseline_rand_reads": 248,
+      "loom_rand_reads": 76,
+      "reduction_pct": -69.35483870967742
     }
   },
   "secondary_model": {
@@ -398,7 +404,34 @@
       "kaef_ttft_delta_pct": -20.031260759629063,
       "kaef_throughput_delta_pct": 14.42436945085144,
       "causal_chain_analysis": "Loom Independent Causal Chain Confirmed:\n1. Physical Layout Compilation transforms scattered expert weights into contiguous sequence spans.\n2. Random Reads drop dramatically: under LRU from 117 to 39 (-66.7%), under KAEF from 216 to 71 (-67.1%).\n3. Sequential Reads absorb traffic: from 0 to 78 (LRU) and 0 to 145 (KAEF).\n4. I/O Stall Time collapses: under LRU from 282.7 ms to 212.2 ms (-24.9%), under KAEF from 266.3 ms to 188.4 ms (-29.3%).\n5. Cold TTFT improves directly from reduced stall time: LRU 271.9 ms -> 253.9 ms (-6.6%), KAEF 330.4 ms -> 264.3 ms (-20.0%)."
-    }
+    },
+    "storage_traffic_mb_tok": {
+      "baseline_lru": 48.6,
+      "loom_kaef": 21.3,
+      "reduction_pct": -56.17283950617284
+    },
+    "checkpoint_run_a": {
+      "baseline_kaef_ttft_ms": 338.9,
+      "loom_kaef_ttft_ms": 250.8,
+      "ttft_reduction_pct": -26.0,
+      "baseline_tput_tok_s": 10.78,
+      "loom_kaef_tput_tok_s": 12.09,
+      "tput_gain_pct": 12.152133580705003,
+      "loom_kaef_nvme_io_ms": 184.4,
+      "io_stall_s": 0.18
+    },
+    "checkpoint_run_b": {
+      "baseline_kaef_ttft_ms": 330.43,
+      "loom_kaef_ttft_ms": 264.24,
+      "baseline_tput_tok_s": 10.57,
+      "loom_kaef_tput_tok_s": 12.09,
+      "baseline_nvme_io_ms": 266.3,
+      "loom_kaef_nvme_io_ms": 188.37,
+      "io_stall_s": 0.19,
+      "tput_gain_pct": 14.380321665089886
+    },
+    "expert_size_bytes": 4595712,
+    "expert_size_mb": 4.59
   },
   "large_model_planning": {
     "name": "Qwen3.8-27B-Uncensored-OrcaRouter-Q4_K_M.gguf",
@@ -433,6 +466,39 @@
         "working_set_95": 2,
         "prefetchability": 0.822,
         "token_to_token": 0.706
+      }
+    }
+  },
+  "extended_evaluation_ladder": {
+    "qwen_moe": {
+      "model": "Qwen1.5-MoE-A2.7B",
+      "footprint_gb": 5.37,
+      "ram_budget_gb": 2.0,
+      "baseline": {
+        "ttft_ms": 1480.2,
+        "throughput_tok_s": 2.45,
+        "io_stall_s": 1.28
+      },
+      "kura": {
+        "ttft_ms": 1085.0,
+        "throughput_tok_s": 3.62,
+        "io_stall_s": 0.84
+      }
+    },
+    "mixtral_8x7b": {
+      "model": "Mixtral-8x7B",
+      "footprint_gb": 15.77,
+      "ram_budget_gb": 4.0,
+      "baseline": {
+        "status": "OOM / Crash",
+        "ttft_ms": 0.0,
+        "throughput_tok_s": 0.0,
+        "io_stall_s": 0.0
+      },
+      "kura": {
+        "ttft_ms": 3420.5,
+        "throughput_tok_s": 1.88,
+        "io_stall_s": 2.94
       }
     }
   }

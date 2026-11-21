@@ -42,7 +42,11 @@
     "ember_resident_bytes": 15728640,
     "full_model_ram_bytes": 24000000,
     "nvme_reads_saved": 512,
-    "nvme_bytes_saved_mb": 784.334848
+    "nvme_bytes_saved_mb": 784.334848,
+    "cold_exact_completion_baseline_ms": 739.4,
+    "online_svd_stall_ms": 3018.2,
+    "mode_b_online_svd_total_ms": 3757.6,
+    "mode_b_bottleneck_increase_pct": 408.2039491479578
   },
   "decision_gate": {
     "gate_1_unassisted_cold_ttft": {

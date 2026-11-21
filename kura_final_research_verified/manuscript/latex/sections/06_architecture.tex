@@ -4,44 +4,48 @@
 Kura decouples model execution into two operational phases: an \textbf{Offline Physical Compilation Phase} that structures model artifacts for sequential storage streaming, and an \textbf{Online Storage-Native Serving Phase} that schedules asynchronous transfers into pre-allocated memory arenas.
 
 \tikzset{
-  grp/.style={draw=black!35, fill=gray!6, rounded corners=2pt, inner sep=8pt, font=\footnotesize\bfseries},
-  node/.style={draw=black!30, fill=white, rounded corners=1.5pt, inner sep=4pt, font=\scriptsize, text width=2.5cm, align=center},
+  grp/.style={draw=black!35, fill=gray!6, rounded corners=2pt, inner sep=9pt,
+              font=\footnotesize\bfseries},
+  box/.style={draw=black!30, fill=white, rounded corners=1.5pt, inner sep=4pt,
+              font=\scriptsize, text width=2.6cm, align=center},
   flow/.style={-{Stealth[length=2mm]}, draw=black!55, line width=0.7pt},
-  tag/.style={font=\scriptsize\itshape, text=black!60}
+  glabel/.style={font=\footnotesize\bfseries, text=black!75}
 }
 \begin{figure*}[t]
 \centering
-\begin{tikzpicture}[node distance=6mm and 9mm]
-  % OFFLINE (Loom)
-  \node[node] (w) {Model Weights\\(GGUF / SafeTensors)};
-  \node[node, below=of w] (g) {Co-Activation Markov Graph\\Laplacian $L=D-W$};
-  \node[node, below=of g] (f) {Fiedler Spectral Ordering\\Clustered Extents (\texttt{.sidecar})};
+\begin{tikzpicture}[node distance=7mm and 20mm]
+  % OFFLINE COMPILATION (Loom)
+  \node[box] (weights) {Model Weights\\(GGUF / SafeTensors)};
+  \node[box, below=of weights] (graph) {Co-Activation Markov Graph\\Laplacian $L=D-W$};
+  \node[box, below=of graph] (order) {Fiedler Spectral Ordering\\Clustered Extents (\texttt{.sidecar})};
   \begin{pgfonlayer}{background}
-    \node[grp, fit=(w)(g)(f), label=above:{\footnotesize OFFLINE COMPILATION (Loom)}] (LO) {};
+    \node[grp, fit=(weights)(graph)(order)] (loomgrp) {};
   \end{pgfonlayer}
-  % STORAGE
-  \node[node, right=14mm of g] (blk) {Contiguous Blocks\\(Clustered Experts)};
-  \node[node, below=of blk] (io) {Linux Buffered I/O\\\texttt{io\_uring} / \texttt{pread64}};
+  \node[glabel, above=2pt of loomgrp.north] {Offline Compilation (Loom)};
+  % COMMODITY STORAGE
+  \node[box, right=of graph] (blocks) {Contiguous Blocks\\(Clustered Experts)};
+  \node[box, below=of blocks] (io) {Linux Buffered I/O\\\texttt{io\_uring} / \texttt{pread64}};
   \begin{pgfonlayer}{background}
-    \node[grp, fit=(blk)(io), label=above:{\footnotesize COMMODITY STORAGE}] (ST) {};
+    \node[grp, fit=(blocks)(io)] (storegrp) {};
   \end{pgfonlayer}
-  % ONLINE (KAEF / Runtime)
-  \node[node, right=14mm of blk] (sense) {SENSE Hardware Probe\\$R=\mathcal{B}_{\text{model}}/\mathcal{B}_{\text{RAM}}$};
-  \node[node, below=of sense] (kaef) {Economic Scarcity Auction\\MEC + Exponential Pricing};
-  \node[node, below=of kaef] (arena) {RamArena Slab Allocator\\64-byte Aligned DMA Buffers};
-  \node[node, below=of arena] (simd) {SIMD Kernels (AVX-512 VNNI / AVX2)};
+  \node[glabel, above=2pt of storegrp.north] {Commodity Storage};
+  % ONLINE RUNTIME ENGINE (KAEF)
+  \node[box, right=of blocks] (sense) {SENSE Hardware Probe\\$R=\mathcal{B}_{\text{model}}/\mathcal{B}_{\text{RAM}}$};
+  \node[box, below=of sense] (auction) {Economic Scarcity Auction\\MEC + Exponential Pricing};
+  \node[box, below=of auction] (arena) {RamArena Slab Allocator\\64-byte Aligned DMA Buffers};
+  \node[box, below=of arena] (simd) {SIMD Kernels (AVX-512 VNNI / AVX2)};
   \begin{pgfonlayer}{background}
-    \node[grp, fit=(sense)(kaef)(arena)(simd), label=above:{\footnotesize ONLINE RUNTIME ENGINE (KAEF)}] (RT) {};
+    \node[grp, fit=(sense)(auction)(arena)(simd)] (rtgrp) {};
   \end{pgfonlayer}
-  % arrows
-  \draw[flow] (f) -- (blk);
+  \node[glabel, above=2pt of rtgrp.north] {Online Runtime Engine (KAEF)};
+  % flow arrows ONLY (no feedback arrow)
+  \draw[flow] (order) -- (blocks);
   \draw[flow] (io) -- (sense);
-  \draw[flow] (arena) -- ++(0,-0.4) node[tag,below]{provisional drafts} -| (io);
 \end{tikzpicture}
 \caption{End-to-end Kura architecture. Loom compiles a co-activation-aware physical layout;
 the runtime streams it through buffered \texttt{io\_uring}/\texttt{pread64} into aligned
 RamArena slabs; KAEF prices residency under memory pressure.}
-\label{fig:arch}
+\label{fig:architecture}
 \label{fig:arch_overview}
 \end{figure*}
 

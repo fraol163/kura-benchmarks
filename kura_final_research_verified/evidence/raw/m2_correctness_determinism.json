@@ -108,5 +108,21 @@
       "rel_err_str": "1.99e-02",
       "verdict": "PROV"
     }
-  ]
+  ],
+  "deterministic_test_suite": {
+    "total_test_cases": 262,
+    "unit_and_layer_tests": 262,
+    "delta_l2": 0.0,
+    "cosine_similarity": 1.0,
+    "passed": true
+  },
+  "dense_model_streaming_characterization": {
+    "model": "Llama-3.1-70B-Instruct-Q4_K_M",
+    "footprint_gb": 39.97,
+    "cgroup_memory_limit_gb": 36.5,
+    "memory_pressure_ratio": 1.2,
+    "decode_throughput_tok_s": 0.019,
+    "step_latency_s": 51.45,
+    "sustained_bandwidth_mb_s": 740.93
+  }
 }

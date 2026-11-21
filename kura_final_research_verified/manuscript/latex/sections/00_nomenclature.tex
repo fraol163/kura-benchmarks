@@ -12,11 +12,12 @@ Loom & Offline physical layout compiler; clusters expert tensors via spectral co
 RamArena & User-space memory manager; utilizes pre-allocated, 64-byte aligned slabs to eliminate hot-path OS page allocations \\
 KAEF & Kura Adaptive Economics Framework; online auction scheduler that prices memory residency via convex scarcity curves \\
 Ember & Progressive tiered-fidelity engine; utilizes offline precompiled truncated SVD skeletons for sub-millisecond provisional draft previews \\
-Sense & Autonomous hardware probe; benchmarks host memory, storage, and CPU topology to classify execution regimes \\
+Sense/SENSE & Autonomous hardware probe; benchmarks host memory, storage, and CPU topology to classify execution regimes \\
 MEC & Marginal Execution Contribution; the economic utility metric used by KAEF to bid for memory residency \\
 CES & Counterfactual Execution Search; the search algorithm used by KAEF to solve optimal admission and eviction schedules \\
 $\lambda$-pruning & Thresholding mechanism in CES that drops low-utility memory states to maintain interactive latency \\
 \midrule
+AI & Artificial Intelligence \\
 LLM & Large Language Model \\
 MoE & Mixture-of-Experts \\
 OOM & Out-of-Memory \\
@@ -45,6 +46,9 @@ VRAM & Video Random-Access Memory \\
 MLP & Multi-Layer Perceptron \\
 IOPS & Input/Output Operations Per Second \\
 LRU/LFU & Least Recently/Frequently Used \\
+SQ/CQ & Submission Queue / Completion Queue (\texttt{io\_uring}) \\
+KB/MB/GB & Kilobyte / Megabyte / Gigabyte storage/memory units \\
+JSON & JavaScript Object Notation (telemetry serialization) \\
 \bottomrule
 \end{tabular}
 \caption{Key acronyms, proprietary subsystems, and systems terminology used in this work.}

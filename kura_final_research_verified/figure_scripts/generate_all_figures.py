@@ -111,11 +111,10 @@ def generate_fig2_and_fig3():
     olmoe_rand_delta = (olmoe_kura_rand - olmoe_base_rand) / olmoe_base_rand * 100 # -67.13%
 
     # Extract Synthetic MoE measurements dynamically from m3 primary_model
-    synth_metrics = m3["primary_model"]["metrics"]
-    # Single run: 126 -> 39 (-69.05%). Aggregated sequence: 248 -> 76 (-69.35%)
-    synth_base_rand = 248
-    synth_kura_rand = 76
-    synth_rand_delta = (synth_kura_rand - synth_base_rand) / synth_base_rand * 100 # -69.35%
+    synth_agg = m3["primary_model"]["aggregated_benchmarks"]
+    synth_base_rand = synth_agg["baseline_rand_reads"]
+    synth_kura_rand = synth_agg["loom_rand_reads"]
+    synth_rand_delta = (synth_kura_rand - synth_base_rand) / synth_base_rand * 100
 
     df2 = pd.DataFrame({
         "Model": ["Synthetic MoE (166MB, 16MB RAM)", "OLMoE-1B-7B (1.21GB, 256MB RAM)"],
@@ -153,9 +152,10 @@ def generate_fig2_and_fig3():
     synth_kaef_mb = kaef_bytes / (1024 * 1024) # 6.163 MB/tok
     synth_traffic_delta = (synth_kaef_mb - synth_lru_mb) / synth_lru_mb * 100 # -58.71%
 
-    olmoe_lru_traffic = 48.60
-    olmoe_kura_traffic = 21.30
-    olmoe_traffic_delta = (olmoe_kura_traffic - olmoe_lru_traffic) / olmoe_lru_traffic * 100 # -56.17%
+    olmoe_traffic = m3["secondary_model"]["storage_traffic_mb_tok"]
+    olmoe_lru_traffic = olmoe_traffic["baseline_lru"]
+    olmoe_kura_traffic = olmoe_traffic["loom_kaef"]
+    olmoe_traffic_delta = (olmoe_kura_traffic - olmoe_lru_traffic) / olmoe_lru_traffic * 100
 
     df3 = pd.DataFrame({
         "Model": ["Synthetic MoE (166MB, 16MB RAM)", "OLMoE-1B-7B (1.21GB, 256MB RAM)"],
@@ -194,10 +194,11 @@ def generate_fig4_and_fig5():
     run_b_kura_ttft = m3["secondary_model"]["metrics"]["loom_kaef"]["ttft_ms"]     # 264.25 ms
     run_b_ttft_delta = (run_b_kura_ttft - run_b_base_ttft) / run_b_base_ttft * 100 # -20.03%
 
-    # Run A from milestone checkpoint report
-    run_a_base_ttft = 338.90
-    run_a_kura_ttft = 250.80
-    run_a_ttft_delta = (run_a_kura_ttft - run_a_base_ttft) / run_a_base_ttft * 100 # -26.00%
+    # Run A from m3 secondary_model checkpoint telemetry
+    run_a_telemetry = m3["secondary_model"]["checkpoint_run_a"]
+    run_a_base_ttft = run_a_telemetry["baseline_kaef_ttft_ms"]
+    run_a_kura_ttft = run_a_telemetry["loom_kaef_ttft_ms"]
+    run_a_ttft_delta = (run_a_kura_ttft - run_a_base_ttft) / run_a_base_ttft * 100
 
     df4 = pd.DataFrame({
         "Run": ["Run A (Checkpoint Report)", "Run B (JSON Telemetry)"],
@@ -224,9 +225,9 @@ def generate_fig4_and_fig5():
     save_fig(fig4, "fig4_olmoe_cold_ttft")
 
     # Fig 5: Throughput
-    run_a_base_tput = 10.78
-    run_a_kura_tput = 12.09
-    run_a_tput_gain = (run_a_kura_tput - run_a_base_tput) / run_a_base_tput * 100 # +12.15%
+    run_a_base_tput = run_a_telemetry["baseline_tput_tok_s"]
+    run_a_kura_tput = run_a_telemetry["loom_kaef_tput_tok_s"]
+    run_a_tput_gain = (run_a_kura_tput - run_a_base_tput) / run_a_base_tput * 100
 
     run_b_base_tput = 10.57
     run_b_kura_tput = 12.09
@@ -433,12 +434,11 @@ def generate_fig9():
     draft_ttft = u["mode_b_draft_ttft_ms"] # ~0.16 ms
     div_pct = u["mode_b_relative_divergence"] * 100.0 # ~1.99%
 
-    # Exact full model completion baseline
-    full_completion = 739.40
-    # Online SVD decomposition adds 3018.2 ms
-    online_svd_stall = 3018.20
-    mode_b_total = full_completion + online_svd_stall # 3757.60 ms
-    mode_b_increase_pct = (mode_b_total - full_completion) / full_completion * 100.0 # +408.20%
+    # Dynamic extraction of full completion and online SVD stall
+    full_completion = u["cold_exact_completion_baseline_ms"]
+    online_svd_stall = u["online_svd_stall_ms"]
+    mode_b_total = u["mode_b_online_svd_total_ms"]
+    mode_b_increase_pct = u["mode_b_bottleneck_increase_pct"]
 
     df9 = pd.DataFrame({
         "Execution_Mode": [

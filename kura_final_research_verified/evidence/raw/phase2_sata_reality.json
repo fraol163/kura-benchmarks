@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "benchmark": "Kura Phase 2 SATA Reality Benchmark",
+    "timestamp": "2026-11-21T04:14:30.753209+00:00",
+    "host_hardware": {
+      "cpu": "AMD Ryzen 3 3250U with Radeon Graphics (2c/4t, AVX2)",
+      "memory": "5.7 GB Physical RAM",
+      "storage": "128 GB SATA M.2 SSD (350 MB/s sequential read)",
+      "cgroup_v2_limit": "3500M (MemorySwapMax=0)"
+    },
+    "fio_storage_benchmarks": {
+      "sequential_read_mb_s": 350.19,
+      "random_read_qd1_iops": 8158.7,
+      "random_read_qd1_mb_s": 31.87,
+      "random_read_qd1_lat_us": 122.57,
+      "ram_speed_mhz": 2400,
+      "ram_usable_gb": 5.7,
+      "peak_rss_mb": 1146.0
+    }
+  },
+  "results": {
+    "1.5B": {
+      "mmap_baseline": [
+        {
+          "repetition": 1,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.76,
+          "ttft_ms": 23469.33,
+          "tok_s": 0.24,
+          "majflt": 0,
+          "minflt": 103831,
+          "max_rss_kb": 1130408
+        },
+        {
+          "repetition": 2,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.83,
+          "ttft_ms": 23611.29,
+          "tok_s": 0.24,
+          "majflt": 3,
+          "minflt": 8121,
+          "max_rss_kb": 1146444
+        },
+        {
+          "repetition": 3,
+          "status": "COMPLETED",
+          "wall_clock_s": 32.27,
+          "ttft_ms": 22421.67,
+          "tok_s": 0.26,
+          "majflt": 0,
+          "minflt": 9794,
+          "max_rss_kb": 1146128
+        }
+      ],
+      "kura_buffered": [
+        {
+          "repetition": 1,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.08,
+          "ttft_ms": 23504.07,
+          "tok_s": 0.25,
+          "majflt": 0,
+          "minflt": 7865,
+          "max_rss_kb": 1146508
+        },
+        {
+          "repetition": 2,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.15,
+          "ttft_ms": 23587.06,
+          "tok_s": 0.25,
+          "majflt": 0,
+          "minflt": 13487,
+          "max_rss_kb": 1141440
+        },
+        {
+          "repetition": 3,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.29,
+          "ttft_ms": 23689.31,
+          "tok_s": 0.25,
+          "majflt": 1,
+          "minflt": 8100,
+          "max_rss_kb": 1146568
+        }
+      ],
+      "kura_loom": [
+        {
+          "repetition": 1,
+          "status": "COMPLETED",
+          "wall_clock_s": 32.6,
+          "ttft_ms": 23857.27,
+          "tok_s": 0.25,
+          "majflt": 0,
+          "minflt": 8042,
+          "max_rss_kb": 1146316
+        },
+        {
+          "repetition": 2,
+          "status": "COMPLETED",
+          "wall_clock_s": 31.94,
+          "ttft_ms": 22265.24,
+          "tok_s": 0.26,
+          "majflt": 0,
+          "minflt": 8277,
+          "max_rss_kb": 1146248
+        },
+        {
+          "repetition": 3,
+          "status": "COMPLETED",
+          "wall_clock_s": 33.06,
+          "ttft_ms": 24658.08,
+          "tok_s": 0.25,
+          "majflt": 0,
+          "minflt": 7625,
+          "max_rss_kb": 1146492
+        }
+      ]
+    },
+    "7B": {
+      "mmap_baseline": [
+        {
+          "repetition": 1,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 2,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 3,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        }
+      ],
+      "kura_buffered": [
+        {
+          "repetition": 1,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 2,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 3,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        }
+      ],
+      "kura_loom": [
+        {
+          "repetition": 1,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 2,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        },
+        {
+          "repetition": 3,
+          "status": "OFFLINE_MODEL_NOT_DOWNLOADED",
+          "wall_clock_s": null,
+          "ttft_ms": null,
+          "tok_s": null,
+          "majflt": null,
+          "minflt": null,
+          "max_rss_kb": null
+        }
+      ]
+    }
+  }
+}

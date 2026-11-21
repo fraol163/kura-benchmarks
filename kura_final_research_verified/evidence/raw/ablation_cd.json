@@ -63,7 +63,10 @@
       "kaef_mec_ns": 1442746,
       "kaef_pricing_ns": 267164,
       "kaef_search_ns": 4186394,
-      "kaef_apply_ns": 4741469636
+      "kaef_apply_ns": 4741469636,
+      "total_planning_ns": 4749349636,
+      "total_planning_ms": 4749.35,
+      "arena_apply_share_pct": 99.834078
     },
     "draft_ttft_ms": null,
     "refine_time_ms": null,
