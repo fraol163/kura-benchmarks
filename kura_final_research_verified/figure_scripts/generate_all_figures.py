@@ -79,7 +79,7 @@ def generate_fig1():
     ax.add_patch(patches.FancyBboxPatch((3.7, 1.2), 2.2, 2.6, boxstyle="round,pad=0.15", facecolor=c_storage, edgecolor='#E53E3E', linewidth=1.5))
     ax.text(4.8, 3.45, "COMMODITY STORAGE", ha='center', va='center', fontsize=9.5, fontweight='bold', color='#9B2C2C')
     ax.text(4.8, 2.8, "Contiguous Blocks\n(Clustered Experts)", ha='center', va='center', fontsize=8.5, bbox=dict(boxstyle='square,pad=0.2', facecolor='white', edgecolor='#FEB2B2'))
-    ax.text(4.8, 1.9, "Asynchronous I/O\nio_uring / pread64", ha='center', va='center', fontsize=8.5, bbox=dict(boxstyle='square,pad=0.2', facecolor='#FED7D7', edgecolor='#E53E3E'))
+    ax.text(4.8, 1.9, "Linux Buffered I/O\nio_uring / pread64", ha='center', va='center', fontsize=8.5, bbox=dict(boxstyle='square,pad=0.2', facecolor='#FED7D7', edgecolor='#E53E3E'))
 
     # Arrow to Online Runtime
     ax.annotate('', xy=(6.3, 2.5), xytext=(6.0, 2.5), arrowprops=dict(arrowstyle="->", color='#38A169', lw=2.0))
